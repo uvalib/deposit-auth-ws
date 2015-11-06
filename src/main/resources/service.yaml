@@ -1,2 +1,1 @@
-template: Hello, %s!
-defaultName: Stranger
+dataDirName: '/this/that/the/other'

@@ -15,7 +15,7 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 
     @Override
     public String getName( ) {
-        return "sis";
+        return "depositauth";
     }
 
     @Override
@@ -25,17 +25,16 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
 
     @Override
     public void run( ServiceConfiguration configuration,
-                     Environment environment) {
+                     Environment environment ) {
 
         final ServiceResource resource = new ServiceResource(
-                configuration.getTemplate(),
-                configuration.getDefaultName()
+                configuration.getDataDirName()
         );
 
         final ServiceHealthCheck healthCheck =
-                new ServiceHealthCheck( configuration.getTemplate( ) );
+                new ServiceHealthCheck( configuration.getDataDirName( ) );
 
-        environment.healthChecks().register("template", healthCheck);
+        environment.healthChecks().register( "filesystem", healthCheck );
         environment.jersey().register(resource);
     }
 
