@@ -1,11 +1,15 @@
 package edu.virginia.depositauthws.health;
 
 import com.codahale.metrics.health.HealthCheck;
+import edu.virginia.depositauthws.db.DepositAuthDAO;
 
 public class ServiceHealthCheck extends HealthCheck {
-    private final String dirname;
 
-    public ServiceHealthCheck(String dirname) {
+    private DepositAuthDAO depositAuthDAO;
+    private String dirname;
+
+    public ServiceHealthCheck(DepositAuthDAO depositAuthDAO, String dirname ) {
+        this.depositAuthDAO = depositAuthDAO;
         this.dirname = dirname;
     }
 
