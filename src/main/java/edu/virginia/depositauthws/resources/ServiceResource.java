@@ -1,5 +1,6 @@
 package edu.virginia.depositauthws.resources;
 
+import edu.virginia.depositauthws.core.ServicePolicy;
 import edu.virginia.depositauthws.models.BasicResponse;
 import edu.virginia.depositauthws.models.CanDepositResponse;
 import edu.virginia.depositauthws.models.AuthListResponse;
@@ -20,9 +21,17 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import org.apache.commons.lang3.tuple.Pair;
+
 @Path( "/depositauth" )
 @Produces( MediaType.APPLICATION_JSON )
 public class ServiceResource {
+
+    private final static Logger LOG = LoggerFactory.getLogger( ServiceResource.class );
 
     private final String dirname;
     private final DepositAuthDAO depositAuthDAO;
@@ -39,7 +48,9 @@ public class ServiceResource {
     // Get all known deposit authorizations
     //
     public AuthListResponse allDepositAuth( ) {
-        return new AuthListResponse( Response.Status.OK, depositAuthDAO.getAll( ).toArray( new DepositAuth[ 0 ]) );
+        List<DepositAuth> depositAuth = depositAuthDAO.getAll( );
+        return new AuthListResponse( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK,
+                depositAuth.toArray( new DepositAuth[ 0 ] ) );
     }
 
     @GET
@@ -49,7 +60,11 @@ public class ServiceResource {
     // Can the specified computing Id deposit a document of the specified type
     //
     public CanDepositResponse canDeposit( @PathParam( "cid" ) String cid, @PathParam( "doctype" ) String doctype ) {
-        return new CanDepositResponse( Response.Status.OK, new DepositConstraints( ) );
+        LOG.info( "Checking deposit authorization; cid: " + cid + ", doctype: " + doctype );
+
+        // check to see if we can deposit
+        Pair<Response.Status, DepositConstraints> res = ServicePolicy.canDeposit( depositAuthDAO, cid, doctype );
+        return new CanDepositResponse( res.getLeft( ), res.getRight( ) );
     }
 
     @GET
@@ -59,7 +74,9 @@ public class ServiceResource {
     // Get the deposit authorizations for the specified computing Id
     //
     public AuthListResponse authByComputingId( @PathParam( "cid" ) String cid ) {
-        return new AuthListResponse( Response.Status.OK, depositAuthDAO.findByCid( cid ).toArray( new DepositAuth[ 0 ] ) );
+        List<DepositAuth> depositAuth = depositAuthDAO.findByCid( cid );
+        return new AuthListResponse( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK,
+                depositAuth.toArray( new DepositAuth[ 0 ] ) );
     }
 
     @GET
@@ -69,7 +86,9 @@ public class ServiceResource {
     // Get the deposit authorizations for the specified computing Id
     //
     public AuthListResponse authByDocumentId( @PathParam( "lid" ) String lid ) {
-        return new AuthListResponse( Response.Status.OK, depositAuthDAO.findByLid( lid ).toArray( new DepositAuth[ 0 ] ) );
+        List<DepositAuth> depositAuth = depositAuthDAO.findByLid( lid );
+        return new AuthListResponse( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK,
+                depositAuth.toArray( new DepositAuth[ 0 ] ) );
     }
 
     @POST
@@ -80,8 +99,15 @@ public class ServiceResource {
     // Get the deposit authorizations for the specified computing Id
     //
     public BasicResponse didDeposit( @PathParam( "cid" ) String cid, @PathParam( "lid" ) String lid, DepositDetails details ) {
-        //DepositAuth = depositAuthDAO.findByCidAndDoctype( cid, xxx );
 
-        return new BasicResponse( Response.Status.OK );
+        // check the supplied deposit details
+        Pair<Response.Status, String> resValid = ServicePolicy.checkDeposit( details );
+        // if they are acceptable
+        if( resValid.getLeft( ).equals( Response.Status.OK ) ) {
+            // check to see if we can deposit
+            //Pair<Response.Status, DepositConstraints> resCan = ServicePolicy.canDeposit( depositAuthDAO, cid, details.g);
+        }
+
+        return new BasicResponse( resValid.getLeft( ), resValid.getRight( ) );
     }
 }

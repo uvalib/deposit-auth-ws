@@ -23,12 +23,12 @@ public interface DepositAuthDAO {
     @SqlQuery( "select * from deposit_auth where lid = :lid" )
     List<DepositAuth> findByLid( @Bind("lid") String lid );
 
-    @SqlQuery( "select * from deposit_auth where lid = :lid AND doctype = :doctype" )
-    DepositAuth findByCidAndDoctype( @Bind("cid") String cit, @Bind("doctype") String doctype );
+    @SqlQuery( "select * from deposit_auth where cid = :cid AND doctype = :doctype" )
+    List<DepositAuth> findByCidAndDoctype( @Bind("cid") String cid, @Bind("doctype") String doctype );
 
-    //@SqlUpdate( "update into DEPOSITAUTH set CID = :cid where ID = :id" )
+    //@SqlUpdate( "update deposit_auth set lid = :lid where CID = :cid" )
     //int update(@BindBean Person person);
 
-    @SqlUpdate( "insert into deposit_auth (id, cid, lid) values (:id, :cid, :lid)" )
-    int insert( @BindBean DepositAuth depositAuth );
+    //@SqlUpdate( "insert into deposit_auth (id, cid, lid) values (:id, :cid, :lid)" )
+    //int insert( @BindBean DepositAuth depositAuth );
 }

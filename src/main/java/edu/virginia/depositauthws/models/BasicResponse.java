@@ -5,21 +5,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BasicResponse {
 
-    private Status status;
+    private int status;
+    private String message;
 
     public BasicResponse() {
         // Jackson deserialization
     }
 
     public BasicResponse( Status status ) {
-        this.status = status;
+        this.status = status.getStatusCode( );
+        this.message = status.getReasonPhrase( );
+    }
+
+    public BasicResponse( Status status, String message ) {
+        this.status = status.getStatusCode( );
+        this.message = status.getReasonPhrase( ) + " (" + message + ")";
     }
 
     @JsonProperty
-    public long getStatus() { return status.getStatusCode( ); }
+    public long getStatus() { return this.status; }
 
     @JsonProperty
-    public String getMessage() {
-        return status.getReasonPhrase( );
-    }
+    public String getMessage() { return this.message; };
 }
