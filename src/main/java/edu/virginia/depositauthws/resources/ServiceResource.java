@@ -41,6 +41,17 @@ public class ServiceResource {
         this.dirname = dirname;
     }
 
+    //
+    // helpers for testing...
+    //
+    public String getDirName( ) {
+        return( this.dirname );
+    }
+
+    public DepositAuthDAO getDAO( ) {
+        return( this.depositAuthDAO );
+    }
+
     @GET
     @Path( "/" )
     @Timed
@@ -96,7 +107,7 @@ public class ServiceResource {
     @Consumes( MediaType.APPLICATION_JSON )
     @Timed
     //
-    // Get the deposit authorizations for the specified computing Id
+    // Do the deposit for the specified computing Id
     //
     public BasicResponse doDeposit( @PathParam( "cid" ) String cid, @PathParam( "lid" ) String lid, DepositDetails details ) {
 

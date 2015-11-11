@@ -32,7 +32,18 @@ public class ServicePolicy {
     }
 
     public static Pair<Response.Status, String> checkDeposit( DepositDetails details ) {
-        return( Pair.of( Response.Status.FORBIDDEN, null ) );
+
+        // check the auth token
+        if( details.getAuth( ).isEmpty( ) || !details.getAuth( ).equals( "super-secret" ) ) {
+            return (Pair.of(Response.Status.UNAUTHORIZED, null));
+        }
+
+        // check the reported document Id
+        if( details.getDocId( ).isEmpty( ) ) {
+            return (Pair.of(Response.Status.BAD_REQUEST, null));
+        }
+
+        return (Pair.of(Response.Status.OK, null));
     }
 
 }

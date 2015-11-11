@@ -1,7 +1,6 @@
 package edu.virginia.depositauthws;
 
-import edu.virginia.depositauthws.models.CanDepositResponse;
-import edu.virginia.depositauthws.models.DepositAuth;
+import edu.virginia.depositauthws.models.*;
 import io.dropwizard.jdbi.DBIFactory;
 import org.skife.jdbi.v2.DBI;
 import io.dropwizard.testing.junit.DropwizardAppRule;
@@ -10,14 +9,12 @@ import edu.virginia.depositauthws.resources.ServiceResource;
 import edu.virginia.depositauthws.db.DepositAuthDAO;
 import edu.virginia.depositauthws.core.ServiceApplication;
 import edu.virginia.depositauthws.core.ServiceConfiguration;
-import edu.virginia.depositauthws.models.AuthListResponse;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.ClassRule;
 
 import javax.ws.rs.core.Response;
-import org.apache.commons.lang3.RandomStringUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -115,9 +112,37 @@ public class ServiceResourceTest {
     }
 
     @Test
+    public void canDepositGoodComputingId( ) {
+        //
+        // ensure we get an OK when we request to deposit with a good computing Id
+        //
+        String doctype = TestHelpers.getGoodDocType( );
+        String id = TestHelpers.getCanDepositComputingId( resource, doctype );
+        assertThat( id ).isNotEmpty( );
+
+        CanDepositResponse canDepositResponse = resource.canDeposit( id, doctype );
+        assertThat( canDepositResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
+    }
+
+    @Test
+    public void canDepositBadDoctype( ) {
+        //
+        // ensure we get an FORBIDDEN when we request to deposit with a bad document type
+        //
+        String doctype = TestHelpers.getGoodDocType( );
+        String id = TestHelpers.getCanDepositComputingId( resource, doctype );
+        assertThat( id ).isNotEmpty( );
+
+        // set to a bad doctype
+        doctype = TestHelpers.getBadDocType( );
+        CanDepositResponse canDepositResponse = resource.canDeposit( id, doctype );
+        assertThat( canDepositResponse.getStatus( ) ).isEqualTo( Response.Status.FORBIDDEN.getStatusCode( ) );
+    }
+
+    @Test
     public void canDepositBadComputingId( ) {
         //
-        // ensure we get a FORBIDDEN when we attempt to deposit with a non existent computing Id
+        // ensure we get a FORBIDDEN when we request to deposit with a non existent computing Id
         //
         String id = TestHelpers.getBadId( );
         String doctype = TestHelpers.getGoodDocType( );
@@ -127,4 +152,31 @@ public class ServiceResourceTest {
         assertThat( canDepositResponse.getStatus( ) ).isEqualTo( Response.Status.FORBIDDEN.getStatusCode( ) );
     }
 
+    @Test
+    public void doDepositGoodComputingId( ) {
+        //
+        // ensure we get an OK when we attempt to deposit with a good computing Id
+        //
+        String doctype = TestHelpers.getGoodDocType( );
+        String id = TestHelpers.getCanDepositComputingId( resource, doctype );
+        assertThat( id ).isNotEmpty( );
+
+        DepositDetails depositDetails = new DepositDetails( TestHelpers.getGoodAuthToken( ), TestHelpers.getNewDocumentId( ) );
+        BasicResponse doDepositResponse = resource.doDeposit( id, doctype, depositDetails );
+        assertThat( doDepositResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
+    }
+
+    @Test
+    public void doDepositBadAuthToken( ) {
+        //
+        // ensure we get an OK when we attempt to deposit with a good computing Id
+        //
+        String doctype = TestHelpers.getGoodDocType( );
+        String id = TestHelpers.getCanDepositComputingId( resource, doctype );
+        assertThat( id ).isNotEmpty( );
+
+        DepositDetails depositDetails = new DepositDetails( TestHelpers.getBadAuthToken( ), TestHelpers.getNewDocumentId( ) );
+        BasicResponse doDepositResponse = resource.doDeposit( id, doctype, depositDetails );
+        assertThat( doDepositResponse.getStatus( ) ).isEqualTo( Response.Status.UNAUTHORIZED.getStatusCode( ) );
+    }
 }
