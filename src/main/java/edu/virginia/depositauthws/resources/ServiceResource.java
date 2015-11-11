@@ -98,7 +98,7 @@ public class ServiceResource {
     //
     // Get the deposit authorizations for the specified computing Id
     //
-    public BasicResponse didDeposit( @PathParam( "cid" ) String cid, @PathParam( "lid" ) String lid, DepositDetails details ) {
+    public BasicResponse doDeposit( @PathParam( "cid" ) String cid, @PathParam( "lid" ) String lid, DepositDetails details ) {
 
         // check the supplied deposit details
         Pair<Response.Status, String> resValid = ServicePolicy.checkDeposit( details );

@@ -32,7 +32,7 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
                      Environment environment ) {
 
         final DBIFactory factory = new DBIFactory( );
-        final DBI jdbi = factory.build( environment, configuration.getDataSourceFactory( ), "h2" );
+        final DBI jdbi = factory.build( environment, configuration.getDataSourceFactory( ), "mysql" );
 
         final DepositAuthDAO depositAuthDAO = jdbi.onDemand( DepositAuthDAO.class );
 
