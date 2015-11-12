@@ -1,21 +1,7 @@
 dataDirName: '/this/that/the/other'
 
-#database:
-#  driverClass: org.h2.Driver
-#  user: sa
-#  password:
-#  url: jdbc:h2:./persondb
-#  properties:
-#    charSet: UTF-8
-#  maxWaitForConnection: 1s
-#  validationQuery: "/* DepositAuth Health Check */ SELECT 1"
-#  minSize: 8
-#  maxSize: 32
-#  checkConnectionWhileIdle: false
-#  evictionInterval: 10s
-#  minIdleTime: 1 minute
-
 database:
+
   # the name of your JDBC driver
   driverClass: com.mysql.jdbc.Driver
 
