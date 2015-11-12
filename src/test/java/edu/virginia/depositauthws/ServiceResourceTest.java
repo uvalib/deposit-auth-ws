@@ -179,4 +179,52 @@ public class ServiceResourceTest {
         BasicResponse doDepositResponse = resource.doDeposit( id, doctype, depositDetails );
         assertThat( doDepositResponse.getStatus( ) ).isEqualTo( Response.Status.UNAUTHORIZED.getStatusCode( ) );
     }
+
+    @Test
+    public void doImportGoodDate( ) {
+        //
+        // ensure importing for a good date is successful
+        //
+        String date = TestHelpers.getGoodDate( );
+    }
+
+    @Test
+    public void doImportBadDate( ) {
+        //
+        // ensure importing for a bad date returns an appropriate error
+        //
+        String date = TestHelpers.getBadDate( );
+    }
+
+    @Test
+    public void doImportBadFs( ) {
+        //
+        // ensure importing for a bad FS returns an appropriate error
+        //
+        String date = TestHelpers.getGoodDate( );
+    }
+
+    @Test
+    public void doExportGoodDate( ) {
+        //
+        // ensure exporting for a good date is successful
+        //
+        String date = TestHelpers.getGoodDate( );
+    }
+
+    @Test
+    public void doExportBadDate( ) {
+        //
+        // ensure exporting for a bad date returns an appropriate error
+        //
+        String date = TestHelpers.getBadDate( );
+    }
+
+    @Test
+    public void doExportBadFs( ) {
+        //
+        // ensure importing for a bad FS returns an appropriate error
+        //
+        String date = TestHelpers.getGoodDate( );
+    }
 }

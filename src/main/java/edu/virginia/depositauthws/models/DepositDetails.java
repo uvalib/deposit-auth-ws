@@ -2,9 +2,8 @@ package edu.virginia.depositauthws.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class DepositDetails {
+public class DepositDetails extends AuthDetails {
 
-    private String auth;
     private String docId;
 
     public DepositDetails() {
@@ -12,13 +11,8 @@ public class DepositDetails {
     }
 
     public DepositDetails( String auth, String docId ) {
-        this.auth = auth;
+        super( auth );
         this.docId = docId;
-    }
-
-    @JsonProperty
-    public String getAuth() {
-        return auth;
     }
 
     @JsonProperty

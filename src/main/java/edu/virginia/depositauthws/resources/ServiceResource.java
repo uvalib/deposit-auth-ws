@@ -4,9 +4,12 @@ import edu.virginia.depositauthws.core.ServicePolicy;
 import edu.virginia.depositauthws.models.BasicResponse;
 import edu.virginia.depositauthws.models.CanDepositResponse;
 import edu.virginia.depositauthws.models.AuthListResponse;
+import edu.virginia.depositauthws.models.ImportExportResponse;
+
 import edu.virginia.depositauthws.models.DepositAuth;
 import edu.virginia.depositauthws.models.DepositConstraints;
 import edu.virginia.depositauthws.models.DepositDetails;
+import edu.virginia.depositauthws.models.AuthDetails;
 
 import edu.virginia.depositauthws.db.DepositAuthDAO;
 
@@ -120,5 +123,27 @@ public class ServiceResource {
         }
 
         return new BasicResponse( resValid.getLeft( ), resValid.getRight( ) );
+    }
+
+    @POST
+    @Path( "/import/{date}" )
+    @Consumes( MediaType.APPLICATION_JSON )
+    @Timed
+    //
+    // Import any new SIS records for the specified date
+    //
+    public ImportExportResponse doImport( @PathParam( "date" ) String date, AuthDetails details ) {
+        return new ImportExportResponse( Response.Status.OK, 0 );
+    }
+
+    @POST
+    @Path( "/export/{date}" )
+    @Consumes( MediaType.APPLICATION_JSON )
+    @Timed
+    //
+    // Import any new SIS records for the specified date
+    //
+    public ImportExportResponse doExport( @PathParam( "date" ) String date, AuthDetails details ) {
+        return new ImportExportResponse( Response.Status.OK, 0 );
     }
 }

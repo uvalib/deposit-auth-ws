@@ -92,6 +92,20 @@ public class TestHelpers {
     }
 
     //
+    // get a good import date
+    //
+    public static String getGoodDate( ) {
+        return( "2015-01-01" );
+    }
+
+    //
+    // get a bad import date
+    //
+    public static String getBadDate( ) {
+        return( "xxx" );
+    }
+
+    //
     // get the complete list of deposit authorizations
     //
     private static DepositAuth[] getAuthList( ServiceResource resource ) {
