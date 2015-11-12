@@ -25,6 +25,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import edu.virginia.depositauthws.sis.SisHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -152,7 +153,10 @@ public class ServiceResource {
             return new ImportExportResponse( validate.getLeft( ), validate.getRight( ) );
         }
 
-        return new ImportExportResponse( Response.Status.OK, 0 );
+        // do the import...
+        Pair<Response.Status, Integer> res = SisHelper.importFromSis( dirname, date );
+        LOG.info( "Import status: " + res.getLeft( ) + ", count: " + res.getRight( ) );
+        return new ImportExportResponse( res.getLeft( ), res.getRight( ) );
     }
 
     @POST
@@ -170,6 +174,9 @@ public class ServiceResource {
             return new ImportExportResponse( validate.getLeft( ), validate.getRight( ) );
         }
 
-        return new ImportExportResponse( Response.Status.OK, 0 );
+        // do the export...
+        Pair<Response.Status, Integer> res = SisHelper.exportToSis( dirname, date );
+        LOG.info( "Export status: " + res.getLeft( ) + ", count: " + res.getRight( ) );
+        return new ImportExportResponse( res.getLeft( ), res.getRight( ) );
     }
 }

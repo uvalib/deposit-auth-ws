@@ -123,6 +123,7 @@ public class ServiceHelper {
     //
     private static Boolean validateDate( String date ) {
         if( date.isEmpty( ) ) return( false );
+        if( !date.matches( "\\d{8}" ) ) return( false );
         return( true );
     }
 

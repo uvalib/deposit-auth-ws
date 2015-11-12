@@ -2,21 +2,23 @@ package edu.virginia.depositauthws.sis;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.ws.rs.core.Response;
+
 public class SisHelper {
 
 
     //
     // write any pending records to SIS
     //
-    private static Pair<Boolean, Integer> exportToSis( String fs, String date ) {
-       return( Pair.of( true, 0 ) );
+    public static Pair<Response.Status, Integer> exportToSis(String fs, String date ) {
+        return( Pair.of( Response.Status.OK, 0 ) );
     }
 
     //
     // write any pending records to SIS
     //
-    private static Pair<Boolean, Integer> importFromSis( String fs, String date ) {
-        return( Pair.of( true, 0 ) );
+    public static Pair<Response.Status, Integer> importFromSis( String fs, String date ) {
+        return( Pair.of( Response.Status.OK, 0 ) );
     }
 
     //

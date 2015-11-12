@@ -100,14 +100,14 @@ public class TestHelpers {
     // get a good import date
     //
     public static String getGoodDate( ) {
-        return( "2015-01-01" );
+        return( "20150101" );
     }
 
     //
     // get a bad import date
     //
     public static String getBadDate( ) {
-        return( "xxx" );
+        return( "bad-date" );
     }
 
     //

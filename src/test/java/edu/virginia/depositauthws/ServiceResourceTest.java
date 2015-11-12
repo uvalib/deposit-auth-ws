@@ -195,6 +195,7 @@ public class ServiceResourceTest {
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
         ImportExportResponse doImportResponse = resource.doImport( date, authDetails );
+        assertThat( doImportResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
     }
 
     @Test
@@ -206,6 +207,8 @@ public class ServiceResourceTest {
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
         ImportExportResponse doImportResponse = resource.doImport( date, authDetails );
+        assertThat( doImportResponse.getStatus( ) ).isEqualTo( Response.Status.BAD_REQUEST.getStatusCode( ) );
+        assertThat( TestHelpers.responseContains( doImportResponse, ServiceHelper.badDateError ) );
     }
 
     @Test
@@ -230,6 +233,7 @@ public class ServiceResourceTest {
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
         ImportExportResponse doExportResponse = resource.doExport( date, authDetails );
+        assertThat( doExportResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
     }
 
     @Test
@@ -241,6 +245,8 @@ public class ServiceResourceTest {
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
         ImportExportResponse doExportResponse = resource.doExport( date, authDetails );
+        assertThat( doExportResponse.getStatus( ) ).isEqualTo( Response.Status.BAD_REQUEST.getStatusCode( ) );
+        assertThat( TestHelpers.responseContains( doExportResponse, ServiceHelper.badDateError ) );
     }
 
     @Test
