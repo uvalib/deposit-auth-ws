@@ -20,16 +20,26 @@ public class DepositAuth {
     @JsonProperty
     private String lid;
 
+    @JsonProperty
+    private String approvedAt;
+
+    @JsonProperty
+    private String exportedAt;
+
+    //@NotNull
+    @JsonProperty
+    private String createdAt;
+
+    @JsonProperty
+    private String updatedAt;
+
     public DepositAuth() {
         // Jackson deserialization
     }
 
-    public DepositAuth( Long id, String cid, String doctype, String lid ) {
-        this.id = id;
-        this.cid = cid;
-        this.doctype = doctype;
-        this.lid = lid;
-    }
+    //
+    // getters...
+    //
 
     public Long getId() {
         return id;
@@ -46,6 +56,26 @@ public class DepositAuth {
     public String getLid() {
         return lid;
     }
+
+    public String getApprovedAt() {
+        return approvedAt;
+    }
+
+    public String getExportedAt() {
+        return exportedAt;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    //
+    // setters...
+    //
 
     public DepositAuth setId( Long id ) {
         this.id = id;
@@ -64,6 +94,26 @@ public class DepositAuth {
 
     public DepositAuth setLid( String lid ) {
         this.lid = lid;
+        return this;
+    }
+
+    public DepositAuth setApprovedAt( String approvedAt ) {
+        this.approvedAt = approvedAt;
+        return this;
+    }
+
+    public DepositAuth setExportedAt( String exportedAt ) {
+        this.exportedAt = exportedAt;
+        return this;
+    }
+
+    public DepositAuth setCreatedAt( String createdAt ) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    public DepositAuth setUpdatedAt( String updatedAt ) {
+        this.updatedAt = updatedAt;
         return this;
     }
 }
