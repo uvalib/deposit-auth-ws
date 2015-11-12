@@ -1,5 +1,6 @@
 package edu.virginia.depositauthws;
 
+import edu.virginia.depositauthws.core.ServiceHelper;
 import edu.virginia.depositauthws.models.*;
 import io.dropwizard.jdbi.DBIFactory;
 import org.skife.jdbi.v2.DBI;
@@ -97,6 +98,7 @@ public class ServiceResourceTest {
 
         AuthListResponse authListResponse = resource.authByComputingId( id );
         assertThat( authListResponse.getStatus( ) ).isEqualTo( Response.Status.NOT_FOUND.getStatusCode( ) );
+        assertThat( TestHelpers.responseContains( authListResponse, ServiceHelper.badCidError ) );
     }
 
     @Test
@@ -109,6 +111,7 @@ public class ServiceResourceTest {
 
         AuthListResponse authListResponse = resource.authByDocumentId( id );
         assertThat( authListResponse.getStatus( ) ).isEqualTo( Response.Status.NOT_FOUND.getStatusCode( ) );
+        assertThat( TestHelpers.responseContains( authListResponse, ServiceHelper.badLidError ) );
     }
 
     @Test
@@ -137,6 +140,7 @@ public class ServiceResourceTest {
         doctype = TestHelpers.getBadDocType( );
         CanDepositResponse canDepositResponse = resource.canDeposit( id, doctype );
         assertThat( canDepositResponse.getStatus( ) ).isEqualTo( Response.Status.FORBIDDEN.getStatusCode( ) );
+        assertThat( TestHelpers.responseContains( canDepositResponse, ServiceHelper.badDocTypeError ) );
     }
 
     @Test
@@ -150,6 +154,7 @@ public class ServiceResourceTest {
 
         CanDepositResponse canDepositResponse = resource.canDeposit( id, doctype );
         assertThat( canDepositResponse.getStatus( ) ).isEqualTo( Response.Status.FORBIDDEN.getStatusCode( ) );
+        assertThat( TestHelpers.responseContains( canDepositResponse, ServiceHelper.badCidError ) );
     }
 
     @Test
@@ -169,7 +174,7 @@ public class ServiceResourceTest {
     @Test
     public void doDepositBadAuthToken( ) {
         //
-        // ensure we get an OK when we attempt to deposit with a good computing Id
+        // ensure we get an UNAUTHORIZED when we attempt to deposit with a bad auth token
         //
         String doctype = TestHelpers.getGoodDocType( );
         String id = TestHelpers.getCanDepositComputingId( resource, doctype );
@@ -178,53 +183,76 @@ public class ServiceResourceTest {
         DepositDetails depositDetails = new DepositDetails( TestHelpers.getBadAuthToken( ), TestHelpers.getNewDocumentId( ) );
         BasicResponse doDepositResponse = resource.doDeposit( id, doctype, depositDetails );
         assertThat( doDepositResponse.getStatus( ) ).isEqualTo( Response.Status.UNAUTHORIZED.getStatusCode( ) );
+        assertThat( TestHelpers.responseContains( doDepositResponse, ServiceHelper.badAuthTokenError ) );
     }
 
     @Test
     public void doImportGoodDate( ) {
         //
-        // ensure importing for a good date is successful
+        // ensure we get an OK when importing with a good date
         //
         String date = TestHelpers.getGoodDate( );
+
+        AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
+        ImportExportResponse doImportResponse = resource.doImport( date, authDetails );
     }
 
     @Test
     public void doImportBadDate( ) {
         //
-        // ensure importing for a bad date returns an appropriate error
+        // ensure we get a BAD_REQUEST when importing with a bad date
         //
         String date = TestHelpers.getBadDate( );
+
+        AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
+        ImportExportResponse doImportResponse = resource.doImport( date, authDetails );
     }
 
     @Test
-    public void doImportBadFs( ) {
+    public void doImportBadAuthToken( ) {
         //
-        // ensure importing for a bad FS returns an appropriate error
+        // ensure we get an UNAUTHORIZED when importing with a bad auth token
         //
-        String date = TestHelpers.getGoodDate( );
+        String date = TestHelpers.getBadDate( );
+
+        AuthDetails authDetails = new AuthDetails( TestHelpers.getBadAuthToken( ) );
+        ImportExportResponse doImportResponse = resource.doImport( date, authDetails );
+        assertThat( doImportResponse.getStatus( ) ).isEqualTo( Response.Status.UNAUTHORIZED.getStatusCode( ) );
+        assertThat( TestHelpers.responseContains( doImportResponse, ServiceHelper.badAuthTokenError ) );
     }
 
     @Test
     public void doExportGoodDate( ) {
         //
-        // ensure exporting for a good date is successful
+        // ensure we get an OK when exporting with a good date
         //
         String date = TestHelpers.getGoodDate( );
+
+        AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
+        ImportExportResponse doExportResponse = resource.doExport( date, authDetails );
     }
 
     @Test
     public void doExportBadDate( ) {
         //
-        // ensure exporting for a bad date returns an appropriate error
+        // ensure we get a BAD_REQUEST when exporting with a bad date
         //
         String date = TestHelpers.getBadDate( );
+
+        AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
+        ImportExportResponse doExportResponse = resource.doExport( date, authDetails );
     }
 
     @Test
-    public void doExportBadFs( ) {
+    public void doExportBadAuthToken( ) {
         //
-        // ensure importing for a bad FS returns an appropriate error
+        // ensure we get an UNAUTHORIZED when exporting with a bad auth token
         //
-        String date = TestHelpers.getGoodDate( );
+        String date = TestHelpers.getBadDate( );
+
+        AuthDetails authDetails = new AuthDetails( TestHelpers.getBadAuthToken( ) );
+        ImportExportResponse doExportResponse = resource.doExport( date, authDetails );
+        assertThat( doExportResponse.getStatus( ) ).isEqualTo( Response.Status.UNAUTHORIZED.getStatusCode( ) );
+        assertThat( TestHelpers.responseContains( doExportResponse, ServiceHelper.badAuthTokenError ) );
     }
 }

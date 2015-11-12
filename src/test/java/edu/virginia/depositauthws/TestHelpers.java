@@ -3,6 +3,7 @@ package edu.virginia.depositauthws;
 import edu.virginia.depositauthws.core.ServicePolicy;
 import edu.virginia.depositauthws.db.DepositAuthDAO;
 import edu.virginia.depositauthws.models.AuthListResponse;
+import edu.virginia.depositauthws.models.BasicResponse;
 import edu.virginia.depositauthws.models.DepositAuth;
 import edu.virginia.depositauthws.models.DepositConstraints;
 import edu.virginia.depositauthws.resources.ServiceResource;
@@ -12,6 +13,10 @@ import org.apache.commons.lang3.tuple.Pair;
 import javax.ws.rs.core.Response;
 
 public class TestHelpers {
+
+    public static Boolean responseContains(BasicResponse response, String error ) {
+       return( response.getMessage( ).contains( error ) );
+    }
 
     //
     // get a computing Id that can deposit the specified doctype

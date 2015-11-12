@@ -12,6 +12,16 @@ public class CanDepositResponse extends BasicResponse {
         // Jackson deserialization
     }
 
+    public CanDepositResponse( Status status ) {
+        super( status );
+        this.constraints = null;
+    }
+
+    public CanDepositResponse( Status status, String message ) {
+        super( status, message );
+        this.constraints = null;
+    }
+
     public CanDepositResponse( Status status, DepositConstraints constraints ) {
         super( status );
         this.constraints = constraints;

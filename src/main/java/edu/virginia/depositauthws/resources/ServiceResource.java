@@ -1,5 +1,6 @@
 package edu.virginia.depositauthws.resources;
 
+import edu.virginia.depositauthws.core.ServiceHelper;
 import edu.virginia.depositauthws.core.ServicePolicy;
 import edu.virginia.depositauthws.models.BasicResponse;
 import edu.virginia.depositauthws.models.CanDepositResponse;
@@ -74,6 +75,13 @@ public class ServiceResource {
     // Can the specified computing Id deposit a document of the specified type
     //
     public CanDepositResponse canDeposit( @PathParam( "cid" ) String cid, @PathParam( "doctype" ) String doctype ) {
+
+        // validate inbound parameters
+        Pair<Response.Status, String> validate = ServiceHelper.validateCanDepositRequest( cid, doctype );
+        if( !ServiceHelper.isValid( validate.getLeft( ) ) ) {
+            return new CanDepositResponse( validate.getLeft( ), validate.getRight( ) );
+        }
+
         LOG.info( "Checking deposit authorization; cid: " + cid + ", doctype: " + doctype );
 
         // check to see if we can deposit
@@ -112,17 +120,21 @@ public class ServiceResource {
     //
     // Do the deposit for the specified computing Id
     //
-    public BasicResponse doDeposit( @PathParam( "cid" ) String cid, @PathParam( "lid" ) String lid, DepositDetails details ) {
+    public BasicResponse doDeposit( @PathParam( "cid" ) String cid, @PathParam( "doctype" ) String doctype, DepositDetails details ) {
 
-        // check the supplied deposit details
-        Pair<Response.Status, String> resValid = ServicePolicy.checkDeposit( details );
-        // if they are acceptable
-        if( resValid.getLeft( ).equals( Response.Status.OK ) ) {
-            // check to see if we can deposit
-            //Pair<Response.Status, DepositConstraints> resCan = ServicePolicy.canDeposit( depositAuthDAO, cid, details.g);
+        // validate inbound parameters
+        Pair<Response.Status, String> validate = ServiceHelper.validateDoDepositRequest( cid, doctype, details );
+        if( !ServiceHelper.isValid( validate.getLeft( ) ) ) {
+            return new BasicResponse( validate.getLeft( ), validate.getRight( ) );
         }
 
-        return new BasicResponse( resValid.getLeft( ), resValid.getRight( ) );
+        // check that they can deposit
+        Pair<Response.Status, DepositConstraints> can = ServicePolicy.canDeposit( depositAuthDAO, cid, doctype );
+        if( !ServiceHelper.isValid( can.getLeft( ) ) ) {
+            return new CanDepositResponse( can.getLeft( ) );
+        }
+
+        return new BasicResponse( Response.Status.OK );
     }
 
     @POST
@@ -133,6 +145,13 @@ public class ServiceResource {
     // Import any new SIS records for the specified date
     //
     public ImportExportResponse doImport( @PathParam( "date" ) String date, AuthDetails details ) {
+
+        // validate inbound parameters
+        Pair<Response.Status, String> validate = ServiceHelper.validateImportRequest( date, details );
+        if( !ServiceHelper.isValid( validate.getLeft( ) ) ) {
+            return new ImportExportResponse( validate.getLeft( ), validate.getRight( ) );
+        }
+
         return new ImportExportResponse( Response.Status.OK, 0 );
     }
 
@@ -144,6 +163,13 @@ public class ServiceResource {
     // Import any new SIS records for the specified date
     //
     public ImportExportResponse doExport( @PathParam( "date" ) String date, AuthDetails details ) {
+
+        // validate inbound parameters
+        Pair<Response.Status, String> validate = ServiceHelper.validateExportRequest( date, details );
+        if( !ServiceHelper.isValid( validate.getLeft( ) ) ) {
+            return new ImportExportResponse( validate.getLeft( ), validate.getRight( ) );
+        }
+
         return new ImportExportResponse( Response.Status.OK, 0 );
     }
 }

@@ -12,6 +12,11 @@ public class ImportExportResponse extends BasicResponse {
         // Jackson deserialization
     }
 
+    public ImportExportResponse( Status status, String message ) {
+        super( status, message );
+        this.count = 0;
+    }
+
     public ImportExportResponse( Status status, Integer count ) {
         super( status );
         this.count = count;
