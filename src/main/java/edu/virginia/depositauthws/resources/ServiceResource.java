@@ -145,7 +145,7 @@ public class ServiceResource {
     @Consumes( MediaType.APPLICATION_JSON )
     @Timed
     //
-    // Do the deposit for the specified computing Id
+    // Delete the specified record Id
     //
     public BasicResponse doDelete( @PathParam( "id" ) String id, AuthDetails details ) {
 
@@ -176,7 +176,7 @@ public class ServiceResource {
         }
 
         // do the import...
-        Pair<Response.Status, Integer> res = SisHelper.importFromSis( dirname, date );
+        Pair<Response.Status, Integer> res = SisHelper.importFromSis( depositAuthDAO, dirname, date );
         LOG.info( "Import status: " + res.getLeft( ) + ", count: " + res.getRight( ) );
         return new ImportExportResponse( res.getLeft( ), res.getRight( ) );
     }
@@ -197,7 +197,7 @@ public class ServiceResource {
         }
 
         // do the export...
-        Pair<Response.Status, Integer> res = SisHelper.exportToSis( dirname, date );
+        Pair<Response.Status, Integer> res = SisHelper.exportToSis( depositAuthDAO, dirname, date );
         LOG.info( "Export status: " + res.getLeft( ) + ", count: " + res.getRight( ) );
         return new ImportExportResponse( res.getLeft( ), res.getRight( ) );
     }
