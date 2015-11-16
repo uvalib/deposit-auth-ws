@@ -4,7 +4,10 @@ create table deposit_auth (
       cid               VARCHAR( 100 ) NOT NULL DEFAULT '',
       doctype           VARCHAR( 100 ) NOT NULL DEFAULT '',
       lid               VARCHAR( 100 ) NOT NULL DEFAULT '',
-      libra_approved_at DATETIME DEFAULT NULL,
+      title             VARCHAR( 255 ) NOT NULL DEFAULT '',
+      program           VARCHAR( 100 ) NOT NULL DEFAULT '',
+
+      approved_at       DATETIME DEFAULT NULL,
       exported_at       DATETIME DEFAULT NULL,
       created_at        DATETIME DEFAULT NULL,
       updated_at        DATETIME DEFAULT NULL,

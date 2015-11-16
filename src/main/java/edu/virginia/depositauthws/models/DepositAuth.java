@@ -21,6 +21,12 @@ public class DepositAuth {
     private String lid;
 
     @JsonProperty
+    private String title;
+
+    @JsonProperty
+    private String program;
+
+    @JsonProperty
     private String approvedAt;
 
     @JsonProperty
@@ -55,6 +61,12 @@ public class DepositAuth {
 
     public String getLid() {
         return lid;
+    }
+
+    public String getTitle() { return title; }
+
+    public String getProgram() {
+        return program;
     }
 
     public String getApprovedAt() {
@@ -94,6 +106,16 @@ public class DepositAuth {
 
     public DepositAuth setLid( String lid ) {
         this.lid = lid;
+        return this;
+    }
+
+    public DepositAuth setTitle( String title ) {
+        this.title = title;
+        return this;
+    }
+
+    public DepositAuth setProgram( String program ) {
+        this.program = program;
         return this;
     }
 

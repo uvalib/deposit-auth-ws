@@ -26,7 +26,7 @@ public interface DepositAuthDAO {
     @SqlQuery( "select * from deposit_auth where cid = :cid AND doctype = :doctype" )
     List<DepositAuth> findByCidAndDoctype( @Bind("cid") String cid, @Bind("doctype") String doctype );
 
-    @SqlQuery( "select * from deposit_auth where libra_approved_at IS NOT NULL AND exported_at IS NULL" )
+    @SqlQuery( "select * from deposit_auth where approved_at IS NOT NULL AND exported_at IS NULL" )
     List<DepositAuth> getForExport( );
 
     //@SqlUpdate( "update deposit_auth set lid = :lid where CID = :cid" )

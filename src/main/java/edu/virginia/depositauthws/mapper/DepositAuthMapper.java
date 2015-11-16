@@ -20,7 +20,9 @@ public class DepositAuthMapper implements ResultSetMapper<DepositAuth> {
            .setCid( resultSet.getString( "cid" ) )
            .setDoctype( resultSet.getString( "doctype" ) )
            .setLid( resultSet.getString( "lid" ) )
-           .setApprovedAt( formatDate( resultSet.getTimestamp( "libra_approved_at" ) ) )
+           .setTitle( resultSet.getString( "title" ) )
+           .setProgram( resultSet.getString( "program" ) )
+           .setApprovedAt( formatDate( resultSet.getTimestamp( "approved_at" ) ) )
            .setExportedAt( formatDate( resultSet.getTimestamp( "exported_at" ) ) )
            .setCreatedAt( formatDate( resultSet.getTimestamp( "created_at" ) ) )
            .setUpdatedAt( formatDate( resultSet.getTimestamp( "updated_at" ) ) );
