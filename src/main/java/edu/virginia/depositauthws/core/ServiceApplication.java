@@ -9,7 +9,7 @@ import io.dropwizard.jdbi.DBIFactory;
 import org.skife.jdbi.v2.DBI;
 
 import edu.virginia.depositauthws.resources.ServiceResource;
-import edu.virginia.depositauthws.health.ServiceHealthCheck;
+import edu.virginia.depositauthws.health.FsHealthCheck;
 
 public class ServiceApplication extends Application<ServiceConfiguration> {
 
@@ -41,10 +41,10 @@ public class ServiceApplication extends Application<ServiceConfiguration> {
                 configuration.getDataDirName()
         );
 
-        final ServiceHealthCheck healthCheck =
-                new ServiceHealthCheck( depositAuthDAO, configuration.getDataDirName( ) );
+        // register the health checkers
+        environment.healthChecks().register( "filesystem", new FsHealthCheck( configuration.getDataDirName( ) ) );
 
-        environment.healthChecks().register( "filesystem", healthCheck );
+        // register the main resource
         environment.jersey().register(resource);
     }
 
