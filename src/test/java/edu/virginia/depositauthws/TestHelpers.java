@@ -111,6 +111,31 @@ public class TestHelpers {
     }
 
     //
+    // get a good record identifier
+    //
+    public static String getGoodRecordId( ServiceResource resource ) {
+        DepositAuth[] authData = getAuthList( resource );
+        if( authData.length != 0 ) {
+            return( authData[ 0 ].getId( ).toString( ) );
+        }
+        return( "" );
+    }
+
+    //
+    // get a good but non-existent record identifier
+    //
+    public static String getMissingRecordId( ) {
+        return( "9999999999" );
+    }
+
+    //
+    // get a bad record identifier
+    //
+    public static String getBadRecordId( ) {
+        return( getBadId( ) );
+    }
+
+    //
     // get the complete list of deposit authorizations
     //
     private static DepositAuth[] getAuthList( ServiceResource resource ) {

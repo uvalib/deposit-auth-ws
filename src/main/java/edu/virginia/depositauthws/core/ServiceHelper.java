@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response;
 
 public class ServiceHelper {
 
+    public static final String badIdError = "Missing/Bad Id field";
     public static final String badCidError = "Missing/Bad computing Id field";
     public static final String badLidError = "Missing/Bad document Id field";
     public static final String badDocTypeError = "Missing/Bad document type field";
@@ -65,6 +66,25 @@ public class ServiceHelper {
     //
     // validate inbound request parameters
     //
+    public static Pair<Response.Status, String> validateDoDeleteRequest( String id, AuthDetails details ) {
+
+        // check the cid
+        if( !validateId( id ) ) {
+            return( Pair.of( Response.Status.BAD_REQUEST, badIdError ) );
+        }
+
+        // check the auth token
+        if( !validateAuthToken( details.getAuth( ) ) ) {
+            return( Pair.of(Response.Status.UNAUTHORIZED, badAuthTokenError ));
+        }
+
+        // all good
+        return (Pair.of(Response.Status.OK, null));
+    }
+
+    //
+    // validate inbound request parameters
+    //
     public static Pair<Response.Status, String> validateImportRequest( String date, AuthDetails details ) {
         return (validateImportExportRequest( date, details ) );
     }
@@ -92,6 +112,15 @@ public class ServiceHelper {
         }
 
         return (Pair.of(Response.Status.OK, null));
+    }
+
+    //
+    // validate a record Id
+    //
+    private static Boolean validateId( String id ) {
+        if( id.isEmpty( ) ) return( false );
+        if( !id.matches( "\\d+" ) ) return( false );
+        return( true );
     }
 
     //

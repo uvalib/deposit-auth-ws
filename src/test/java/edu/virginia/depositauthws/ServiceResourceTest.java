@@ -187,6 +187,57 @@ public class ServiceResourceTest {
     }
 
     @Test
+    public void doDeleteGoodRecordId( ) {
+        //
+        // ensure we get an OK when we attempt to delete with a good Id
+        //
+        String id = TestHelpers.getGoodRecordId( resource );
+        assertThat( id ).isNotEmpty( );
+
+        AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
+        BasicResponse doDeleteResponse = resource.doDelete( id.toString( ), authDetails );
+        assertThat( doDeleteResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
+    }
+
+    @Test
+    public void doDeleteMissingRecordId( ) {
+        //
+        // ensure we get an OK when we attempt to delete with a good Id
+        //
+        String id = TestHelpers.getMissingRecordId( );
+
+        AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
+        BasicResponse doDeleteResponse = resource.doDelete( id, authDetails );
+        assertThat( doDeleteResponse.getStatus( ) ).isEqualTo( Response.Status.NOT_FOUND.getStatusCode( ) );
+        assertThat( TestHelpers.responseContains( doDeleteResponse, ServiceHelper.badIdError ) );
+    }
+
+    @Test
+    public void doDeleteBadRecordId( ) {
+        //
+        // ensure we get an OK when we attempt to delete with a good Id
+        //
+        String id = TestHelpers.getBadRecordId( );
+
+        AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
+        BasicResponse doDeleteResponse = resource.doDelete( id, authDetails );
+        assertThat( doDeleteResponse.getStatus( ) ).isEqualTo( Response.Status.BAD_REQUEST.getStatusCode( ) );
+        assertThat( TestHelpers.responseContains( doDeleteResponse, ServiceHelper.badIdError ) );
+    }
+
+    @Test
+    public void doDeleteBadAuthToken( ) {
+        //
+        // ensure we get an UNAUTHORIZED when we attempt to delete with a bad auth token
+        //
+        String id = TestHelpers.getGoodRecordId( resource );
+
+        AuthDetails authDetails = new AuthDetails( TestHelpers.getBadAuthToken( ) );
+        BasicResponse doDeleteResponse = resource.doDelete( id, authDetails );
+        assertThat( doDeleteResponse.getStatus( ) ).isEqualTo( Response.Status.UNAUTHORIZED.getStatusCode( ) );
+    }
+
+    @Test
     public void doImportGoodDate( ) {
         //
         // ensure we get an OK when importing with a good date

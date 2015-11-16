@@ -34,4 +34,7 @@ public interface DepositAuthDAO {
 
     //@SqlUpdate( "insert into deposit_auth (id, cid, lid) values (:id, :cid, :lid)" )
     //int insert( @BindBean DepositAuth depositAuth );
+
+    @SqlUpdate( "delete from deposit_auth where id = :id" )
+    int delete(  @Bind("id") String id );
 }

@@ -18,6 +18,8 @@ import com.codahale.metrics.annotation.Timed;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.DELETE;
+
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
@@ -136,6 +138,26 @@ public class ServiceResource {
         }
 
         return new BasicResponse( Response.Status.OK );
+    }
+
+    @DELETE
+    @Path( "/id/{id}" )
+    @Consumes( MediaType.APPLICATION_JSON )
+    @Timed
+    //
+    // Do the deposit for the specified computing Id
+    //
+    public BasicResponse doDelete( @PathParam( "id" ) String id, AuthDetails details ) {
+
+        // validate inbound parameters
+        Pair<Response.Status, String> validate = ServiceHelper.validateDoDeleteRequest( id, details );
+        if( !ServiceHelper.isValid( validate.getLeft( ) ) ) {
+            return new BasicResponse( validate.getLeft( ), validate.getRight( ) );
+        }
+
+        // do the delete...
+        int status = depositAuthDAO.delete( id );
+        return new BasicResponse( status == 1 ? Response.Status.OK : Response.Status.NOT_FOUND );
     }
 
     @POST
