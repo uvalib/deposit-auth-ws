@@ -81,7 +81,7 @@ public class ServiceResource {
 
         // validate inbound parameters
         Pair<Response.Status, String> validate = ServiceHelper.validateCanDepositRequest( cid, doctype );
-        if( !ServiceHelper.isValid( validate.getLeft( ) ) ) {
+        if( !ServiceHelper.isOK( validate.getLeft( ) ) ) {
             return new CanDepositResponse( validate.getLeft( ), validate.getRight( ) );
         }
 
@@ -127,13 +127,13 @@ public class ServiceResource {
 
         // validate inbound parameters
         Pair<Response.Status, String> validate = ServiceHelper.validateDoDepositRequest( cid, doctype, details );
-        if( !ServiceHelper.isValid( validate.getLeft( ) ) ) {
+        if( !ServiceHelper.isOK( validate.getLeft( ) ) ) {
             return new BasicResponse( validate.getLeft( ), validate.getRight( ) );
         }
 
         // check that they can deposit
         Pair<Response.Status, DepositConstraints> can = ServicePolicy.canDeposit( depositAuthDAO, cid, doctype );
-        if( !ServiceHelper.isValid( can.getLeft( ) ) ) {
+        if( !ServiceHelper.isOK( can.getLeft( ) ) ) {
             return new CanDepositResponse( can.getLeft( ) );
         }
 
@@ -151,7 +151,7 @@ public class ServiceResource {
 
         // validate inbound parameters
         Pair<Response.Status, String> validate = ServiceHelper.validateDoDeleteRequest( id, details );
-        if( !ServiceHelper.isValid( validate.getLeft( ) ) ) {
+        if( !ServiceHelper.isOK( validate.getLeft( ) ) ) {
             return new BasicResponse( validate.getLeft( ), validate.getRight( ) );
         }
 
@@ -171,7 +171,7 @@ public class ServiceResource {
 
         // validate inbound parameters
         Pair<Response.Status, String> validate = ServiceHelper.validateImportRequest( date, details );
-        if( !ServiceHelper.isValid( validate.getLeft( ) ) ) {
+        if( !ServiceHelper.isOK( validate.getLeft( ) ) ) {
             return new ImportExportResponse( validate.getLeft( ), validate.getRight( ) );
         }
 
@@ -192,7 +192,7 @@ public class ServiceResource {
 
         // validate inbound parameters
         Pair<Response.Status, String> validate = ServiceHelper.validateExportRequest( date, details );
-        if( !ServiceHelper.isValid( validate.getLeft( ) ) ) {
+        if( !ServiceHelper.isOK( validate.getLeft( ) ) ) {
             return new ImportExportResponse( validate.getLeft( ), validate.getRight( ) );
         }
 

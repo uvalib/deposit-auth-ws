@@ -7,13 +7,25 @@ import edu.virginia.depositauthws.models.BasicResponse;
 import edu.virginia.depositauthws.models.DepositAuth;
 import edu.virginia.depositauthws.models.DepositConstraints;
 import edu.virginia.depositauthws.resources.ServiceResource;
+
+import edu.virginia.depositauthws.sis.SisHelper;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.ws.rs.core.Response;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.Paths;
 
 public class TestHelpers {
 
+    private static final String exampleSisImportFile = SisHelper.sisInputFile( "XXDATEXX" );
+
+    //
+    // helper for examining error codes
+    //
     public static Boolean responseContains(BasicResponse response, String error ) {
        return( response.getMessage( ).contains( error ) );
     }
@@ -100,7 +112,7 @@ public class TestHelpers {
     // get a good import date
     //
     public static String getGoodDate( ) {
-        return( "20150101" );
+        return( "150101" );
     }
 
     //
@@ -134,6 +146,29 @@ public class TestHelpers {
     public static String getBadRecordId( ) {
         return( getBadId( ) );
     }
+
+    //
+    // create an example SIS import file
+    //
+    public static Integer createSisImportFile( String fs, String date ) {
+        String importFile = exampleSisImportFile.replace( "XXDATEXX", date );
+        String src = "data" + File.separator + exampleSisImportFile;
+        String dst = fs + File.separator + importFile;
+        try {
+            Files.copy(Paths.get(src), Paths.get(dst), StandardCopyOption.REPLACE_EXISTING);
+        } catch( IOException ex ) {
+            return( 0 );
+        }
+        return( 2 );   // we know the example file has 2 records
+    }
+
+    //
+    // validate SIS export file
+    //
+    //public static Integer validateSisExportFile( String date, Integer expectedCount ) {
+        //String exportFile = exampleSisExportFile.replace( "XXDATEXX", date );
+
+    //}
 
     //
     // get the complete list of deposit authorizations

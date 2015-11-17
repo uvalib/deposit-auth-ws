@@ -11,7 +11,7 @@ import edu.virginia.depositauthws.db.DepositAuthDAO;
 import edu.virginia.depositauthws.core.ServiceApplication;
 import edu.virginia.depositauthws.core.ServiceConfiguration;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.ClassRule;
 
@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ServiceResourceTest {
 
-    private ServiceResource resource;
+    private static ServiceResource resource;
 
     //
     // create a running dropwizard app environment
@@ -30,13 +30,11 @@ public class ServiceResourceTest {
     public static DropwizardAppRule<ServiceConfiguration> rule = new DropwizardAppRule<>( ServiceApplication.class,
             "src/main/resources/service.yaml" );
 
-    @Before
-    public void setup( ) {
-        // Before each test, we re-instantiate our resource
-        // It is good practice when dealing with a class that
-        // contains mutable data to reset it so tests can be ran independently
-        // of each other.
-
+    //
+    // do once because it takes time to establish database connections
+    //
+    @BeforeClass
+    public static void once( ) {
         final DBIFactory factory = new DBIFactory( );
         final DBI jdbi = factory.build( rule.getEnvironment( ), rule.getConfiguration( ).getDataSourceFactory( ), "mysql" );
         final DepositAuthDAO depositAuthDAO = jdbi.onDemand( DepositAuthDAO.class );
@@ -243,10 +241,12 @@ public class ServiceResourceTest {
         // ensure we get an OK when importing with a good date
         //
         String date = TestHelpers.getGoodDate( );
+        Integer count = TestHelpers.createSisImportFile( rule.getConfiguration( ).getDataDirName( ), date );
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
         ImportExportResponse doImportResponse = resource.doImport( date, authDetails );
         assertThat( doImportResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
+        assertThat( doImportResponse.getCount( ) ).isEqualTo( count );
     }
 
     @Test

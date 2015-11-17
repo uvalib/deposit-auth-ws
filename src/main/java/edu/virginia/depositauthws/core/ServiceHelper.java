@@ -152,7 +152,7 @@ public class ServiceHelper {
     //
     private static Boolean validateDate( String date ) {
         if( date.isEmpty( ) ) return( false );
-        if( !date.matches( "\\d{8}" ) ) return( false );
+        if( !date.matches( "\\d{6}" ) ) return( false );
         return( true );
     }
 
@@ -164,7 +164,7 @@ public class ServiceHelper {
         return( true );
     }
 
-    public static Boolean isValid( Response.Status status ) {
+    public static Boolean isOK(Response.Status status ) {
         return( status.equals( Response.Status.OK ) );
     }
 
