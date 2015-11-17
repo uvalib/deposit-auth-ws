@@ -6,16 +6,16 @@ database:
   driverClass: com.mysql.jdbc.Driver
 
   # the JDBC URL
-  url: jdbc:mysql://localhost:3306/depositauth_development
-#  url: jdbc:mysql://mysql.lib.virginia.edu:3306/depositauth_development
+#  url: jdbc:mysql://localhost:3306/depositauth_development
+  url: jdbc:mysql://mysql.lib.virginia.edu:3306/depositauth_development
 
   # the username
-  user: root
-#  user: depauth_dev
+#  user: root
+  user: depauth_dev
 
   # the password
-  password:
-#  password: yp3EHea3
+#  password:
+  password: yp3EHea3
 
   # any properties specific to your JDBC driver:
   properties:
