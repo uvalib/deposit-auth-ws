@@ -23,7 +23,7 @@ docker rmi $NAMESPACE/$INSTANCE:current
 docker tag -f $NAMESPACE/$INSTANCE:latest $NAMESPACE/$INSTANCE:current
 
 # run the instance passing the environment if appropriate
-if [ -n "$DATABASE_URL" -a -n "$DATABASE_USER" -a -n "$DATABASE_PASSWORD" ];
+if [ -n "$DATABASE_URL" -a -n "$DATABASE_USER" -a -n "$DATABASE_PASSWORD" ]; then
    docker run -d -p $host_ip:8080:8080 -p $host_ip:8081:8081 --name $INSTANCE -e DATABASE_URL=$DATABASE_URL -e DATABASE_USER=$DATABASE_USER -e DATABASE_PASSWORD=$DATABASE_PASSWORD $NAMESPACE/$INSTANCE:latest
 else
    docker run -d -p $host_ip:8080:8080 -p $host_ip:8081:8081 --name $INSTANCE $NAMESPACE/$INSTANCE:latest
