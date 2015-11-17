@@ -155,13 +155,15 @@ public class SisHelper {
     //
     private static Boolean importRecord( DepositAuthDAO depositAuthDAO, DepositAuth da ) {
         Boolean status = true;
-        List<DepositAuth> authList = depositAuthDAO.findByCid( da.getCid( ) );
-        DepositAuth existing = findExisting( authList, da );
+        List<DepositAuth> authList = depositAuthDAO.findByEid( da.getEid( ) );
+        DepositAuth existing = matchWithExisting( authList, da );
         if( existing == null ) {
             // insert the new item
+            LOG.info( "Inserting new deposit auth item for: " + da.getCid( ) );
             status = depositAuthDAO.insert( da ) == 1;
         } else {
             // set the Id and update
+            LOG.info( "Updating existing deposit auth item for: " + da.getCid( ) );
             da.setId( existing.getId( ) );
             status = depositAuthDAO.update( da ) == 1;
         }
@@ -171,9 +173,11 @@ public class SisHelper {
     //
     // determine if a just received from SIS auth record is an update to an existing record
     //
-    private static DepositAuth findExisting( List<DepositAuth> authList, DepositAuth newDa ) {
+    private static DepositAuth matchWithExisting( List<DepositAuth> authList, DepositAuth newDa ) {
         for( DepositAuth da : authList ) {
-           if( da.getProgram( ).equals( newDa.getProgram( ) ) &&
+           if( da.getCareer( ).equals( newDa.getCareer( ) ) &&
+               da.getProgram( ).equals( newDa.getProgram( ) ) &&
+               da.getPlan( ).equals( newDa.getPlan( ) ) &&
                da.getDoctype( ).equals( newDa.getDoctype( ) ) ) {
                return( da );
             }
@@ -185,18 +189,18 @@ public class SisHelper {
     //
     private static String toSis( DepositAuth da ) {
         String r =
-           "emp id" + separator +
+           da.getEid( ) + separator +
            da.getCid( ) + separator +
-           "first name" + separator +
-           "middle name" + separator +
-           "last name" + separator +
-           "career" + separator +
+           da.getFirstName( ) + separator +
+           da.getMiddleName( ) + separator +
+           da.getLastName( ) + separator +
+           da.getCareer( ) + separator +
            da.getProgram( ) + separator +
-           "plan" + separator +
+           da.getPlan( ) + separator +
            da.getLid( ) + separator +
            da.getDoctype( ) + separator +
-           "degree" + separator +
-           toSisDateFormat( da.getApprovedAt( ) );
+           da.getDegree( ) + separator +
+           toSisDateFormat( da.getAcceptedAt( ) );
         return( r );
     }
 
@@ -208,17 +212,17 @@ public class SisHelper {
         String[] separated = record.split( "\\" + separator );
         if( separated.length < 12 ) return( null );
         DepositAuth da =  new DepositAuth( );
-        // da.xxx( separated[ 0 ] )    // employee ID
-        da.setCid( separated[ 1 ] );
-        // da.xxx( separated[ 2 ] )    // first name
-        // da.xxx( separated[ 3 ] )    // middle name
-        // da.xxx( separated[ 4 ] )    // last name
-        // da.xxx( separated[ 5 ] )    // career
-        da.setProgram( separated[ 6 ] );
-        // da.xxx( separated[ 7 ] )    // plan
-        da.setTitle( separated[ 8 ] );
-        da.setDoctype( separated[ 9 ] );
-        // da.xxx( separated[ 10 ] )   // degree
+        da.setEid( separated[ 0 ] );            // employee Id
+        da.setCid( separated[ 1 ] );            // computing Id
+        da.setFirstName( separated[ 2 ] );      // first name
+        da.setMiddleName( separated[ 3 ] );     // middle name
+        da.setLastName( separated[ 4 ] );       // last name
+        da.setCareer( separated[ 5 ] );         // career
+        da.setProgram( separated[ 6 ] );        // program
+        da.setPlan( separated[ 7 ] );           // plan
+        da.setTitle( separated[ 8 ] );          // title
+        da.setDoctype( separated[ 9 ] );        // doctype (milestone)
+        da.setDegree( separated[ 10 ] );        // degree
         da.setApprovedAt( toNativeDateFormat( separated[ 11 ] ) );
 
         return( da );

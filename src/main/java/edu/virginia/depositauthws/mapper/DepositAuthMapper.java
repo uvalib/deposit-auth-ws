@@ -19,12 +19,24 @@ public class DepositAuthMapper implements ResultSetMapper<DepositAuth> {
     public DepositAuth map( int index, ResultSet resultSet, StatementContext statementContext ) throws SQLException {
         return new DepositAuth( )
            .setId( resultSet.getLong( "id" ) )
+           .setEid( resultSet.getString( "eid" ) )
            .setCid( resultSet.getString( "cid" ) )
+
+           .setFirstName( resultSet.getString( "first_name" ) )
+           .setMiddleName( resultSet.getString( "middle_name" ) )
+           .setLastName( resultSet.getString( "last_name" ) )
+
+           .setCareer( resultSet.getString( "career" ) )
+           .setProgram( resultSet.getString( "program" ) )
+           .setPlan( resultSet.getString( "plan" ) )
+           .setDegree( resultSet.getString( "degree" ) )
+
+           .setTitle( resultSet.getString( "title" ) )
            .setDoctype( resultSet.getString( "doctype" ) )
            .setLid( resultSet.getString( "lid" ) )
-           .setTitle( resultSet.getString( "title" ) )
-           .setProgram( resultSet.getString( "program" ) )
+
            .setApprovedAt( formatDate( resultSet.getDate( "approved_at" ) ) )
+           .setAcceptedAt( formatDateTime( resultSet.getTimestamp( "accepted_at" ) ) )
            .setExportedAt( formatDateTime( resultSet.getTimestamp( "exported_at" ) ) )
            .setCreatedAt( formatDateTime( resultSet.getTimestamp( "created_at" ) ) )
            .setUpdatedAt( formatDateTime( resultSet.getTimestamp( "updated_at" ) ) );

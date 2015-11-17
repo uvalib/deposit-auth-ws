@@ -11,7 +11,43 @@ public class DepositAuth {
 
     @NotNull
     @JsonProperty
+    private String eid;
+
+    @NotNull
+    @JsonProperty
     private String cid;
+
+    @NotNull
+    @JsonProperty
+    private String firstName;
+
+    @NotNull
+    @JsonProperty
+    private String middleName;
+
+    @NotNull
+    @JsonProperty
+    private String lastName;
+
+    @NotNull
+    @JsonProperty
+    private String career;
+
+    @NotNull
+    @JsonProperty
+    private String program;
+
+    @NotNull
+    @JsonProperty
+    private String plan;
+
+    @NotNull
+    @JsonProperty
+    private String degree;
+
+    @NotNull
+    @JsonProperty
+    private String title;
 
     @NotNull
     @JsonProperty
@@ -21,13 +57,10 @@ public class DepositAuth {
     private String lid;
 
     @JsonProperty
-    private String title;
-
-    @JsonProperty
-    private String program;
-
-    @JsonProperty
     private String approvedAt;
+
+    @JsonProperty
+    private String acceptedAt;
 
     @JsonProperty
     private String exportedAt;
@@ -51,8 +84,44 @@ public class DepositAuth {
         return id;
     }
 
+    public String getEid() {
+        return eid;
+    }
+
     public String getCid() {
         return cid;
+    }
+
+    public String getFirstName() {
+        return valueOrEmptyString( firstName );
+    }
+
+    public String getMiddleName() {
+        return valueOrEmptyString( middleName );
+    }
+
+    public String getLastName() {
+        return valueOrEmptyString( lastName );
+    }
+
+    public String getCareer() {
+        return valueOrEmptyString( career );
+    }
+
+    public String getProgram() {
+        return valueOrEmptyString( program );
+    }
+
+    public String getPlan() {
+        return valueOrEmptyString( plan );
+    }
+
+    public String getDegree() {
+        return valueOrEmptyString( degree );
+    }
+
+    public String getTitle() {
+        return valueOrEmptyString( title );
     }
 
     public String getDoctype() {
@@ -63,14 +132,12 @@ public class DepositAuth {
         return valueOrEmptyString( lid );
     }
 
-    public String getTitle() { return valueOrEmptyString( title ); }
-
-    public String getProgram() {
-        return valueOrEmptyString( program );
-    }
-
     public String getApprovedAt() {
         return approvedAt;
+    }
+
+    public String getAcceptedAt() {
+        return acceptedAt;
     }
 
     public String getExportedAt() {
@@ -99,6 +166,51 @@ public class DepositAuth {
         return this;
     }
 
+    public DepositAuth setEid( String eid ) {
+        this.eid = eid;
+        return this;
+    }
+
+    public DepositAuth setFirstName( String firstName ) {
+        this.firstName = firstName;
+        return this;
+    }
+
+    public DepositAuth setMiddleName( String middleName ) {
+        this.middleName = middleName;
+        return this;
+    }
+
+    public DepositAuth setLastName( String lastName ) {
+        this.lastName = lastName;
+        return this;
+    }
+
+    public DepositAuth setCareer( String career ) {
+        this.career = career;
+        return this;
+    }
+
+    public DepositAuth setProgram( String program ) {
+        this.program = program;
+        return this;
+    }
+
+    public DepositAuth setPlan( String plan ) {
+        this.plan = plan;
+        return this;
+    }
+
+    public DepositAuth setDegree( String degree ) {
+        this.degree = degree;
+        return this;
+    }
+
+    public DepositAuth setTitle( String title ) {
+        this.title = title;
+        return this;
+    }
+
     public DepositAuth setDoctype( String doctype ) {
         this.doctype = doctype;
         return this;
@@ -109,18 +221,13 @@ public class DepositAuth {
         return this;
     }
 
-    public DepositAuth setTitle( String title ) {
-        this.title = title;
-        return this;
-    }
-
-    public DepositAuth setProgram( String program ) {
-        this.program = program;
-        return this;
-    }
-
     public DepositAuth setApprovedAt( String approvedAt ) {
         this.approvedAt = approvedAt;
+        return this;
+    }
+
+    public DepositAuth setAcceptedAt( String acceptedAt ) {
+        this.acceptedAt = acceptedAt;
         return this;
     }
 

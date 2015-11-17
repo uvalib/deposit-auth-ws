@@ -18,6 +18,10 @@ public interface DepositAuthDAO {
     @SqlQuery( "select * from deposit_auth" )
     List<DepositAuth> getAll();
 
+    // get by employee Id
+    @SqlQuery( "select * from deposit_auth where eid = :eid" )
+    List<DepositAuth> findByEid( @Bind("eid") String eid );
+
     // get by computing Id
     @SqlQuery( "select * from deposit_auth where cid = :cid" )
     List<DepositAuth> findByCid( @Bind("cid") String cid );
@@ -31,15 +35,15 @@ public interface DepositAuthDAO {
     List<DepositAuth> findByCidAndDoctype( @Bind("cid") String cid, @Bind("doctype") String doctype );
 
     // get auth records suitable for export
-    @SqlQuery( "select * from deposit_auth where approved_at IS NOT NULL AND exported_at IS NULL" )
+    @SqlQuery( "select * from deposit_auth where accepted_at IS NOT NULL AND exported_at IS NULL" )
     List<DepositAuth> getForExport( );
 
     // add a new item
-    @SqlUpdate( "insert into deposit_auth (id, cid, doctype, lid, title, program, created_at) values (0, :cid, :doctype, :lid, :title, :program, NOW( ))" )
+    @SqlUpdate( "insert into deposit_auth (id, eid, cid, first_name, middle_name, last_name, career, program, plan, degree, title, doctype, lid, approved_at, created_at) values (0, :eid, :cid, :firstName, :middleName, :lastName, :career, :program, :plan, :degree, :title, :doctype, :lid, :approvedAt, NOW( ))" )
     int insert( @BindBean DepositAuth depositAuth );
 
     // update an existing item
-    @SqlUpdate( "update deposit_auth set title = :title, approved_at = :approvedAt, updated_at = NOW( ) where id = :id" )
+    @SqlUpdate( "update deposit_auth set cid = :cid, first_name = :firstName, middle_name = :middleName, last_name = :lastName, title = :title, degree = :degree, approved_at = :approvedAt, updated_at = NOW( ) where id = :id" )
     int update( @BindBean DepositAuth depositAuth );
 
     // update the exported timestamp
