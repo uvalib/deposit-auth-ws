@@ -1,0 +1,51 @@
+2191852|gvs4ad|Gabriella|Victoria|Smith|GRAD|ASG|SOCIOL-MA|Crafting Gender/Crafting Boundaries: Reimagining "Authentic" Gender Performance in Feminized Activities|MTHESIS
+DEF|MA|10/08/2015
+2338476|jpe5bk|Jarek|Paul|Ervin|GRAD|ASG|MUSIC-MA||MTHESISDEF|MA|10/20/2015
+2346726|adg9jc|Adam|Daniel|Gross|GRAD|ASG|CLAS-MA|MA Qualifying Paper completed and approved by Major Advisor John Dillery, and DGS Coulter George, September 2015|MTHESIS
+DEF|MA|10/28/2015
+2425144|zq6qb|Zhaoxiang||Qi|GRAD|ENG|CHEMEN-MS|Characterization of a Lithium-Ion Solid Dispersion Flow Battery|MTHESISDEF|MS|10/23/2015
+2429546|vuw3nb|Veronica|Uriel|Weser|GRAD|ASG|PSYCH-MA|Predicting Winners:  Heuristical Decision Making in Watching Sports|MTHESISDEF|MA|09/22/2015
+2430057|kcf3st|Karl|Cheng Heng|Fua|GRAD|ASG|PSYCH-MA|Dynamically Tracking Anxious Individuals' Affective Response to Valenced Information|MTHESISDEF|MA|09/28/2015
+2430117|jy2xz|Jingcai||Ying|GRAD|ASG|GOVT-MA|Zhu Xi's Exemplary Politics: A Preliminary Interpretation Based on Zhu's Commentary on Great Learning|MTHESISDEF|MA|11/12/201
+5
+2431836|mhm8yp|Meghan|Hill|Puglia|GRAD|ASG|PSYCH-MA|Epigenetic Modification of the Oxytocin Receptor Gene Influences the Perception of Anger and Fear in the Human Brain|M
+THESISDEF|MA|09/22/2015
+2431877|kl5ft|Katrina||Lancaster|GRAD|ASG|PSYCH-MA|Plasma Oxytocin Explains Individual Differences in Neural Substrates of Social Perception|MTHESISDEF|MA|11/06/2015
+2432670|rpm3eh|Ryan|Patrick|Maguire|GRAD|ASG|MUSIC-MA||MTHESISDEF|MA|10/19/2015
+1140293|sca2c|Stephen|Conway|Adams|GRAD|ENG|SYSTEM-PHD|Simultaneous Feature Selection and Parameter Estimation for Hidden Markov Models|PHDDEFENSE|PHD|08/21/2015
+1149926|hab3f|Heather|Anne|Burns|GRAD|CUG|EDUC-PHD|A Close Reading of Creative Writing in SCOPE, the Medical School Literary Magazine at Southern Illinois University Scho
+ol of Medicine|PHDDEFENSE|PHD|11/14/2015
+1167461|jdg6y|Joseph|David|Goodell|GRAD|ASG|PHYS-PHD|Search for the Standard Model Higgs boson in the H --> WW --> lvqq channel|PHDDEFENSE|PHD|09/09/2015
+1171349|meh4x|Megan|Elizabeth|Haury|GRAD|ASG|ENGL-PHD|Singled Out for Loss: Narrating Lost American Origins, 1925-1991|PHDDEFENSE|PHD|11/04/2015
+1178078|dcj4v|Donald|Charles|Jones|GRAD|ASG|PHYS-PHD|Measuring the Weak Charge of the Proton via Elastic Electron-Proton Scattering|PHDDEFENSE|PHD|11/04/2015
+1201980|dtr3t|Douglass|Thomas|Reed|GRAD|ASG|PHIL-PHD|The Ethics and Moral Psychology of Plato's 'Phaedo'|PHDDEFENSE|PHD|11/10/2015
+1224777|jlz3m|Jeffrey|Lee|Zvengrowski|GRAD|ASG|HIST-PHD|They Stood Like the Old Guard of Napoleon: Jefferson Davis and the Pro-Bonaparte Democrats, 1815-1870|PHDDEFENSE|P
+HD|10/23/2015
+1253801|kbg2c|Kate|Beniamina|Geoghegan|GRAD|ASG|HIST-PHD|The Specter of Anarchy, The Hope of Transformation: The Role of Non-State Actors in the U.S. Response to Soviet R
+eform and Disunion, 1981-1996|PHDDEFENSE|PHD|09/10/2015
+1284547|csp6n|Charlene|Sutin|Pritzker|GRAD|CUG|EDUC-PHD|What do the Experiences of Japan and Sweden Have to Tell Us About Special Education Policy and Practice in the Uni
+ted States?|PHDDEFENSE|PHD|09/29/2015
+1317852|jcf3w|Jayne|C|Fonash|GRAD|CUG|ADMIN-EDD|Effects on an Inquiry-based Curricular Program on Aspects of Critical Thinking Skills and Dispositions|PHDDEFENSE|EDD|10/1
+9/2015
+1480225|tjd8e|Tammy|Jo|Donahue|GRAD|CUG|ADMIN-EDD|Creating a Research-based Teacher Induction Program|PHDDEFENSE|EDD|08/13/2015
+1496162|hat5hg|Hilda|Amalia|Taylor|GRAD|NRG|NURS-DNP|Exercise for Osteoporosis Prevention: A Health Belief Model Guided Intervention|PHDDEFENSE|DNP|10/23/2015
+1539382|dkr5t|Dylan|Kelby|Rogers|GRAD|ASG|ARTARC-PHD|Water-Display and Meaning in the High Roman Empire|PHDDEFENSE|PHD|06/16/2015
+2053732|vm9u|Vidyabhushan||Mohan|GRAD|ENG|COMPSC-PHD|Towards Building Energy Efficient, Reliable and Scalable NAND Flash Based Storage Systems|PHDDEFENSE|PHD|11/02/2015
+2053732|vm9u|Vidyabhushan||Mohan|GRAD|ENG|COMPSC-PHD|Towards Building Energy Efficient, Reliable, and Scalable NAND Flash Based Storage Systems|PHDDEFENSE|PHD|11/02/2015
+2073367|zw4vm|Zukai||Wang|GRAD|ASG|PHYS-PHD|Search for Magnetic Monopoles with the NOvA Far Detector|PHDDEFENSE|PHD|11/14/2015
+2073956|jk2rk|Jennifer|Lauren|Kaplan|GRAD|ASG|EXPATH-PHD|A Role for Adipocyte Progenitor Cells in Obesity-Induced MCP-1 and M1 Macrophage Accumulation in Visceral Adipose
+ Tissue|PHDDEFENSE|PHD|11/04/2015
+2074263|mo3at|Marie||Ostby|GRAD|ASG|ENGL-PHD|Genres Without Borders: Reading Globally between Modern Iran and the West|PHDDEFENSE|PHD|10/08/2015
+2083834|ns4mf|Niranjan||Sridhar|GRAD|ASG|PHYS-PHD|Interfacing Continuous and Discrete Hilbert Spaces in Quantum Optics and Quantum Information|PHDDEFENSE|PHD|11/04/2015
+2088436|kx3pq|Kerui||Xu|GRAD|ASG|CHEM-PHD|Laser-Assisted Fast Prototyping of Microdevices for the Microfluidic Manipulation of Liquid and Cells|PHDDEFENSE|PHD|08/07/2015
+2140023|lmm7cd|Lauren|Merkle|Carter|GRAD|CUG|CLNPSY-PHD|Teachers' Beliefs about Children and their Behavior: Furthering our Measurement and Understanding of How Preschool
+ Teachers' Beliefs Relate to their Interactions with Young Children|PHDDEFENSE|PHD|07/21/2015
+2180007|fn4eq|Feiyang||Niu|GRAD|ASG|STATS-PHD|Single-index Model with Varying coefficients|PHDDEFENSE|PHD|11/04/2015
+2198501|ddf8ya|Derek|David|Falcone|GRAD|ENG|CHEMEN-PHD|Relating the Structure of Bimetallic Catalysts to Performance in the Hydrogenolysis and Hydrogenation of Biomass-De
+rived Intermediates|PHDDEFENSE|PHD|09/29/2015
+2200074|kb3sx|Ksenia||Brazhnik|GRAD|ASG|EVSC-PHD|Development, Calibration and Application of a 3-D Individual-Based Gap Model for Improved Characterization of Eurasian Bo
+real Forests in Response to Historical and Future Changes in Climate|PHDDEFENSE|PHD|11/16/2015
+2260848|jlw3wa|Joanna|Leigh|Will|GRAD|CUG|CLNPSY-PHD|Lifetime Adversities and Outcomes of Second-generation Offenders|PHDDEFENSE|PHD|09/10/2015
+2273530|xl3xa|Xiaoming||Li|GRAD|ASG|STATS-PHD|Design and Inference of clinical Trials with Continuous Covariates|PHDDEFENSE|PHD|09/22/2015
+2280517|sm5vp|Suvadip||Mukherjee|GRAD|ENG|ELECT-PHD|Segmentation and Enhancement of Filamentous Objects for Biological Image Analysis|PHDDEFENSE|PHD|11/16/2015
+2344654|dmr9ba|Daniel|Marlowe|Read|GRAD|CUG|EDUC-PHD|Pathways to Primary Care|PHDDEFENSE|PHD|09/10/2015
