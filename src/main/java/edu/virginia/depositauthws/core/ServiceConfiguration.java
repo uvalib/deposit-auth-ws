@@ -5,11 +5,15 @@ import io.dropwizard.db.DataSourceFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 public class ServiceConfiguration extends Configuration {
+
+    private final static Logger LOG = LoggerFactory.getLogger( ServiceConfiguration.class );
 
     private static final String envDbUrl = "DATABASE_URL";
     private static final String envDbUser = "DATABASE_USER";
@@ -42,17 +46,17 @@ public class ServiceConfiguration extends Configuration {
 
         // override the configured settings if they are defined in the environment
         if( System.getenv( envDbUrl ) != null ) {
-            //System.out.println( "*** OVERRIDE DATABASE URL ***" );
+            LOG.info( "DB url from environment: " + System.getenv( envDbUrl ) );
             database.setUrl( System.getenv( envDbUrl ) );
         }
 
         if( System.getenv( envDbUser ) != null ) {
-            //System.out.println( "*** OVERRIDE DATABASE USER ***" );
+            LOG.info( "DB user from environment: " + System.getenv( envDbUser ) );
             database.setUser( System.getenv( envDbUser ) );
         }
 
         if( System.getenv( envDbPassword ) != null ) {
-            //System.out.println( "*** OVERRIDE DATABASE PASSWORD ***" );
+            LOG.info( "DB password from environment: " + System.getenv( envDbPassword ) );
             database.setPassword( System.getenv( envDbPassword ) );
         }
     }
