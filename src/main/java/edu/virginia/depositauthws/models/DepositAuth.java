@@ -60,13 +60,13 @@ public class DepositAuth {
     }
 
     public String getLid() {
-        return lid;
+        return valueOrEmptyString( lid );
     }
 
-    public String getTitle() { return title; }
+    public String getTitle() { return valueOrEmptyString( title ); }
 
     public String getProgram() {
-        return program;
+        return valueOrEmptyString( program );
     }
 
     public String getApprovedAt() {
@@ -137,5 +137,9 @@ public class DepositAuth {
     public DepositAuth setUpdatedAt( String updatedAt ) {
         this.updatedAt = updatedAt;
         return this;
+    }
+
+    private String valueOrEmptyString( String value ) {
+        return value == null ? "" : value;
     }
 }

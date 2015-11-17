@@ -159,16 +159,20 @@ public class TestHelpers {
         } catch( IOException ex ) {
             return( 0 );
         }
-        return( 2 );   // we know the example file has 2 records
+        return( 38 );   // we know the example file has 38 records
     }
 
     //
-    // validate SIS export file
+    // count the records in the specified SIS export file
     //
-    //public static Integer validateSisExportFile( String date, Integer expectedCount ) {
+    public static Integer countSisExportFile( String date ) {
         //String exportFile = exampleSisExportFile.replace( "XXDATEXX", date );
+       return( 0 );
+    }
 
-    //}
+    public static Integer countSisExportCandidates( DepositAuthDAO dao ) {
+        return( dao.getForExport( ).size( ) );
+    }
 
     //
     // get the complete list of deposit authorizations

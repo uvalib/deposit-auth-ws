@@ -7,7 +7,7 @@ create table deposit_auth (
       title             VARCHAR( 255 ) NOT NULL DEFAULT '',
       program           VARCHAR( 100 ) NOT NULL DEFAULT '',
 
-      approved_at       DATETIME DEFAULT NULL,
+      approved_at       DATE DEFAULT NULL,
       exported_at       DATETIME DEFAULT NULL,
       created_at        DATETIME DEFAULT NULL,
       updated_at        DATETIME DEFAULT NULL,

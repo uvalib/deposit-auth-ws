@@ -2,6 +2,7 @@ package edu.virginia.depositauthws.sis;
 
 import edu.virginia.depositauthws.core.ServiceHelper;
 import edu.virginia.depositauthws.db.DepositAuthDAO;
+import edu.virginia.depositauthws.mapper.DepositAuthMapper;
 import edu.virginia.depositauthws.models.DepositAuth;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -12,8 +13,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 import java.util.stream.Stream;
 import java.nio.charset.StandardCharsets;
 
@@ -25,6 +29,7 @@ public class SisHelper {
 
     private final static Logger LOG = LoggerFactory.getLogger( SisHelper.class );
     private static final String separator = "|";
+    private static final SimpleDateFormat sisDateFormatter = new SimpleDateFormat( "MM/dd/yyyy" );
 
     //
     // write any pending records to SIS
@@ -95,9 +100,28 @@ public class SisHelper {
         try {
             Path p = Paths.get( filename );
             Stream<String> lines = Files.lines(p, StandardCharsets.UTF_8);
-            for( String line : (Iterable<String>) lines::iterator ) {
-                DepositAuth da = fromSis( line );
-                if( da != null ) imports.add( da );
+            String previousLine = "";
+            for( String l : (Iterable<String>) lines::iterator ) {
+
+                //
+                // if the record length is 170, assume that the line was truncated
+                // and concatinate the record with the next line and use that for the full record
+                //
+
+                if( l.length( ) == 170 ) {
+                    previousLine = l;
+                } else {
+
+                    //System.out.println( "Attempting to convert [" + previousLine + l + "]" );
+                    DepositAuth da = fromSis( previousLine + l );
+                    previousLine = "";
+                    if( da != null ) {
+                       //System.out.println("OK");
+                       imports.add(da);
+                    } else {
+                       System.out.println("ERROR");
+                    }
+                }
             }
         } catch( IOException ex ) {
             imports.clear( );
@@ -172,7 +196,7 @@ public class SisHelper {
            da.getLid( ) + separator +
            da.getDoctype( ) + separator +
            "degree" + separator +
-           da.getApprovedAt( );
+           toSisDateFormat( da.getApprovedAt( ) );
         return( r );
     }
 
@@ -195,7 +219,7 @@ public class SisHelper {
         da.setTitle( separated[ 8 ] );
         da.setDoctype( separated[ 9 ] );
         // da.xxx( separated[ 10 ] )   // degree
-        da.setApprovedAt( separated[ 11 ] );
+        da.setApprovedAt( toNativeDateFormat( separated[ 11 ] ) );
 
         return( da );
     }
@@ -212,5 +236,29 @@ public class SisHelper {
     //
     public static String sisOutputFile( String date ) {
         return( "UV_LIBRA_IN_" + date + ".txt" );
+    }
+
+    //
+    // convert a date from our native format (YYYY-MM-DD) to the SIS format (MM/DD/YYYY)
+    //
+    private static String toSisDateFormat( String date ) {
+        try {
+            Date d = DepositAuthMapper.dateFormat.parse( date );
+            return( sisDateFormatter.format( d ) );
+        } catch( ParseException ex ) { }
+        System.out.println( "ERROR converting " + date + " to SIS format" );
+        return( "" );
+    }
+
+    //
+    // convert a date from the SIS format (MM/DD/YYYY) to our native format (YYYY-MM-DD)
+    //
+    private static String toNativeDateFormat( String date ) {
+        try {
+            Date d = sisDateFormatter.parse( date );
+            return( DepositAuthMapper.dateFormat.format( d ) );
+        } catch( ParseException ex ) { }
+        System.out.println( "ERROR converting " + date + " to native format" );
+        return( "" );
     }
 }

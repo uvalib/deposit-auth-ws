@@ -22,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ServiceResourceTest {
 
     private static ServiceResource resource;
+    private static DepositAuthDAO depositAuthDAO;
 
     //
     // create a running dropwizard app environment
@@ -37,7 +38,7 @@ public class ServiceResourceTest {
     public static void once( ) {
         final DBIFactory factory = new DBIFactory( );
         final DBI jdbi = factory.build( rule.getEnvironment( ), rule.getConfiguration( ).getDataSourceFactory( ), "mysql" );
-        final DepositAuthDAO depositAuthDAO = jdbi.onDemand( DepositAuthDAO.class );
+        depositAuthDAO = jdbi.onDemand( DepositAuthDAO.class );
         resource = new ServiceResource( depositAuthDAO, rule.getConfiguration( ).getDataDirName( ) );
     }
 
@@ -281,10 +282,12 @@ public class ServiceResourceTest {
         // ensure we get an OK when exporting with a good date
         //
         String date = TestHelpers.getGoodDate( );
+        Integer count = TestHelpers.countSisExportCandidates( depositAuthDAO );
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
         ImportExportResponse doExportResponse = resource.doExport( date, authDetails );
         assertThat( doExportResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
+        assertThat( doExportResponse.getCount( ) ).isEqualTo( count );
     }
 
     @Test
