@@ -65,10 +65,11 @@ public class ServiceResource {
     //
     // Get all known deposit authorizations
     //
-    public AuthListResponse allDepositAuth( ) {
+    public Response allDepositAuth( ) {
         List<DepositAuth> depositAuth = depositAuthDAO.getAll( );
-        return new AuthListResponse( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK,
-                depositAuth.toArray( new DepositAuth[ 0 ] ) );
+        AuthListResponse response = new AuthListResponse( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK,
+                                                          depositAuth.toArray( new DepositAuth[ 0 ] ) );
+        return Response.status( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK ).entity( response ).build();
     }
 
     @GET
@@ -77,19 +78,19 @@ public class ServiceResource {
     //
     // Can the specified computing Id deposit a document of the specified type
     //
-    public CanDepositResponse canDeposit( @PathParam( "cid" ) String cid, @PathParam( "doctype" ) String doctype ) {
+    public Response canDeposit( @PathParam( "cid" ) String cid, @PathParam( "doctype" ) String doctype ) {
 
         // validate inbound parameters
         Pair<Response.Status, String> validate = ServiceHelper.validateCanDepositRequest( cid, doctype );
         if( !ServiceHelper.isOK( validate.getLeft( ) ) ) {
-            return new CanDepositResponse( validate.getLeft( ), validate.getRight( ) );
+            return Response.status( validate.getLeft( ) ).entity( new CanDepositResponse( validate.getLeft( ), validate.getRight( ) ) ).build( );
         }
 
         LOG.info( "Checking deposit authorization; cid: " + cid + ", doctype: " + doctype );
 
         // check to see if we can deposit
         Pair<Response.Status, DepositConstraints> res = ServicePolicy.canDeposit( depositAuthDAO, cid, doctype );
-        return new CanDepositResponse( res.getLeft( ), res.getRight( ) );
+        return Response.status( res.getLeft( ) ).entity( new CanDepositResponse( res.getLeft( ), res.getRight( ) ) ).build( );
     }
 
     @GET
@@ -98,10 +99,11 @@ public class ServiceResource {
     //
     // Get the deposit authorizations for the specified computing Id
     //
-    public AuthListResponse authByComputingId( @PathParam( "cid" ) String cid ) {
+    public Response authByComputingId( @PathParam( "cid" ) String cid ) {
         List<DepositAuth> depositAuth = depositAuthDAO.findByCid( cid );
-        return new AuthListResponse( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK,
-                depositAuth.toArray( new DepositAuth[ 0 ] ) );
+        AuthListResponse response = new AuthListResponse( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK,
+                                                          depositAuth.toArray( new DepositAuth[ 0 ] ) );
+        return Response.status( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK ).entity( response ).build();
     }
 
     @GET
@@ -110,10 +112,11 @@ public class ServiceResource {
     //
     // Get the deposit authorizations for the specified computing Id
     //
-    public AuthListResponse authByDocumentId( @PathParam( "lid" ) String lid ) {
+    public Response authByDocumentId( @PathParam( "lid" ) String lid ) {
         List<DepositAuth> depositAuth = depositAuthDAO.findByLid( lid );
-        return new AuthListResponse( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK,
-                depositAuth.toArray( new DepositAuth[ 0 ] ) );
+        AuthListResponse response = new AuthListResponse( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK,
+                                                          depositAuth.toArray( new DepositAuth[ 0 ] ) );
+        return Response.status( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK ).entity( response ).build();
     }
 
     @POST
@@ -123,21 +126,21 @@ public class ServiceResource {
     //
     // Do the deposit for the specified computing Id
     //
-    public BasicResponse doDeposit( @PathParam( "cid" ) String cid, @PathParam( "doctype" ) String doctype, DepositDetails details ) {
+    public Response doDeposit( @PathParam( "cid" ) String cid, @PathParam( "doctype" ) String doctype, DepositDetails details ) {
 
         // validate inbound parameters
         Pair<Response.Status, String> validate = ServiceHelper.validateDoDepositRequest( cid, doctype, details );
         if( !ServiceHelper.isOK( validate.getLeft( ) ) ) {
-            return new BasicResponse( validate.getLeft( ), validate.getRight( ) );
+            return Response.status( validate.getLeft( ) ).entity( new BasicResponse( validate.getLeft( ), validate.getRight( ) ) ).build( );
         }
 
         // check that they can deposit
         Pair<Response.Status, DepositConstraints> can = ServicePolicy.canDeposit( depositAuthDAO, cid, doctype );
         if( !ServiceHelper.isOK( can.getLeft( ) ) ) {
-            return new CanDepositResponse( can.getLeft( ) );
+            return Response.status( validate.getLeft( ) ).entity( new CanDepositResponse( can.getLeft( ) ) ).build( );
         }
 
-        return new BasicResponse( Response.Status.OK );
+        return Response.status( Response.Status.OK ).entity( new BasicResponse( Response.Status.OK ) ).build( );
     }
 
     @DELETE
@@ -147,17 +150,17 @@ public class ServiceResource {
     //
     // Delete the specified record Id
     //
-    public BasicResponse doDelete( @PathParam( "id" ) String id, AuthDetails details ) {
+    public Response doDelete( @PathParam( "id" ) String id, AuthDetails details ) {
 
         // validate inbound parameters
         Pair<Response.Status, String> validate = ServiceHelper.validateDoDeleteRequest( id, details );
         if( !ServiceHelper.isOK( validate.getLeft( ) ) ) {
-            return new BasicResponse( validate.getLeft( ), validate.getRight( ) );
+            return Response.status( validate.getLeft( ) ).entity( new BasicResponse( validate.getLeft( ), validate.getRight( ) ) ).build( );
         }
 
         // do the delete...
         int status = depositAuthDAO.delete( id );
-        return new BasicResponse( status == 1 ? Response.Status.OK : Response.Status.NOT_FOUND );
+        return Response.status( status == 1 ? Response.Status.OK : Response.Status.NOT_FOUND ).entity( new BasicResponse( status == 1 ? Response.Status.OK : Response.Status.NOT_FOUND ) ).build( );
     }
 
     @POST
@@ -167,18 +170,18 @@ public class ServiceResource {
     //
     // Import any new SIS records for the specified date
     //
-    public ImportExportResponse doImport( @PathParam( "date" ) String date, AuthDetails details ) {
+    public Response doImport( @PathParam( "date" ) String date, AuthDetails details ) {
 
         // validate inbound parameters
         Pair<Response.Status, String> validate = ServiceHelper.validateImportRequest( date, details );
         if( !ServiceHelper.isOK( validate.getLeft( ) ) ) {
-            return new ImportExportResponse( validate.getLeft( ), validate.getRight( ) );
+            return Response.status( validate.getLeft( ) ).entity( new ImportExportResponse( validate.getLeft( ), validate.getRight( ) ) ).build( );
         }
 
         // do the import...
         Pair<Response.Status, Integer> res = SisHelper.importFromSis( depositAuthDAO, dirname, date );
         LOG.info( "Import status: " + res.getLeft( ) + ", count: " + res.getRight( ) );
-        return new ImportExportResponse( res.getLeft( ), res.getRight( ) );
+        return Response.status( res.getLeft( ) ).entity( new ImportExportResponse( res.getLeft( ), res.getRight( ) ) ).build( );
     }
 
     @POST
@@ -188,17 +191,17 @@ public class ServiceResource {
     //
     // Import any new SIS records for the specified date
     //
-    public ImportExportResponse doExport( @PathParam( "date" ) String date, AuthDetails details ) {
+    public Response doExport( @PathParam( "date" ) String date, AuthDetails details ) {
 
         // validate inbound parameters
         Pair<Response.Status, String> validate = ServiceHelper.validateExportRequest( date, details );
         if( !ServiceHelper.isOK( validate.getLeft( ) ) ) {
-            return new ImportExportResponse( validate.getLeft( ), validate.getRight( ) );
+            return Response.status( validate.getLeft( ) ).entity( new ImportExportResponse( validate.getLeft( ), validate.getRight( ) ) ).build( );
         }
 
         // do the export...
         Pair<Response.Status, Integer> res = SisHelper.exportToSis( depositAuthDAO, dirname, date );
         LOG.info( "Export status: " + res.getLeft( ) + ", count: " + res.getRight( ) );
-        return new ImportExportResponse( res.getLeft( ), res.getRight( ) );
+        return Response.status( res.getLeft( ) ).entity( new ImportExportResponse( res.getLeft( ), res.getRight( ) ) ).build( );
     }
 }

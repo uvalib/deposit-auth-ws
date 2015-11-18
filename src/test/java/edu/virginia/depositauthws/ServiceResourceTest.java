@@ -47,7 +47,13 @@ public class ServiceResourceTest {
         //
         // get a list of all deposit authorizations
         //
-        AuthListResponse authListResponse = resource.allDepositAuth( );
+
+        // do the request and check the HTTP status
+        Response response = resource.allDepositAuth( );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        AuthListResponse authListResponse = ( AuthListResponse ) response.getEntity( );
         assertThat( authListResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
 
         DepositAuth [] authData = authListResponse.getData( );
@@ -63,7 +69,12 @@ public class ServiceResourceTest {
         String id = TestHelpers.getGoodComputingId( resource );
         assertThat( id ).isNotEmpty( );
 
-        AuthListResponse authListResponse = resource.authByComputingId( id );
+        // do the request and check the HTTP status
+        Response response = resource.authByComputingId( id );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        AuthListResponse authListResponse = ( AuthListResponse ) response.getEntity( );
         assertThat( authListResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
 
         DepositAuth [] authData = authListResponse.getData( );
@@ -79,7 +90,12 @@ public class ServiceResourceTest {
         String id = TestHelpers.getGoodDocumentId( resource );
         assertThat( id ).isNotEmpty( );
 
-        AuthListResponse authListResponse = resource.authByDocumentId( id );
+        // do the request and check the HTTP status
+        Response response = resource.authByDocumentId( id );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        AuthListResponse authListResponse = ( AuthListResponse ) response.getEntity( );
         assertThat( authListResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
 
         DepositAuth [] authData = authListResponse.getData( );
@@ -95,7 +111,10 @@ public class ServiceResourceTest {
         String id = TestHelpers.getBadId( );
         assertThat( id ).isNotEmpty( );
 
-        AuthListResponse authListResponse = resource.authByComputingId( id );
+        Response response = resource.authByComputingId( id );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.NOT_FOUND.getStatusCode( ) );
+
+        AuthListResponse authListResponse = ( AuthListResponse ) response.getEntity( );
         assertThat( authListResponse.getStatus( ) ).isEqualTo( Response.Status.NOT_FOUND.getStatusCode( ) );
         assertThat( TestHelpers.responseContains( authListResponse, ServiceHelper.badCidError ) );
     }
@@ -108,7 +127,12 @@ public class ServiceResourceTest {
         String id = TestHelpers.getBadId( );
         assertThat( id ).isNotEmpty( );
 
-        AuthListResponse authListResponse = resource.authByDocumentId( id );
+        // do the request and check the HTTP status
+        Response response = resource.authByDocumentId( id );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.NOT_FOUND.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        AuthListResponse authListResponse = ( AuthListResponse ) response.getEntity( );
         assertThat( authListResponse.getStatus( ) ).isEqualTo( Response.Status.NOT_FOUND.getStatusCode( ) );
         assertThat( TestHelpers.responseContains( authListResponse, ServiceHelper.badLidError ) );
     }
@@ -122,7 +146,12 @@ public class ServiceResourceTest {
         String id = TestHelpers.getCanDepositComputingId( resource, doctype );
         assertThat( id ).isNotEmpty( );
 
-        CanDepositResponse canDepositResponse = resource.canDeposit( id, doctype );
+        // do the request and check the HTTP status
+        Response response = resource.canDeposit( id, doctype );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        CanDepositResponse canDepositResponse = ( CanDepositResponse ) response.getEntity( );
         assertThat( canDepositResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
     }
 
@@ -137,7 +166,13 @@ public class ServiceResourceTest {
 
         // set to a bad doctype
         doctype = TestHelpers.getBadDocType( );
-        CanDepositResponse canDepositResponse = resource.canDeposit( id, doctype );
+
+        // do the request and check the HTTP status
+        Response response = resource.canDeposit( id, doctype );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.FORBIDDEN.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        CanDepositResponse canDepositResponse = ( CanDepositResponse ) response.getEntity( );
         assertThat( canDepositResponse.getStatus( ) ).isEqualTo( Response.Status.FORBIDDEN.getStatusCode( ) );
         assertThat( TestHelpers.responseContains( canDepositResponse, ServiceHelper.badDocTypeError ) );
     }
@@ -151,7 +186,12 @@ public class ServiceResourceTest {
         String doctype = TestHelpers.getGoodDocType( );
         assertThat( id ).isNotEmpty( );
 
-        CanDepositResponse canDepositResponse = resource.canDeposit( id, doctype );
+        // do the request and check the HTTP status
+        Response response = resource.canDeposit( id, doctype );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.FORBIDDEN.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        CanDepositResponse canDepositResponse = ( CanDepositResponse ) response.getEntity( );
         assertThat( canDepositResponse.getStatus( ) ).isEqualTo( Response.Status.FORBIDDEN.getStatusCode( ) );
         assertThat( TestHelpers.responseContains( canDepositResponse, ServiceHelper.badCidError ) );
     }
@@ -166,7 +206,13 @@ public class ServiceResourceTest {
         assertThat( id ).isNotEmpty( );
 
         DepositDetails depositDetails = new DepositDetails( TestHelpers.getGoodAuthToken( ), TestHelpers.getNewDocumentId( ) );
-        BasicResponse doDepositResponse = resource.doDeposit( id, doctype, depositDetails );
+
+        // do the request and check the HTTP status
+        Response response = resource.doDeposit( id, doctype, depositDetails );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        BasicResponse doDepositResponse = ( BasicResponse ) response.getEntity( );
         assertThat( doDepositResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
     }
 
@@ -180,7 +226,13 @@ public class ServiceResourceTest {
         assertThat( id ).isNotEmpty( );
 
         DepositDetails depositDetails = new DepositDetails( TestHelpers.getBadAuthToken( ), TestHelpers.getNewDocumentId( ) );
-        BasicResponse doDepositResponse = resource.doDeposit( id, doctype, depositDetails );
+
+        // do the request and check the HTTP status
+        Response response = resource.doDeposit( id, doctype, depositDetails );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.UNAUTHORIZED.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        BasicResponse doDepositResponse = ( BasicResponse) response.getEntity( );
         assertThat( doDepositResponse.getStatus( ) ).isEqualTo( Response.Status.UNAUTHORIZED.getStatusCode( ) );
         assertThat( TestHelpers.responseContains( doDepositResponse, ServiceHelper.badAuthTokenError ) );
     }
@@ -194,7 +246,13 @@ public class ServiceResourceTest {
         assertThat( id ).isNotEmpty( );
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
-        BasicResponse doDeleteResponse = resource.doDelete( id.toString( ), authDetails );
+
+        // do the request and check the HTTP status
+        Response response = resource.doDelete( id, authDetails );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        BasicResponse doDeleteResponse = ( BasicResponse ) response.getEntity( );
         assertThat( doDeleteResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
     }
 
@@ -206,7 +264,13 @@ public class ServiceResourceTest {
         String id = TestHelpers.getMissingRecordId( );
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
-        BasicResponse doDeleteResponse = resource.doDelete( id, authDetails );
+
+        // do the request and check the HTTP status
+        Response response = resource.doDelete( id, authDetails );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.NOT_FOUND.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        BasicResponse doDeleteResponse = ( BasicResponse ) response.getEntity( );
         assertThat( doDeleteResponse.getStatus( ) ).isEqualTo( Response.Status.NOT_FOUND.getStatusCode( ) );
         assertThat( TestHelpers.responseContains( doDeleteResponse, ServiceHelper.badIdError ) );
     }
@@ -219,7 +283,13 @@ public class ServiceResourceTest {
         String id = TestHelpers.getBadRecordId( );
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
-        BasicResponse doDeleteResponse = resource.doDelete( id, authDetails );
+
+        // do the request and check the HTTP status
+        Response response = resource.doDelete( id, authDetails );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.BAD_REQUEST.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        BasicResponse doDeleteResponse = ( BasicResponse ) response.getEntity( );
         assertThat( doDeleteResponse.getStatus( ) ).isEqualTo( Response.Status.BAD_REQUEST.getStatusCode( ) );
         assertThat( TestHelpers.responseContains( doDeleteResponse, ServiceHelper.badIdError ) );
     }
@@ -232,7 +302,13 @@ public class ServiceResourceTest {
         String id = TestHelpers.getGoodRecordId( resource );
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getBadAuthToken( ) );
-        BasicResponse doDeleteResponse = resource.doDelete( id, authDetails );
+
+        // do the request and check the HTTP status
+        Response response = resource.doDelete( id, authDetails );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.UNAUTHORIZED.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        BasicResponse doDeleteResponse = ( BasicResponse ) response.getEntity( );
         assertThat( doDeleteResponse.getStatus( ) ).isEqualTo( Response.Status.UNAUTHORIZED.getStatusCode( ) );
     }
 
@@ -245,7 +321,13 @@ public class ServiceResourceTest {
         Integer count = TestHelpers.createSisImportFile( rule.getConfiguration( ).getDataDirName( ), date );
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
-        ImportExportResponse doImportResponse = resource.doImport( date, authDetails );
+
+        // do the request and check the HTTP status
+        Response response = resource.doImport( date, authDetails );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        ImportExportResponse doImportResponse = ( ImportExportResponse ) response.getEntity( );
         assertThat( doImportResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
         assertThat( doImportResponse.getCount( ) ).isEqualTo( count );
     }
@@ -258,7 +340,13 @@ public class ServiceResourceTest {
         String date = TestHelpers.getBadDate( );
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
-        ImportExportResponse doImportResponse = resource.doImport( date, authDetails );
+
+        // do the request and check the HTTP status
+        Response response = resource.doImport( date, authDetails );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.BAD_REQUEST.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        ImportExportResponse doImportResponse = ( ImportExportResponse ) response.getEntity( );
         assertThat( doImportResponse.getStatus( ) ).isEqualTo( Response.Status.BAD_REQUEST.getStatusCode( ) );
         assertThat( TestHelpers.responseContains( doImportResponse, ServiceHelper.badDateError ) );
     }
@@ -271,7 +359,13 @@ public class ServiceResourceTest {
         String date = TestHelpers.getBadDate( );
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getBadAuthToken( ) );
-        ImportExportResponse doImportResponse = resource.doImport( date, authDetails );
+
+        // do the request and check the HTTP status
+        Response response = resource.doImport( date, authDetails );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.UNAUTHORIZED.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        ImportExportResponse doImportResponse = ( ImportExportResponse ) response.getEntity( );
         assertThat( doImportResponse.getStatus( ) ).isEqualTo( Response.Status.UNAUTHORIZED.getStatusCode( ) );
         assertThat( TestHelpers.responseContains( doImportResponse, ServiceHelper.badAuthTokenError ) );
     }
@@ -285,7 +379,13 @@ public class ServiceResourceTest {
         Integer count = TestHelpers.countSisExportCandidates( depositAuthDAO );
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
-        ImportExportResponse doExportResponse = resource.doExport( date, authDetails );
+
+        // do the request and check the HTTP status
+        Response response = resource.doImport( date, authDetails );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        ImportExportResponse doExportResponse = ( ImportExportResponse ) response.getEntity( );
         assertThat( doExportResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
         assertThat( doExportResponse.getCount( ) ).isEqualTo( count );
     }
@@ -298,7 +398,13 @@ public class ServiceResourceTest {
         String date = TestHelpers.getBadDate( );
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
-        ImportExportResponse doExportResponse = resource.doExport( date, authDetails );
+
+        // do the request and check the HTTP status
+        Response response = resource.doImport( date, authDetails );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.BAD_REQUEST.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        ImportExportResponse doExportResponse = ( ImportExportResponse ) response.getEntity( );
         assertThat( doExportResponse.getStatus( ) ).isEqualTo( Response.Status.BAD_REQUEST.getStatusCode( ) );
         assertThat( TestHelpers.responseContains( doExportResponse, ServiceHelper.badDateError ) );
     }
@@ -311,7 +417,13 @@ public class ServiceResourceTest {
         String date = TestHelpers.getBadDate( );
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getBadAuthToken( ) );
-        ImportExportResponse doExportResponse = resource.doExport( date, authDetails );
+
+        // do the request and check the HTTP status
+        Response response = resource.doImport( date, authDetails );
+        assertThat( response.getStatus( ) ).isEqualTo( Response.Status.UNAUTHORIZED.getStatusCode( ) );
+
+        // unpack the payload and check it is correct
+        ImportExportResponse doExportResponse = ( ImportExportResponse ) response.getEntity( );
         assertThat( doExportResponse.getStatus( ) ).isEqualTo( Response.Status.UNAUTHORIZED.getStatusCode( ) );
         assertThat( TestHelpers.responseContains( doExportResponse, ServiceHelper.badAuthTokenError ) );
     }

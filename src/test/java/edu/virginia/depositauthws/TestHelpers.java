@@ -178,8 +178,9 @@ public class TestHelpers {
     // get the complete list of deposit authorizations
     //
     private static DepositAuth[] getAuthList( ServiceResource resource ) {
-        AuthListResponse allAuth = resource.allDepositAuth( );
-        if( allAuth.getStatus( ) == Response.Status.OK.getStatusCode( ) ) {
+        Response response = resource.allDepositAuth( );
+        if( response.getStatus( ) == Response.Status.OK.getStatusCode( ) ) {
+            AuthListResponse allAuth = ( AuthListResponse ) response.getEntity( );
             DepositAuth[] authData = allAuth.getData();
             if( authData != null && authData.length != 0 ) return( authData );
         }
