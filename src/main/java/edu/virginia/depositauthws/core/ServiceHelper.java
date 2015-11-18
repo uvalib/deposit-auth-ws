@@ -15,6 +15,8 @@ public class ServiceHelper {
     public static final String badDateError = "Missing/Bad date field";
     public static final String badAuthTokenError = "Missing/Bad authorization token";
 
+    private static final Pair<Response.Status, String> goodResponse = Pair.of( Response.Status.OK, null );
+
     //
     // validate inbound request parameters
     //
@@ -31,7 +33,7 @@ public class ServiceHelper {
         }
 
         // all good
-        return (Pair.of(Response.Status.OK, null));
+        return( goodResponse );
     }
 
     //
@@ -60,7 +62,7 @@ public class ServiceHelper {
         }
 
         // all good
-        return (Pair.of(Response.Status.OK, null));
+        return( goodResponse );
     }
 
     //
@@ -79,7 +81,7 @@ public class ServiceHelper {
         }
 
         // all good
-        return (Pair.of(Response.Status.OK, null));
+        return( goodResponse );
     }
 
     //
@@ -111,7 +113,7 @@ public class ServiceHelper {
             return( Pair.of(Response.Status.BAD_REQUEST, badDateError ));
         }
 
-        return (Pair.of(Response.Status.OK, null));
+        return( goodResponse );
     }
 
     //

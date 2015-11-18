@@ -3,8 +3,6 @@ package edu.virginia.depositauthws.core;
 import edu.virginia.depositauthws.db.DepositAuthDAO;
 import edu.virginia.depositauthws.models.DepositAuth;
 import edu.virginia.depositauthws.models.DepositConstraints;
-import edu.virginia.depositauthws.models.DepositDetails;
-import edu.virginia.depositauthws.models.AuthDetails;
 
 import java.util.List;
 
@@ -26,9 +24,4 @@ public class ServicePolicy {
         }
         return( Pair.of( Response.Status.FORBIDDEN, null ) );
     }
-
-    //public static Pair<Response.Status, String> checkDeposit( DepositAuthDAO depositAuthDAO, String cid, String doctype, DepositDetails details ) {
-    //
-    //    return( Pair.of(Response.Status.OK, null));
-    //}
 }
