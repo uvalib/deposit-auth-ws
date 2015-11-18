@@ -21,7 +21,7 @@ import java.nio.file.Paths;
 
 public class TestHelpers {
 
-    private static final String exampleSisImportFile = SisHelper.sisInputFile( "XXDATEXX" );
+    //private static final String exampleSisImportFile = SisHelper.sisInputFile( "XXDATEXX" );
 
     //
     // helper for examining error codes
@@ -151,9 +151,8 @@ public class TestHelpers {
     // create an example SIS import file
     //
     public static Integer createSisImportFile( String fs, String date ) {
-        String importFile = exampleSisImportFile.replace( "XXDATEXX", date );
-        String src = "data" + File.separator + exampleSisImportFile;
-        String dst = fs + File.separator + importFile;
+        String src = SisHelper.sisInputFile( "data", "XXDATEXX" );
+        String dst = SisHelper.sisInputFile( fs, date );
         try {
             Files.copy(Paths.get(src), Paths.get(dst), StandardCopyOption.REPLACE_EXISTING);
         } catch( IOException ex ) {
@@ -165,13 +164,32 @@ public class TestHelpers {
     //
     // count the records in the specified SIS export file
     //
-    public static Integer countSisExportFile( String date ) {
-        //String exportFile = exampleSisExportFile.replace( "XXDATEXX", date );
-       return( 0 );
+    public static Integer countSisExportFile( String fs, String date ) {
+       String exportFile = SisHelper.sisOutputFile( fs, date );
+       return( SisHelper.importFromFile( exportFile ).size( ) );
     }
 
+    //
+    // count the records in the specified SIS export file
+    //
+    public static Integer prepareForExport( DepositAuthDAO dao ) {
+        return( dao.prepareForExport( 10 ) );
+    }
+
+    //
+    // count the number of records that are available for export
+    //
     public static Integer countSisExportCandidates( DepositAuthDAO dao ) {
         return( dao.getForExport( ).size( ) );
+    }
+
+    public static void removeExportFile( String fs, String date ) {
+        String exportFile = SisHelper.sisOutputFile( fs, date );
+        try {
+            Files.delete(Paths.get(exportFile));
+        } catch( IOException ex ) {
+            // do nothing...
+        }
     }
 
     //

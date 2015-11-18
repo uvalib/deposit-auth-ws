@@ -48,9 +48,17 @@ public interface DepositAuthDAO {
 
     // update the exported timestamp
     @SqlUpdate( "update deposit_auth set exported_at = NOW( ), updated_at = NOW( ) where id = :id" )
-    int markExported(  @Bind("id") String id );
+    int markExported( @Bind("id") String id );
+
+    //
+    // used for testing only...
+    //
 
     // delete an auth record
     @SqlUpdate( "delete from deposit_auth where id = :id" )
-    int delete(  @Bind("id") String id );
+    int delete( @Bind("id") String id );
+
+    // get auth records suitable for export
+    @SqlUpdate( "update deposit_auth set exported_at = NULL where accepted_at IS NOT NULL AND exported_at IS NOT NULL LIMIT :limit" )
+    int prepareForExport( @Bind("limit") Integer limit );
 }

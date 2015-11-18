@@ -40,7 +40,7 @@ public class SisHelper {
         List<DepositAuth> depositList = depositAuthDAO.getForExport( );
         if( !depositList.isEmpty( ) ) {
             LOG.info( "Exporting " + depositList.size( ) + " records to SIS" );
-            String filename = fs + File.separator + sisOutputFile(date);
+            String filename = sisOutputFile( fs, date);
             Pair<Response.Status, Integer> status = exportToFile( depositList, filename );
             count = status.getRight( );
 
@@ -67,7 +67,7 @@ public class SisHelper {
     public static Pair<Response.Status, Integer> importFromSis( DepositAuthDAO depositAuthDAO, String fs, String date ) {
 
         Integer count = 0;
-        String filename = fs + File.separator + sisInputFile( date );
+        String filename = sisInputFile( fs, date );
         if( new File( filename ).isFile( ) ) {
             LOG.info( "Importing from \'" + filename + "\'" );
             List<DepositAuth> depositList = importFromFile( filename );
@@ -94,7 +94,7 @@ public class SisHelper {
     //
     // import SIS records from the specified file
     //
-    private static List<DepositAuth> importFromFile( String filename ) {
+    public static List<DepositAuth> importFromFile( String filename ) {
 
         List<DepositAuth> imports = new ArrayList<>( );
         try {
@@ -119,7 +119,7 @@ public class SisHelper {
                        //System.out.println("OK");
                        imports.add(da);
                     } else {
-                       System.out.println("ERROR");
+                       System.out.println("ERROR creating auth record from SIS record");
                     }
                 }
             }
@@ -231,15 +231,15 @@ public class SisHelper {
     //
     // generate the input from SIS filename
     //
-    public static String sisInputFile( String date ) {
-       return( "UV_Libra_From_SIS_" + date + ".txt" );
+    public static String sisInputFile( String fs, String date ) {
+        return( fs + File.separator + "UV_Libra_From_SIS_" + date + ".txt" );
     }
 
     //
     // generate the output to SIS filename
     //
-    public static String sisOutputFile( String date ) {
-        return( "UV_LIBRA_IN_" + date + ".txt" );
+    public static String sisOutputFile( String fs, String date ) {
+        return( fs + File.separator + "UV_LIBRA_IN_" + date + ".txt" );
     }
 
     //

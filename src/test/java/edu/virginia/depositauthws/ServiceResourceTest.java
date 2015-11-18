@@ -375,19 +375,27 @@ public class ServiceResourceTest {
         //
         // ensure we get an OK when exporting with a good date
         //
+        int minToExport = TestHelpers.prepareForExport( depositAuthDAO );
+
         String date = TestHelpers.getGoodDate( );
-        Integer count = TestHelpers.countSisExportCandidates( depositAuthDAO );
+        TestHelpers.removeExportFile( rule.getConfiguration( ).getDataDirName( ), date );
+
+        Integer expected = TestHelpers.countSisExportCandidates( depositAuthDAO );
+        assertThat( expected ).isGreaterThanOrEqualTo( minToExport );
 
         AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
 
         // do the request and check the HTTP status
-        Response response = resource.doImport( date, authDetails );
+        Response response = resource.doExport( date, authDetails );
         assertThat( response.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
 
         // unpack the payload and check it is correct
         ImportExportResponse doExportResponse = ( ImportExportResponse ) response.getEntity( );
         assertThat( doExportResponse.getStatus( ) ).isEqualTo( Response.Status.OK.getStatusCode( ) );
-        assertThat( doExportResponse.getCount( ) ).isEqualTo( count );
+        assertThat( doExportResponse.getCount( ) ).isEqualTo( expected );
+
+        // verify the count
+        assertThat( TestHelpers.countSisExportFile( rule.getConfiguration( ).getDataDirName( ), date ) ).isEqualTo( expected );
     }
 
     @Test
@@ -400,7 +408,7 @@ public class ServiceResourceTest {
         AuthDetails authDetails = new AuthDetails( TestHelpers.getGoodAuthToken( ) );
 
         // do the request and check the HTTP status
-        Response response = resource.doImport( date, authDetails );
+        Response response = resource.doExport( date, authDetails );
         assertThat( response.getStatus( ) ).isEqualTo( Response.Status.BAD_REQUEST.getStatusCode( ) );
 
         // unpack the payload and check it is correct
@@ -419,7 +427,7 @@ public class ServiceResourceTest {
         AuthDetails authDetails = new AuthDetails( TestHelpers.getBadAuthToken( ) );
 
         // do the request and check the HTTP status
-        Response response = resource.doImport( date, authDetails );
+        Response response = resource.doExport( date, authDetails );
         assertThat( response.getStatus( ) ).isEqualTo( Response.Status.UNAUTHORIZED.getStatusCode( ) );
 
         // unpack the payload and check it is correct
