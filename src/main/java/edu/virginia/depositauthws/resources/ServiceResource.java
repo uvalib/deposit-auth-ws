@@ -68,7 +68,7 @@ public class ServiceResource {
     public Response allDepositAuth( ) {
         List<DepositAuth> depositAuth = depositAuthDAO.getAll( );
         AuthListResponse response = new AuthListResponse( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK,
-                                                          depositAuth.toArray( new DepositAuth[ 0 ] ) );
+                                                          depositAuth.isEmpty( ) ? null : depositAuth.toArray( new DepositAuth[ 0 ] ) );
         return Response.status( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK ).entity( response ).build();
     }
 
@@ -102,7 +102,7 @@ public class ServiceResource {
     public Response authByComputingId( @PathParam( "cid" ) String cid ) {
         List<DepositAuth> depositAuth = depositAuthDAO.findByCid( cid );
         AuthListResponse response = new AuthListResponse( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK,
-                                                          depositAuth.toArray( new DepositAuth[ 0 ] ) );
+                                                          depositAuth.isEmpty( ) ? null : depositAuth.toArray( new DepositAuth[ 0 ] ) );
         return Response.status( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK ).entity( response ).build();
     }
 
@@ -115,7 +115,7 @@ public class ServiceResource {
     public Response authByDocumentId( @PathParam( "lid" ) String lid ) {
         List<DepositAuth> depositAuth = depositAuthDAO.findByLid( lid );
         AuthListResponse response = new AuthListResponse( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK,
-                                                          depositAuth.toArray( new DepositAuth[ 0 ] ) );
+                                                          depositAuth.isEmpty( ) ? null : depositAuth.toArray( new DepositAuth[ 0 ] ) );
         return Response.status( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK ).entity( response ).build();
     }
 
