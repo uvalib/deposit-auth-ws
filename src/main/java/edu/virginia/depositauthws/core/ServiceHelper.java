@@ -1,6 +1,7 @@
 package edu.virginia.depositauthws.core;
 
 import edu.virginia.depositauthws.models.AuthDetails;
+import edu.virginia.depositauthws.models.BasicResponse;
 import edu.virginia.depositauthws.models.DepositDetails;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -96,6 +97,13 @@ public class ServiceHelper {
     //
     public static Pair<Response.Status, String> validateExportRequest( String date, AuthDetails details ) {
         return (validateImportExportRequest( date, details ) );
+    }
+
+    //
+    // bundle a base class response object into a javax.ws Response object
+    //
+    public static Response bundleResponse( BasicResponse response ) {
+        return Response.status( Response.Status.fromStatusCode( response.getStatus( ) ) ).entity( response ).build( );
     }
 
     //

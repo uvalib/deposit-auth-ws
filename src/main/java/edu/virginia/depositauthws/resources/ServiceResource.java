@@ -69,7 +69,7 @@ public class ServiceResource {
         List<DepositAuth> depositAuth = depositAuthDAO.getAll( );
         AuthListResponse response = new AuthListResponse( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK,
                                                           depositAuth.isEmpty( ) ? null : depositAuth.toArray( new DepositAuth[ 0 ] ) );
-        return Response.status( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK ).entity( response ).build();
+        return( ServiceHelper.bundleResponse( response ) );
     }
 
     @GET
@@ -90,7 +90,8 @@ public class ServiceResource {
 
         // check to see if we can deposit
         Pair<Response.Status, DepositConstraints> res = ServicePolicy.canDeposit( depositAuthDAO, cid, doctype );
-        return Response.status( res.getLeft( ) ).entity( new CanDepositResponse( res.getLeft( ), res.getRight( ) ) ).build( );
+        CanDepositResponse response = new CanDepositResponse( res.getLeft( ), res.getRight( ) );
+        return( ServiceHelper.bundleResponse( response ) );
     }
 
     @GET
@@ -103,7 +104,7 @@ public class ServiceResource {
         List<DepositAuth> depositAuth = depositAuthDAO.findByCid( cid );
         AuthListResponse response = new AuthListResponse( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK,
                                                           depositAuth.isEmpty( ) ? null : depositAuth.toArray( new DepositAuth[ 0 ] ) );
-        return Response.status( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK ).entity( response ).build();
+        return( ServiceHelper.bundleResponse( response ) );
     }
 
     @GET
@@ -116,7 +117,7 @@ public class ServiceResource {
         List<DepositAuth> depositAuth = depositAuthDAO.findByLid( lid );
         AuthListResponse response = new AuthListResponse( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK,
                                                           depositAuth.isEmpty( ) ? null : depositAuth.toArray( new DepositAuth[ 0 ] ) );
-        return Response.status( depositAuth.isEmpty( ) ? Response.Status.NOT_FOUND : Response.Status.OK ).entity( response ).build();
+        return( ServiceHelper.bundleResponse( response ) );
     }
 
     @POST
@@ -140,6 +141,8 @@ public class ServiceResource {
             return Response.status( validate.getLeft( ) ).entity( new CanDepositResponse( can.getLeft( ) ) ).build( );
         }
 
+        // do the actual deposit
+
         return Response.status( Response.Status.OK ).entity( new BasicResponse( Response.Status.OK ) ).build( );
     }
 
@@ -160,7 +163,8 @@ public class ServiceResource {
 
         // do the delete...
         int status = depositAuthDAO.delete( id );
-        return Response.status( status == 1 ? Response.Status.OK : Response.Status.NOT_FOUND ).entity( new BasicResponse( status == 1 ? Response.Status.OK : Response.Status.NOT_FOUND ) ).build( );
+        BasicResponse response = new BasicResponse( status == 1 ? Response.Status.OK : Response.Status.NOT_FOUND );
+        return( ServiceHelper.bundleResponse( response ) );
     }
 
     @POST
@@ -181,7 +185,9 @@ public class ServiceResource {
         // do the import...
         Pair<Response.Status, Integer> res = SisHelper.importFromSis( depositAuthDAO, dirname, date );
         LOG.info( "Import status: " + res.getLeft( ) + ", count: " + res.getRight( ) );
-        return Response.status( res.getLeft( ) ).entity( new ImportExportResponse( res.getLeft( ), res.getRight( ) ) ).build( );
+
+        BasicResponse response = new ImportExportResponse( res.getLeft( ), res.getRight( ) );
+        return( ServiceHelper.bundleResponse( response ) );
     }
 
     @POST
@@ -202,6 +208,8 @@ public class ServiceResource {
         // do the export...
         Pair<Response.Status, Integer> res = SisHelper.exportToSis( depositAuthDAO, dirname, date );
         LOG.info( "Export status: " + res.getLeft( ) + ", count: " + res.getRight( ) );
-        return Response.status( res.getLeft( ) ).entity( new ImportExportResponse( res.getLeft( ), res.getRight( ) ) ).build( );
+
+        BasicResponse response = new ImportExportResponse( res.getLeft( ), res.getRight( ) );
+        return( ServiceHelper.bundleResponse( response ) );
     }
 }

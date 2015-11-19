@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BasicResponse {
 
-    private int status;
+    private Integer status;
     private String message;
 
     public BasicResponse() {
@@ -23,7 +23,7 @@ public class BasicResponse {
     }
 
     @JsonProperty
-    public long getStatus() { return this.status; }
+    public Integer getStatus() { return this.status; }
 
     @JsonProperty
     public String getMessage() { return this.message; };
