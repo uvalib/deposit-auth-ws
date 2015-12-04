@@ -4,5 +4,5 @@ INSTANCE=deposit-auth-ws
 # stop the running instance
 docker stop $INSTANCE
 
-# all good
-exit 0
+# return status
+exit $?

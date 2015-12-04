@@ -29,5 +29,5 @@ else
    docker run -d -p $host_ip:8080:8080 -p $host_ip:8081:8081 --name $INSTANCE $NAMESPACE/$INSTANCE:latest
 fi
 
-# all good
-exit 0
+# return status
+exit $?

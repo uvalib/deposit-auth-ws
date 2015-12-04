@@ -8,5 +8,5 @@ cp src/main/resources/service.yaml target/
 # build the image
 docker build -t $NAMESPACE/$INSTANCE .
 
-# all good
-exit 0
+# return status
+exit $?

@@ -10,6 +10,9 @@ if [ -n "$TAG" ]; then
    if [ -n "$IMAGEID" ]; then
       # tag the latest image approriatly
       docker tag $IMAGEID $NAMESPACE/$INSTANCE:$TAG
+
+      # return status
+      exit $?
    fi
 fi
 
