@@ -33,36 +33,46 @@ func ( db *DB ) Check( ) error {
     return nil
 }
 
-func ( db *DB ) GetDepositRequest( id string ) ( [] * api.Registration, error ) {
+func ( db *DB ) GetDepositAuthorization( id string ) ( [] * api.Authorization, error ) {
 
-    rows, err := db.Query( "SELECT * FROM depositrequest WHERE id = ? LIMIT 1", id )
+    rows, err := db.Query( "SELECT * FROM depositauth WHERE id = ? LIMIT 1", id )
     if err != nil {
         return nil, err
     }
     defer rows.Close( )
 
-    return depositRequestResults( rows )
+    return depositAuthorizationResults( rows )
 }
 
-func ( db *DB ) SearchDepositRequest( id string ) ( [] * api.Registration, error ) {
+func ( db *DB ) SearchDepositAuthorization( id string ) ( [] * api.Authorization, error ) {
 
-    rows, err := db.Query( "SELECT * FROM depositrequest WHERE id > ?", id )
+    rows, err := db.Query( "SELECT * FROM depositauth WHERE id > ?", id )
     if err != nil {
         return nil, err
     }
     defer rows.Close( )
 
-    return depositRequestResults( rows )
+    return depositAuthorizationResults( rows )
 }
 
-func ( db *DB ) CreateDepositRequest( reg api.Registration ) ( * api.Registration, error ) {
+func ( db *DB ) CreateDepositAuthorization( reg api.Authorization ) ( * api.Authorization, error ) {
 
-    stmt, err := db.Prepare( "INSERT INTO depositrequest( requester, user, department, degree ) VALUES(?,?,?,?)" )
+    stmt, err := db.Prepare( "INSERT INTO depositauth( employee_id, computing_id, first_name, middle_name, last_name, career, program, plan, degree, title, doctype ) VALUES(?,?,?,?,?,?,?,?,?,?,?)" )
     if err != nil {
         return nil, err
     }
 
-    res, err := stmt.Exec( reg.Requester, reg.For, reg.Department, reg.Degree )
+    res, err := stmt.Exec( reg.EmployeeId,
+                           reg.ComputingId,
+                           reg.FirstName,
+                           reg.MiddleName,
+                           reg.LastName,
+                           reg.Career,
+                           reg.Program,
+                           reg.Plan,
+                           reg.Degree,
+                           reg.Title,
+                           reg.DocType )
     if err != nil {
         return nil, err
     }
@@ -76,9 +86,9 @@ func ( db *DB ) CreateDepositRequest( reg api.Registration ) ( * api.Registratio
     return &reg, nil
 }
 
-func ( db *DB ) DeleteDepositRequest( id string ) ( int64, error ) {
+func ( db *DB ) DeleteDepositAuthorization( id string ) ( int64, error ) {
 
-    stmt, err := db.Prepare( "DELETE FROM depositrequest WHERE id = ? LIMIT 1" )
+    stmt, err := db.Prepare( "DELETE FROM depositauth WHERE id = ? LIMIT 1" )
     if err != nil {
         return 0, err
     }
@@ -96,57 +106,59 @@ func ( db *DB ) DeleteDepositRequest( id string ) ( int64, error ) {
     return rowCount, nil
 }
 
-func ( db *DB ) GetFieldSet( field_name string ) ( [] string, error ) {
-    rows, err := db.Query( "SELECT field_value FROM fieldvalues WHERE field_name = ?", field_name )
-    if err != nil {
-        return nil, err
-    }
-    defer rows.Close( )
+func depositAuthorizationResults( rows * sql.Rows ) ( [] * api.Authorization, error ) {
 
-    return fieldSetResults( rows )
-}
+    var optionalApprovedAt sql.NullString
+    var optionalAcceptedAt sql.NullString
+    var optionalExportedAt sql.NullString
+    var optionalUpdatedAt sql.NullString
 
-func depositRequestResults( rows * sql.Rows ) ( [] * api.Registration, error ) {
-
-    var optional sql.NullString
-
-    results := make([ ] * api.Registration, 0 )
+    results := make([ ] * api.Authorization, 0 )
     for rows.Next() {
-        reg := new( api.Registration )
+        reg := new( api.Authorization )
         err := rows.Scan( &reg.Id,
-            &reg.Requester,
-            &reg.For,
-            &reg.Department,
+            &reg.EmployeeId,
+            &reg.ComputingId,
+            &reg.FirstName,
+            &reg.MiddleName,
+            &reg.LastName,
+            &reg.Career,
+            &reg.Program,
+            &reg.Plan,
             &reg.Degree,
+            &reg.Title,
+            &reg.DocType,
+            &reg.LibraId,
             &reg.Status,
-            &reg.RequestDate,
-            &optional )
+            &optionalApprovedAt,
+            &optionalAcceptedAt,
+            &optionalExportedAt,
+            &reg.CreatedAt,
+            &optionalUpdatedAt )
         if err != nil {
             return nil, err
         }
-        if optional.Valid {
-            reg.DepositDate = optional.String
+
+        if optionalApprovedAt.Valid {
+            reg.ApprovedAt = optionalApprovedAt.String
         }
+
+        if optionalAcceptedAt.Valid {
+            reg.AcceptedAt = optionalAcceptedAt.String
+        }
+
+        if optionalExportedAt.Valid {
+            reg.ExportedAt = optionalExportedAt.String
+        }
+
+        if optionalUpdatedAt.Valid {
+            reg.UpdatedAt = optionalUpdatedAt.String
+        }
+
         results = append( results, reg )
     }
     if err := rows.Err( ); err != nil {
         return nil, err
-    }
-
-    log.Printf( "Returning %d row(s)", len( results ) )
-    return results, nil
-}
-
-func fieldSetResults( rows * sql.Rows ) ( [] string, error ) {
-
-    results := make([ ] string, 0 )
-    for rows.Next() {
-        var s string
-        err := rows.Scan( &s )
-        if err != nil {
-            return nil, err
-        }
-        results = append( results, s )
     }
 
     log.Printf( "Returning %d row(s)", len( results ) )

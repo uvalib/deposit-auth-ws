@@ -8,23 +8,13 @@ import (
     "depositauthws/api"
 )
 
-func EncodeStandardResponse( w http.ResponseWriter, status int, message string, details [] * api.Registration ) {
+func EncodeStandardResponse( w http.ResponseWriter, status int, message string, details [] * api.Authorization ) {
 
     log.Printf( "Status: %d (%s)\n", status, message )
     jsonAttributes( w )
     coorsAttributes( w )
     w.WriteHeader( status )
     if err := json.NewEncoder(w).Encode( api.StandardResponse{ Status: status, Message: message, Details: details } ); err != nil {
-        log.Fatal( err )
-    }
-}
-
-func EncodeOptionsResponse( w http.ResponseWriter, status int, message string, options * api.Options ) {
-
-    jsonAttributes( w )
-    coorsAttributes( w )
-    w.WriteHeader( status )
-    if err := json.NewEncoder(w).Encode( api.OptionsResponse{ Status: status, Message: message, Options: options } ); err != nil {
         log.Fatal( err )
     }
 }

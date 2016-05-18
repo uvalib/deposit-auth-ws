@@ -10,7 +10,7 @@ import (
     "depositauthws/dao"
 )
 
-func RegistrationDelete( w http.ResponseWriter, r *http.Request ) {
+func AuthorizationDelete( w http.ResponseWriter, r *http.Request ) {
 
     vars := mux.Vars( r )
     id := vars[ "id" ]
@@ -31,7 +31,7 @@ func RegistrationDelete( w http.ResponseWriter, r *http.Request ) {
     }
 
     // get the request details
-    count, err := dao.Database.DeleteDepositRequest( id )
+    count, err := dao.Database.DeleteDepositAuthorization( id )
     if err != nil {
         log.Println( err )
         status := http.StatusInternalServerError

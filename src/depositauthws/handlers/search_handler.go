@@ -10,7 +10,7 @@ import (
     "depositauthws/dao"
 )
 
-func RegistrationSearch( w http.ResponseWriter, r *http.Request ) {
+func AuthorizationSearch( w http.ResponseWriter, r *http.Request ) {
 
     token := r.URL.Query( ).Get( "auth" )
     id := r.URL.Query( ).Get( "later" )
@@ -30,7 +30,7 @@ func RegistrationSearch( w http.ResponseWriter, r *http.Request ) {
     }
 
     // get the request details
-    reqs, err := dao.Database.SearchDepositRequest( id )
+    reqs, err := dao.Database.SearchDepositAuthorization( id )
     if err != nil {
         log.Println( err )
         status := http.StatusInternalServerError

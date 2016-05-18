@@ -25,38 +25,17 @@ var routes = Routes{
     },
 
     Route{
-        "OptionsGet",
-        "GET",
-        "/options",
-        handlers.OptionsGet,
-    },
-
-    Route{
-        "RegistrationGet",
+        "AuthorizationGet",
         "GET",
         "/{id}",
-        handlers.RegistrationGet,
+        handlers.AuthorizationGet,
     },
 
     Route{
-        "RegistrationSearch",
+        "AuthorizationSearch",
         "GET",
         "/",
-        handlers.RegistrationSearch,
-    },
-
-    Route{
-        "RegistrationCreate",
-        "POST",
-        "/",
-        handlers.RegistrationCreate,
-    },
-
-    Route{
-        "RegistrationCreate",
-        "OPTIONS",
-        "/",
-        handlers.RegistrationCreateOptions,
+        handlers.AuthorizationSearch,
     },
 
     /*
@@ -69,10 +48,10 @@ var routes = Routes{
 
     */
     Route{
-        "RegistrationDelete",
+        "AuthorizationDelete",
         "DELETE",
         "/{id}",
-        handlers.RegistrationDelete,
+        handlers.AuthorizationDelete,
     },
 
 }

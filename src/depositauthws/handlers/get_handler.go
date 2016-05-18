@@ -10,7 +10,7 @@ import (
     "depositauthws/dao"
 )
 
-func RegistrationGet( w http.ResponseWriter, r *http.Request ) {
+func AuthorizationGet( w http.ResponseWriter, r *http.Request ) {
 
     vars := mux.Vars( r )
     id := vars[ "id" ]
@@ -31,7 +31,7 @@ func RegistrationGet( w http.ResponseWriter, r *http.Request ) {
     }
 
     // get the request details
-    reqs, err := dao.Database.GetDepositRequest( id )
+    reqs, err := dao.Database.GetDepositAuthorization( id )
     if err != nil {
         log.Println( err )
         status := http.StatusInternalServerError
