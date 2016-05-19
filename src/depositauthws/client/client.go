@@ -83,6 +83,58 @@ func SearchDepositAuthorization( endpoint string, id string, token string ) ( in
     return resp.StatusCode, r.Details
 }
 
+func ImportDepositAuthorization( endpoint string, token string ) ( int, int ) {
+
+    url := fmt.Sprintf( "%s/import?auth=%s", endpoint, token )
+    //fmt.Printf( "%s\n", url )
+
+    resp, body, errs := gorequest.New( ).
+       SetDebug( debugHttp ).
+       Post( url  ).
+       Timeout( time.Duration( 5 ) * time.Second ).
+       End( )
+
+    if errs != nil {
+        return http.StatusInternalServerError, 0
+    }
+
+    defer resp.Body.Close( )
+
+    r := api.ImportExportResponse{ }
+    err := json.Unmarshal( []byte( body ), &r )
+    if err != nil {
+        return http.StatusInternalServerError, 0
+    }
+
+    return resp.StatusCode, r.Count
+}
+
+func ExportDepositAuthorization( endpoint string, token string ) ( int, int ) {
+
+    url := fmt.Sprintf( "%s/export?auth=%s", endpoint, token )
+    //fmt.Printf( "%s\n", url )
+
+    resp, body, errs := gorequest.New( ).
+       SetDebug( debugHttp ).
+       Post( url  ).
+       Timeout( time.Duration( 5 ) * time.Second ).
+       End( )
+
+    if errs != nil {
+        return http.StatusInternalServerError, 0
+    }
+
+    defer resp.Body.Close( )
+
+    r := api.ImportExportResponse{ }
+    err := json.Unmarshal( []byte( body ), &r )
+    if err != nil {
+        return http.StatusInternalServerError, 0
+    }
+
+    return resp.StatusCode, r.Count
+}
+
 func UpdateDepositAuthorization( endpoint string, reg api.Authorization, token string ) ( int, * api.Authorization ) {
     return http.StatusInternalServerError, nil
 }

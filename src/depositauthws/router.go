@@ -38,15 +38,20 @@ var routes = Routes{
         handlers.AuthorizationSearch,
     },
 
-    /*
     Route{
-        "RegistrationUpdate",
-        "PUT",
-        "/{id}",
-        handlers.RegistrationUpdate,
+        "AuthorizationExport",
+        "POST",
+        "/import",
+        handlers.AuthorizationImport,
     },
 
-    */
+    Route{
+        "AuthorizationExport",
+        "POST",
+        "/export",
+        handlers.AuthorizationExport,
+    },
+
     Route{
         "AuthorizationDelete",
         "DELETE",

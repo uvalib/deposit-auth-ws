@@ -103,8 +103,44 @@ func TestSearchBadToken( t *testing.T ) {
 }
 
 //
-// update tests
+// import tests
 //
+
+func TestImportHappyDay( t *testing.T ) {
+    expected := http.StatusOK
+    status, _ := client.ImportDepositAuthorization( cfg.Endpoint, goodToken )
+    if status != expected {
+        t.Fatalf( "Expected %v, got %v\n", expected, status )
+    }
+}
+
+func TestImportBadToken( t *testing.T ) {
+    expected := http.StatusForbidden
+    status, _ := client.ImportDepositAuthorization( cfg.Endpoint, badToken )
+    if status != expected {
+        t.Fatalf( "Expected %v, got %v\n", expected, status )
+    }
+}
+
+//
+// export tests
+//
+
+func TestExportHappyDay( t *testing.T ) {
+    expected := http.StatusOK
+    status, _ := client.ExportDepositAuthorization( cfg.Endpoint, goodToken )
+    if status != expected {
+        t.Fatalf( "Expected %v, got %v\n", expected, status )
+    }
+}
+
+func TestExportBadToken( t *testing.T ) {
+    expected := http.StatusForbidden
+    status, _ := client.ExportDepositAuthorization( cfg.Endpoint, badToken )
+    if status != expected {
+        t.Fatalf( "Expected %v, got %v\n", expected, status )
+    }
+}
 
 //
 // delete tests

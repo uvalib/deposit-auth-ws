@@ -19,6 +19,16 @@ func EncodeStandardResponse( w http.ResponseWriter, status int, message string, 
     }
 }
 
+func EncodeImportExportResponse( w http.ResponseWriter, status int, message string, count int ) {
+
+    log.Printf( "Status: %d (%s)\n", status, message )
+    jsonAttributes( w )
+    w.WriteHeader( status )
+    if err := json.NewEncoder(w).Encode( api.ImportExportResponse { Status: status, Message: message, Count: count } ); err != nil {
+        log.Fatal( err )
+    }
+}
+
 func EncodeHealthCheckResponse( w http.ResponseWriter, status int, message string ) {
     healthy := status == http.StatusOK
     jsonAttributes( w )
