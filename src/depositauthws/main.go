@@ -6,12 +6,12 @@ import (
     "net/http"
     "depositauthws/config"
     "depositauthws/dao"
+    "depositauthws/sis"
 )
 
 func main( ) {
 
     // access the database
-
     connectStr := fmt.Sprintf( "%s:%s@tcp(%s)/%s", config.Configuration.DbUser,
         config.Configuration.DbPassphrase, config.Configuration.DbHost, config.Configuration.DbName )
 
@@ -20,7 +20,13 @@ func main( ) {
         log.Fatal( err )
     }
 
-	// setup router and serve...
+    // the filesystem used for SIS exchange
+    err = sis.NewExchanger( config.Configuration.ImportFs, config.Configuration.ExportFs )
+    if err != nil {
+        log.Fatal( err )
+    }
+
+    // setup router and serve...
     router := NewRouter( )
     log.Fatal( http.ListenAndServe( fmt.Sprintf( ":%s", config.Configuration.ServicePort ), router ) )
 }

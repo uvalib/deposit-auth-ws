@@ -33,7 +33,7 @@ func ( db *DB ) Check( ) error {
     return nil
 }
 
-func ( db *DB ) GetDepositAuthorization( id string ) ( [] * api.Authorization, error ) {
+func ( db *DB ) GetDepositAuthorizationById( id string ) ( [] * api.Authorization, error ) {
 
     rows, err := db.Query( "SELECT * FROM depositauth WHERE id = ? LIMIT 1", id )
     if err != nil {
@@ -86,7 +86,7 @@ func ( db *DB ) CreateDepositAuthorization( reg api.Authorization ) ( * api.Auth
     return &reg, nil
 }
 
-func ( db *DB ) DeleteDepositAuthorization( id string ) ( int64, error ) {
+func ( db *DB ) DeleteDepositAuthorizationById( id string ) ( int64, error ) {
 
     stmt, err := db.Prepare( "DELETE FROM depositauth WHERE id = ? LIMIT 1" )
     if err != nil {
@@ -105,6 +105,23 @@ func ( db *DB ) DeleteDepositAuthorization( id string ) ( int64, error ) {
 
     return rowCount, nil
 }
+
+func ( db *DB ) GetDepositAuthorizationForExport( ) ( [] * api.Authorization, error ) {
+
+    rows, err := db.Query( "SELECT * FROM depositauth WHERE accepted_at IS NOT NULL AND exported_at IS NULL" )
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close( )
+
+    return depositAuthorizationResults( rows )
+}
+
+func ( db *DB ) UpdatedExportedDepositAuthorization( exports [] * api.Authorization ) error {
+
+    return nil
+}
+
 
 func depositAuthorizationResults( rows * sql.Rows ) ( [] * api.Authorization, error ) {
 

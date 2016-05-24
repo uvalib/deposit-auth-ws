@@ -31,7 +31,7 @@ func AuthorizationDelete( w http.ResponseWriter, r *http.Request ) {
     }
 
     // get the request details
-    count, err := dao.Database.DeleteDepositAuthorization( id )
+    count, err := dao.Database.DeleteDepositAuthorizationById( id )
     if err != nil {
         log.Println( err )
         status := http.StatusInternalServerError

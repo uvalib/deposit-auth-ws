@@ -1,11 +1,12 @@
 package handlers
 
 import (
-//    "log"
-//    "fmt"
+    "log"
+    "fmt"
     "net/http"
     "depositauthws/authtoken"
     "depositauthws/config"
+    "depositauthws/sis"
 //    "depositauthws/dao"
 )
 
@@ -16,34 +17,36 @@ func AuthorizationImport( w http.ResponseWriter, r *http.Request ) {
     // parameters OK ?
     if NotEmpty( token ) == false {
         status := http.StatusBadRequest
-        EncodeStandardResponse( w, status, http.StatusText( status ), nil )
+        EncodeImportExportResponse( w, status, http.StatusText( status ), 0 )
         return
     }
 
     // validate the token
     if authtoken.Validate( config.Configuration.AuthTokenEndpoint, token ) == false {
         status := http.StatusForbidden
-        EncodeStandardResponse( w, status, http.StatusText( status ), nil )
+        EncodeImportExportResponse( w, status, http.StatusText( status ), 0 )
         return
     }
 
-    // get the request details
-//    reqs, err := dao.Database.SearchDepositAuthorization( id )
-//    if err != nil {
-//        log.Println( err )
-//        status := http.StatusInternalServerError
-//        EncodeStandardResponse( w, status,
-//            fmt.Sprintf( "%s (%s)", http.StatusText( status ), err ),
-//            nil )
-//        return
-//    }
+    // get the details ready to be imported
+    imports, err := sis.Exchanger.Import( )
+    if err != nil {
+        log.Println( err )
+        status := http.StatusInternalServerError
+        EncodeImportExportResponse( w, status,
+            fmt.Sprintf( "%s (%s)", http.StatusText( status ), err ),
+            0 )
+        return
+    }
 
-//    if reqs == nil || len( reqs ) == 0 {
-//        status := http.StatusNotFound
-//        EncodeStandardResponse( w, status, http.StatusText( status ), nil )
-//        return
-//    }
+    // if we have nothing to import, bail out
+    if imports == nil || len( imports ) == 0 {
+        status := http.StatusOK
+        EncodeImportExportResponse( w, status, http.StatusText( status ), 0 )
+        return
+    }
 
+    // its all over
     status := http.StatusOK
-    EncodeImportExportResponse( w, status, http.StatusText( status ), 0 )
+    EncodeImportExportResponse( w, status, http.StatusText( status ), len( imports ) )
 }

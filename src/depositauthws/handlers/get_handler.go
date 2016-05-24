@@ -31,7 +31,7 @@ func AuthorizationGet( w http.ResponseWriter, r *http.Request ) {
     }
 
     // get the request details
-    reqs, err := dao.Database.GetDepositAuthorization( id )
+    reqs, err := dao.Database.GetDepositAuthorizationById( id )
     if err != nil {
         log.Println( err )
         status := http.StatusInternalServerError

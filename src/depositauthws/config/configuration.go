@@ -12,6 +12,8 @@ type Config struct {
     DbUser             string
     DbPassphrase       string
     AuthTokenEndpoint  string
+    ImportFs           string
+    ExportFs           string
     Debug              bool
 }
 
@@ -27,6 +29,8 @@ func LoadConfig( ) Config {
     flag.StringVar( &c.DbName, "dbname", "depositauth_development", "The database name" )
     flag.StringVar( &c.DbUser, "dbuser", "depositauth", "The database username" )
     flag.StringVar( &c.DbPassphrase, "dbpassword", "dbpassword", "The database passphrase")
+    flag.StringVar( &c.ImportFs, "importfs", "/tmp/import", "The import filesystem")
+    flag.StringVar( &c.ExportFs, "exportfs", "/tmp/export", "The export filesystem")
     flag.StringVar( &c.AuthTokenEndpoint, "tokenauth", "http://docker1.lib.virginia.edu:8200", "The token authentication endpoint")
     flag.BoolVar( &c.Debug, "debug", false, "Enable debugging")
 
@@ -38,6 +42,8 @@ func LoadConfig( ) Config {
     log.Printf( "DbUser:            %s", c.DbUser )
     log.Printf( "DbPassphrase:      %s", c.DbPassphrase )
     log.Printf( "AuthTokenEndpoint  %s", c.AuthTokenEndpoint )
+    log.Printf( "ImportFs           %s", c.ImportFs )
+    log.Printf( "ExportFs           %s", c.ExportFs )
     log.Printf( "Debug              %t", c.Debug )
 
     return c
