@@ -7,7 +7,7 @@ import (
     "depositauthws/authtoken"
     "depositauthws/config"
     "depositauthws/sis"
-//    "depositauthws/dao"
+    "depositauthws/dao"
 )
 
 func AuthorizationImport( w http.ResponseWriter, r *http.Request ) {
@@ -46,7 +46,28 @@ func AuthorizationImport( w http.ResponseWriter, r *http.Request ) {
         return
     }
 
+    // import each record and keep track of progress
+    okCount := 0
+    errorCount := 0
+    for _, e := range imports {
+        _, err = dao.Database.CreateDepositAuthorization( *e )
+        if err != nil {
+            errorCount += 1
+        } else {
+            okCount += 1
+        }
+    }
+
+    // did we encounter any errors
+    if errorCount != 0 {
+        status := http.StatusCreated
+        EncodeImportExportResponse( w, status,
+            fmt.Sprintf( "%s (%d errors encountered)", http.StatusText( status ), errorCount ),
+            okCount )
+        return
+    }
+
     // its all over
     status := http.StatusOK
-    EncodeImportExportResponse( w, status, http.StatusText( status ), len( imports ) )
+    EncodeImportExportResponse( w, status, http.StatusText( status ), okCount )
 }

@@ -57,7 +57,7 @@ func ( db *DB ) SearchDepositAuthorization( id string ) ( [] * api.Authorization
 
 func ( db *DB ) CreateDepositAuthorization( reg api.Authorization ) ( * api.Authorization, error ) {
 
-    stmt, err := db.Prepare( "INSERT INTO depositauth( employee_id, computing_id, first_name, middle_name, last_name, career, program, plan, degree, title, doctype ) VALUES(?,?,?,?,?,?,?,?,?,?,?)" )
+    stmt, err := db.Prepare( "INSERT INTO depositauth( employee_id, computing_id, first_name, middle_name, last_name, career, program, plan, degree, title, doctype, approved_at ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)" )
     if err != nil {
         return nil, err
     }
@@ -72,7 +72,8 @@ func ( db *DB ) CreateDepositAuthorization( reg api.Authorization ) ( * api.Auth
                            reg.Plan,
                            reg.Degree,
                            reg.Title,
-                           reg.DocType )
+                           reg.DocType,
+                           reg.ApprovedAt )
     if err != nil {
         return nil, err
     }
@@ -118,6 +119,18 @@ func ( db *DB ) GetDepositAuthorizationForExport( ) ( [] * api.Authorization, er
 }
 
 func ( db *DB ) UpdatedExportedDepositAuthorization( exports [] * api.Authorization ) error {
+
+    stmt, err := db.Prepare( "UPDATE depositauth SET exported_at = NOW( ) WHERE id = ? LIMIT 1" )
+    if err != nil {
+        return err
+    }
+
+    for _, rec := range exports {
+        _, err := stmt.Exec( rec.Id )
+        if err != nil {
+            return err
+        }
+    }
 
     return nil
 }
