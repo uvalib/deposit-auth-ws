@@ -1,6 +1,49 @@
-if [ -z "$DBPASSWD" ]; then
-   echo "ERROR: DBPASSWD must be defined"
-   exit 1
+# set blank options variables
+DBHOST_OPT=""
+DBNAME_OPT=""
+DBUSER_OPT=""
+DBPASSWD_OPT=""
+IMPORT_OPT=""
+EXPORT_OPT=""
+TOKENURL_OPT=""
+
+# database host
+if [ -n "$DBHOST" ]; then
+   DBHOST_OPT="--dbhost $DBHOST"
 fi
 
-bin/deposit-auth-ws --dbpassword $DBPASSWD
+# database name
+if [ -n "$DBNAME" ]; then
+   DBNAME_OPT="--dbname $DBNAME"
+fi
+
+# database user
+if [ -n "$DBUSER" ]; then
+   DBUSER_OPT="--dbuser $DBUSER"
+fi
+
+# database password
+if [ -n "$DBPASSWD" ]; then
+   DBPASSWD_OPT="--dbpassword $DBPASSWD"
+fi
+
+# import filesystem root
+if [ -n "$IMPORT_FS" ]; then
+   IMPORT_OPT="--importfs $IMPORT_FS"
+fi
+
+# export filesystem root
+if [ -n "$EXPORT_FS" ]; then
+   EXPORT_OPT="--exportfs $EXPORT_FS"
+fi
+
+# token authentication service URL
+if [ -n "$TOKENAUTH_URL" ]; then
+   TOKENURL_OPT="--tokenauth $TOKENAUTH_URL"
+fi
+
+bin/deposit-auth-ws $DBHOST_OPT $DBNAME_OPT $DBUSER_OPT $DBPASSWD_OPT $IMPORT_OPT $EXPORT_OPT $TOKENURL_OPT
+
+#
+# end of file
+#

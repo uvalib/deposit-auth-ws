@@ -4,5 +4,6 @@ src/golang.org
 src/gopkg.in
 bin
 pkg
-env
+env.set
+env.unset
 src/depositauthws/service_test.yml
