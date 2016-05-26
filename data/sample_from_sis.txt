@@ -1,0 +1,12 @@
+1234567|XXCOMPUTEIDXX|XXFIRSTNAMEXX||XXLASTNAMEXX|GRAD|ASG|SOCIOL-MA|Crafting Gender/Crafting Boundaries: Reimagining "Authentic" Gender Performance in Feminized Activities|MTHESISDEF|MA|01/01/2016
+1234567|XXCOMPUTEIDXX|XXFIRSTNAMEXX||XXLASTNAMEXX|GRAD|ENG|CHEMEN-MS|Characterization of a Lithium-Ion Solid Dispersion Flow Battery|MTHESISDEF|MS|02/02/2016
+1234567|XXCOMPUTEIDXX|XXFIRSTNAMEXX||XXLASTNAMEXX|GRAD|ASG|PSYCH-MA|Dynamically Tracking Anxious Individuals' Affective Response to Valenced Information|MTHESISDEF|MA|03/03/2016
+1234567|XXCOMPUTEIDXX|XXFIRSTNAMEXX||XXLASTNAMEXX|GRAD|ASG|PSYCH-MA|Epigenetic Modification of the Oxytocin Receptor Gene Influences the Perception of Anger and Fear in the Human Brain|MTHESISDEF|MA|04/04/2016
+1234567|XXCOMPUTEIDXX|XXFIRSTNAMEXX||XXLASTNAMEXX|GRAD|ENG|SYSTEM-PHD|Simultaneous Feature Selection and Parameter Estimation for Hidden Markov Models|PHDDEFENSE|PHD|05/05/2016
+1234567|XXCOMPUTEIDXX|XXFIRSTNAMEXX||XXLASTNAMEXX|GRAD|CUG|EDUC-PHD|A Close Reading of Creative Writing in SCOPE, the Medical School Literary Magazine at Southern Illinois University School of Medicine|PHDDEFENSE|PHD|06/06/2016
+1234567|XXCOMPUTEIDXX|XXFIRSTNAMEXX||XXLASTNAMEXX|GRAD|ASG|HIST-PHD|The Specter of Anarchy, The Hope of Transformation: The Role of Non-State Actors in the U.S. Response to Soviet Reform and Disunion, 1981-1996|PHDDEFENSE|PHD|07/07/2016
+1234567|XXCOMPUTEIDXX|XXFIRSTNAMEXX||XXLASTNAMEXX|GRAD|CUG|ADMIN-EDD|Effects on an Inquiry-based Curricular Program on Aspects of Critical Thinking Skills and Dispositions|PHDDEFENSE|EDD|08/08/2016
+1234567|XXCOMPUTEIDXX|XXFIRSTNAMEXX||XXLASTNAMEXX|GRAD|ASG|PHYS-PHD|Search for Magnetic Monopoles with the NOvA Far Detector|PHDDEFENSE|PHD|09/09/2016
+1234567|XXCOMPUTEIDXX|XXFIRSTNAMEXX||XXLASTNAMEXX|GRAD|ASG|EXPATH-PHD|A Role for Adipocyte Progenitor Cells in Obesity-Induced MCP-1 and M1 Macrophage Accumulation in Visceral Adipose Tissue|PHDDEFENSE|PHD|10/10/2016
+1234567|XXCOMPUTEIDXX|XXFIRSTNAMEXX||XXLASTNAMEXX|GRAD|ASG|STATS-PHD|Single-index Model with Varying coefficients|PHDDEFENSE|PHD|11/11/2016
+1234567|XXCOMPUTEIDXX|XXFIRSTNAMEXX||XXLASTNAMEXX|GRAD|ENG|CHEMEN-PHD|Relating the Structure of Bimetallic Catalysts to Performance in the Hydrogenolysis and Hydrogenation of Biomass-Derived Intermediates|PHDDEFENSE|PHD|12/12/2016
