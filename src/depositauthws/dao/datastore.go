@@ -12,6 +12,12 @@ type DB struct {
     *sql.DB
 }
 
+type Mapper struct {
+    FieldClass  string
+    FieldSource string
+    FieldMapped string
+}
+
 var Database * DB
 
 func NewDB( dataSourceName string ) error {
@@ -135,6 +141,39 @@ func ( db *DB ) UpdatedExportedDepositAuthorization( exports [] * api.Authorizat
     return nil
 }
 
+func ( db *DB ) GetFieldMapperList( ) ( [] * Mapper, error ) {
+
+    rows, err := db.Query( "SELECT field_class, field_name, field_value FROM fieldmapper" )
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close( )
+
+    results := make([ ] * Mapper, 0 )
+
+    for rows.Next() {
+        mapping := new( Mapper )
+        err := rows.Scan(
+            &mapping.FieldClass,
+            &mapping.FieldSource,
+            &mapping.FieldMapped )
+        if err != nil {
+            return nil, err
+        }
+
+        results = append( results, mapping )
+    }
+
+    if err := rows.Err( ); err != nil {
+        return nil, err
+    }
+
+    return results, nil
+}
+
+//
+// private implementation methods
+//
 
 func depositAuthorizationResults( rows * sql.Rows ) ( [] * api.Authorization, error ) {
 

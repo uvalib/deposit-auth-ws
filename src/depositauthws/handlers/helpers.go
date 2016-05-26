@@ -6,6 +6,7 @@ import (
     "encoding/json"
     "net/http"
     "depositauthws/api"
+    "depositauthws/mapper"
 )
 
 func EncodeStandardResponse( w http.ResponseWriter, status int, message string, details [] * api.Authorization ) {
@@ -47,10 +48,14 @@ func coorsAttributes( w http.ResponseWriter ) {
     w.Header( ).Set( "Access-Control-Allow-Headers", "Content-Type" )
 }
 
-func jsonResponse( w http.ResponseWriter ) {
-    w.Header( ).Set( "Content-Type", "application/json; charset=UTF-8" )
-}
-
 func NotEmpty( param string ) bool {
     return len( strings.TrimSpace( param ) ) != 0
+}
+
+// map any field values as necessary
+func MapResultsFieldValues( details [] * api.Authorization ) {
+    for _, d := range details {
+        d.Department, _ = mapper.MapField( "department", d.Plan )
+        d.Degree, _ = mapper.MapField( "degree", d.Degree )
+    }
 }

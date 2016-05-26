@@ -7,6 +7,7 @@ import (
     "depositauthws/config"
     "depositauthws/dao"
     "depositauthws/sis"
+    "depositauthws/mapper"
 )
 
 func main( ) {
@@ -22,6 +23,12 @@ func main( ) {
 
     // the filesystem used for SIS exchange
     err = sis.NewExchanger( config.Configuration.ImportFs, config.Configuration.ExportFs )
+    if err != nil {
+        log.Fatal( err )
+    }
+
+    // the mapping cache for various fields
+    err = mapper.LoadMappingCache( )
     if err != nil {
         log.Fatal( err )
     }

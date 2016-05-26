@@ -47,6 +47,9 @@ func AuthorizationGet( w http.ResponseWriter, r *http.Request ) {
         return
     }
 
+    // do necessary field mappings
+    MapResultsFieldValues( reqs )
+
     status := http.StatusOK
     EncodeStandardResponse( w, status, http.StatusText( status ), reqs )
 }
