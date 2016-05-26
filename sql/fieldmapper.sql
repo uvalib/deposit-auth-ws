@@ -14,7 +14,7 @@ CREATE TABLE fieldmapper(
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree", "DNP", "DNP (Doctor of Nursing Practice)" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree", "EDD", "EDD (Doctor of Education)" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree", "MA", "MA (Master of Arts)" );
-INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree", "MAPE", "MAPE (UNKNOWN)" );
+INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree", "MAPE", "MAPE (Master of Arts in Physics Education)" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree", "MAR", "MAR (Master of Architecture)" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree", "MARH", "MARH (Master of Architectural History)" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree", "ME", "ME (Master of Engineering)" );
@@ -22,7 +22,7 @@ INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree"
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree", "MS", "MS (Master of Science)" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree", "MUEP", "MUEP (Master of Urban and Environmental Planning)" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree", "PHD", "PHD (Doctor of Philosophy)" );
-INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree", "SJD", "SJD (UNKNOWN)" );
+INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree", "SJD", "SJD (Doctor of Juridical Science)" );
 
 -- set of department mapping values (use script/helpers/mappingsql.ksh to generate from the existing libra department_facet_mappings table
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "BIOMEN-ME", "Department of Biomedical Engineering" );
