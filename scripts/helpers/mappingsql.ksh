@@ -1,0 +1,1 @@
+cat sql/department_mapping.txt | grep -v "+" | grep -v "department_facet" | awk -F'|' '{printf "%s,%s\n", $3, $4}' | sed -e 's/  */ /g' | sed -e 's/ , /,/g' | sed -e 's/^ //g' | sed -e 's/ $//g' | awk -F',' '{printf "INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( \"department\", \"%s\", \"%s\" );\n", $1, $2}'

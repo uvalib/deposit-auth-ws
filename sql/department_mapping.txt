@@ -1,0 +1,116 @@
++-----+----------------------------------+------------------------------------------------------------+
+| id  | department_facet                 | department_display_facet                                   |
++-----+----------------------------------+------------------------------------------------------------+
+|   1 | BIOMEN-ME                        | Department of Biomedical Engineering                       |
+|   2 | BIOMEN-MS                        | Department of Biomedical Engineering                       |
+|   3 | BIOMEN-PHD                       | Department of Biomedical Engineering                       |
+|   4 | CHEMEN-ME                        | Department of Chemical Engineering                         |
+|   5 | CHEMEN-CGE                       | Department of Chemical Engineering                         |
+|   6 | CHEMEN-MS                        | Department of Chemical Engineering                         |
+|   7 | CHEMEN-PHD                       | Department of Chemical Engineering                         |
+|   8 | CIVIL-ME                         | Department of Civil Engineering                            |
+|   9 | CIVIL-CGE                        | Department of Civil Engineering                            |
+|  10 | CIVIL-MS                         | Department of Civil Engineering                            |
+|  11 | CIVIL-PHD                        | Department of Civil Engineering                            |
+|  12 | COMPEN-ME                        | Department of Computer Engineering                         |
+|  13 | COMPEN-MS                        | Department of Computer Engineering                         |
+|  14 | COMPEN-PHD                       | Department of Computer Engineering                         |
+|  15 | COMPSC-MCS                       | Department of Computer Science                             |
+|  16 | COMPSC-MS                        | Department of Computer Science                             |
+|  17 | COMPSC-PHD                       | Department of Computer Science                             |
+|  18 | ELECT-ME                         | Department of Electrical Engineering                       |
+|  19 | ELECT-MS                         | Department of Electrical Engineering                       |
+|  20 | ELECT-PHD                        | Department of Electrical Engineering                       |
+|  21 | ELECT-CGE                        | Department of Electrical Engineering                       |
+|  23 | ENGPHY-MEP                       | Department of Engineering Physics                          |
+|  24 | ENGPHY-CGE                       | Department of Engineering Physics                          |
+|  25 | ENGPHY-MS                        | Department of Engineering Physics                          |
+|  26 | ENGPHY-PHD                       | Department of Engineering Physics                          |
+|  27 | Civil & Env Engr                 | Department of Civil Engineering                            |
+|  28 | MATSC-MMSE                       | Department of Materials Science and Engineering            |
+|  29 | MATSCI-MS                        | Department of Materials Science and Engineering            |
+|  30 | MATSCI-PHD                       | Department of Materials Science and Engineering            |
+|  31 | MATSC-CGE                        | Department of Materials Science and Engineering            |
+|  32 | MAE-PHD                          | Department of Mechanical and Aerospace Engineering         |
+|  33 | MAE-ME                           | Department of Mechanical and Aerospace Engineering         |
+|  34 | MAE-MS                           | Department of Mechanical and Aerospace Engineering         |
+|  35 | MAE-CGE                          | Department of Mechanical and Aerospace Engineering         |
+|  36 | SYSTEM-ME                        | Department of Systems Engineering                          |
+|  41 | SYSTEM-AM                        | Department of Systems Engineering                          |
+|  42 | SYSTEM-CGE                       | Department of Systems Engineering                          |
+|  43 | SYSTEM-MS                        | Department of Systems Engineering                          |
+|  44 | SYSTEM-PHD                       | Department of Systems Engineering                          |
+|  46 | PSYCH-PHD                        | Department of Psychology                                   |
+|  47 | RELIG-PHD                        | Department of Religious Studies                            |
+|  48 | ECON-PHD                         | Department of Economics                                    |
+|  49 | CHEM-PHD                         | Department of Chemistry                                    |
+|  51 | MATH-PHD                         | Department of Mathematics                                  |
+|  52 | ENGL-PHD                         | Department of English                                      |
+|  53 | GERMAN-PHD                       | Department of Germanic Languages and Literatures           |
+|  54 | BIOP-PHD                         | Department of Biophysics                                   |
+|  55 | SOCIOL-PHD                       | Department of Sociology                                    |
+|  56 | GOVT-PHD                         | Department of Politics                                     |
+|  58 | PHYS-MS                          | Department of Physics                                      |
+|  59 | BIOMOL-PHD                       | Department of Biochemistry and Molecular Genetics          |
+|  60 | PHY-PHD                          | Department of Molecular Physiology and Biological Physics  |
+|  61 | ARTARC-MA                        | Department of Art                                          |
+|  62 | RELIG-MA                         | Department of Religious Studies                            |
+|  63 | EVSC-MA                          | Department of Environmental Sciences                       |
+|  64 | EASIAN-MA                        | Department of East Asian Studies                           |
+|  65 | EXPATH-PHD                       | Department of Pathology                                    |
+|  66 | NEURO-PHD                        | Department of Neuroscience                                 |
+|  67 | PHYS-PHD                         | Department of Physics                                      |
+|  68 | MICRO-PHD                        | Department of Microbiology, Immunology, and Cancer Biology |
+|  69 | HIST-PHD                         | Department of History                                      |
+|  70 | EVSC-PHD                         | Department of Environmental Sciences                       |
+|  71 | FORAFF-PHD                       | Department of Politics                                     |
+|  72 | SPAN-PHD                         | Department of Spanish, Italian, and Portuguese             |
+|  73 | ASTRON-PHD                       | Department of Astronomy                                    |
+|  75 | PHIL-PHD                         | Department of Philosophy                                   |
+|  76 | BIOL-PHD                         | Department of Biology                                      |
+|  77 | ARTARC-PHD                       | Department of Art                                          |
+|  78 | CELL-PHD                         | Department of Molecular, Cell and Developmental Biology    |
+|  79 | EVSC-MS                          | Department of Environmental Sciences                       |
+|  80 | HIST-MA                          | Department of History                                      |
+|  81 | WRITE-MFA                        | Department of English                                      |
+|  82 | CHEM-MS                          | Department of Chemistry                                    |
+|  83 | ENGL-MA                          | Department of English                                      |
+|  84 | ANTHRO-PHD                       | Department of Anthropology                                 |
+|  85 | STATS-PHD                        | Department of Statistics                                   |
+|  86 | MUSIC-PHD                        | Department of Music                                        |
+|  88 | CLAS-PHD                         | Department of Classics                                     |
+|  89 | PHARM-PHD                        | Department of Pharmacology                                 |
+|  91 | FORAFF-MA                        | Department of Foreign Affairs                              |
+|  92 | HIGHED-EDD                       | Curry School of Education                                  |
+|  93 | COUNS-EDD                        | Curry School of Education                                  |
+|  94 | COUNS-MED                        | Curry School of Education                                  |
+|  95 | CURRIN-EDD                       | Curry School of Education                                  |
+|  96 | CURRIN-MED                       | Curry School of Education                                  |
+|  97 | EDUC-PHD                         | Curry School of Education                                  |
+|  98 | ADMIN-EDD                        | Curry School of Education                                  |
+|  99 | ADMIN-MED                        | Curry School of Education                                  |
+| 101 | HIGHED-MED                       | Curry School of Education                                  |
+| 102 | KINES-MED                        | Curry School of Education                                  |
+| 103 | SPCED-MED                        | Curry School of Education                                  |
+| 104 | SPATH-MED                        | Curry School of Education                                  |
+| 105 | CLNPSY-PHD                       | Curry School of Education                                  |
+| 106 | EDPSYC-MED                       | Curry School of Education                                  |
+| 107 | PSYCH-MA                         | Department of Psychology                                   |
+| 108 | NURS-PHD                         | School of Nursing                                          |
+| 109 | NURS-DNP                         | School of Nursing                                          |
+| 110 | EDPSYC-EDD                       | Curry School of Education                                  |
+| 111 | DRAMA-MFA                        | Department of Drama                                        |
+| 112 | FRENCH-PHD                       | Department of French                                       |
+| 113 | ARH-MARH                         | Department of Architectural History                        |
+| 115 | ITAL-MA                          | Department of Spanish, Italian, and Portuguese             |
+| 116 | GOVT-MA                          | Department of Politics                                     |
+| 117 | SOCIOL-MA                        | Department of Sociology                                    |
+| 118 | University of Virginia Libraries | University of Virginia Library                             |
+| 119 | GERMAN-MS                        | Department of Germanic Languages and Literatures           |
+| 120 | SLAVIC-PHD                       | Department of Slavic Languages and Literatures             |
+| 121 | BIOL-MA                          | Department of Biology                                      |
+| 122 | BIOL-MS                          | Department of Biology                                      |
+| 123 | PLAN-MUEP                        | Department of Urban and Environmental Planning             |
+| 124 | ARCH-MAR                         | Department of Architectural History                        |
+| 125 | SLAVIC-MA                        | Department of Slavic Languages and Literatures             |
++-----+----------------------------------+------------------------------------------------------------+
