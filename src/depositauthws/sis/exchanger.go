@@ -56,7 +56,7 @@ func ( sis * SIS ) Import( ) ( [ ] * api.Authorization, error ) {
                results = append( results, i )
             }
             // and remove the file
-            removeFile( f )
+            markFileComplete( f )
         } else {
             log.Printf( "ERROR: while importing from %s", f )
             // handle the error
@@ -149,10 +149,12 @@ func truncatedImportRecord( rec string ) bool {
    return len( rec ) >= 170
 }
 
-// remove the supplied file
-func removeFile( filename * string ) error {
-    log.Printf( "Removing %s", *filename )
-    return os.Remove( *filename )
+// mark the file as done so we dont process it again
+func markFileComplete( filename * string ) error {
+
+    newname := fmt.Sprintf( "%s.done-%d", *filename, time.Now( ).UnixNano( ) )
+    log.Printf( "Renaming %s -> %s", *filename, newname )
+    return os.Rename( *filename, newname )
 }
 
 // look for any available files that can be imported
