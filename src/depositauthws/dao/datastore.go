@@ -52,7 +52,7 @@ func ( db *DB ) GetDepositAuthorizationById( id string ) ( [] * api.Authorizatio
 
 func ( db *DB ) SearchDepositAuthorization( id string ) ( [] * api.Authorization, error ) {
 
-    rows, err := db.Query( "SELECT * FROM depositauth WHERE id > ?", id )
+    rows, err := db.Query( "SELECT * FROM depositauth WHERE id > ? ORDER BY id ASC", id )
     if err != nil {
         return nil, err
     }
@@ -115,7 +115,7 @@ func ( db *DB ) DeleteDepositAuthorizationById( id string ) ( int64, error ) {
 
 func ( db *DB ) GetDepositAuthorizationForExport( ) ( [] * api.Authorization, error ) {
 
-    rows, err := db.Query( "SELECT * FROM depositauth WHERE accepted_at IS NOT NULL AND exported_at IS NULL" )
+    rows, err := db.Query( "SELECT * FROM depositauth WHERE accepted_at IS NOT NULL AND exported_at IS NULL ORDER BY id ASC" )
     if err != nil {
         return nil, err
     }
