@@ -19,6 +19,7 @@ EXPOSE 8080
 CMD scripts/entry.sh
 
 # Move in necessary helper scripts and binary
-COPY scripts/entry.sh scripts/new_import.ksh scripts/sis_*.ksh $APP_HOME/scripts/
+COPY scripts/entry.sh $APP_HOME/scripts/
+COPY scripts/*.ksh $APP_HOME/scripts/
 COPY data/sample_from_sis.txt $APP_HOME/data/
 COPY bin/deposit-auth-ws.linux $APP_HOME/bin/deposit-auth-ws
