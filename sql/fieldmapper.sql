@@ -140,15 +140,16 @@ INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "departm
 
 -- manually added later after processing SIS files
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "ANTHRO-MA", "Department of Anthropology" );
-INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "BIOLPS-MS", "UNKNOWN" );
+INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "BIOLPS-MS", "Department of Biological and Physical Sciences" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "CLAS-MA", "Department of Classics" );
-INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "EDPOL-EDD", "UNKNOWN" );
+INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "EDPOL-EDD", "Department of Education Policy Studies" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "FRENCH-MA", "Department of French" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "GERMAN-MA", "Department of Germanic Languages and Literatures" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "KINES-EDD", "Curry School of Education" );
-INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "LAW-SJD", "UNKNOWN" );
+INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "LAW-SJD", "School of Law" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "MATH-MA", "Department of Mathematics" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "MATH-MS", "Department of Mathematics" );
+INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "MESA-MA", "Department of Middle Eastern and South Asian Languages and Cultures" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "MUSIC-MA", "Department of Music" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "PHYS-MAPE", "Department of Physics" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "SPAN-MA", "Department of Spanish" );
