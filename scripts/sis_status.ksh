@@ -1,5 +1,5 @@
 #
-#
+# Show pending import and export files
 #
 
 # import filesystem root
@@ -12,17 +12,20 @@ if [ -z "$EXPORT_FS" ]; then
    EXPORT_FS="/tmp/export"
 fi
 
+echo ""
 echo "***********************************************************************"
-echo "* Import: $IMPORT_FS"
+echo "* Pending import from: $IMPORT_FS"
 echo "***********************************************************************"
-ls -l $IMPORT_FS/UV_Libra_From_SIS*.txt 2>&1 | grep -v "No such file or directory"
+ls $IMPORT_FS/UV_Libra_From_SIS*.txt 2>&1 | grep -v "No such file or directory"
 
 echo ""
 echo "***********************************************************************"
-echo "* Export: $EXPORT_FS"
+echo "* Pending export: $EXPORT_FS"
 echo "***********************************************************************"
-ls -l $EXPORT_FS/UV_LIBRA_IN*.txt 2>&1 | grep -v "No such file or directory"
+ls $EXPORT_FS/UV_LIBRA_IN*.txt 2>&1 | grep -v "No such file or directory"
 
+echo ""
+echo ""
 exit 0
 
 #
