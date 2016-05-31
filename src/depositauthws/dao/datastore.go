@@ -143,7 +143,7 @@ func ( db *DB ) UpdateExportedDepositAuthorization( exports [] * api.Authorizati
 
 func ( db *DB ) UpdateFulfilledDepositAuthorization( id string, did string ) error {
 
-    stmt, err := db.Prepare( "UPDATE depositauth SET accepted_at = NOW( ), libra_id = ? WHERE id = ? LIMIT 1" )
+    stmt, err := db.Prepare( "UPDATE depositauth SET exported_at = NULL, accepted_at = NOW( ), libra_id = ? WHERE id = ? LIMIT 1" )
     if err != nil {
         return err
     }
