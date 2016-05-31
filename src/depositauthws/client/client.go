@@ -135,18 +135,14 @@ func ExportDepositAuthorization( endpoint string, token string ) ( int, int ) {
     return resp.StatusCode, r.Count
 }
 
-func UpdateDepositAuthorization( endpoint string, reg api.Authorization, token string ) ( int, * api.Authorization ) {
-    return http.StatusInternalServerError, nil
-}
+func FulfillDepositAuthorization( endpoint string, id string, depositId string, token string ) int {
 
-func DeleteDepositAuthorization( endpoint string, id string, token string ) int {
-
-    url := fmt.Sprintf( "%s/%s?auth=%s", endpoint, id, token )
+    url := fmt.Sprintf( "%s/%s?deposit=%s&auth=%s", endpoint, id, depositId, token )
     //fmt.Printf( "%s\n", url )
 
-    resp, body, errs := gorequest.New( ).
+    resp, _, errs := gorequest.New( ).
        SetDebug( debugHttp ).
-       Delete( url  ).
+       Put( url ).
        Timeout( time.Duration( 5 ) * time.Second ).
        End( )
 
@@ -155,12 +151,6 @@ func DeleteDepositAuthorization( endpoint string, id string, token string ) int 
     }
 
     defer resp.Body.Close( )
-
-    r := api.StandardResponse{ }
-    err := json.Unmarshal( []byte( body ), &r )
-    if err != nil {
-        return http.StatusInternalServerError
-    }
 
     return resp.StatusCode
 }

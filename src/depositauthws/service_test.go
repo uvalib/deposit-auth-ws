@@ -22,6 +22,8 @@ var goodId = "1"
 var notFoundId = "x"
 var goodToken = cfg.Token
 var badToken = "badness"
+var goodDepositId = "libra:12345"
+var badDepositId = " "
 var empty = " "
 
 //
@@ -41,11 +43,22 @@ func TestHealthCheck( t *testing.T ) {
 //
 
 func TestGetHappyDay( t *testing.T ) {
+
+    existing := getExistingAuthorization( )
+    if existing == nil {
+        t.Fatalf( "Unable to get existing authorization\n" )
+    }
+
     expected := http.StatusOK
-    status, details := client.GetDepositAuthorization( cfg.Endpoint, goodId, goodToken )
+    status, details := client.GetDepositAuthorization( cfg.Endpoint, existing.Id, goodToken )
     if status != expected {
         t.Fatalf( "Expected %v, got %v\n", expected, status )
     }
+
+    if len( details ) != 1 {
+        t.Fatalf( "Expected 1 item, got %v\n", len( details ) )
+    }
+
     ensureValidAuthorizations( t, details )
 }
 
@@ -143,40 +156,64 @@ func TestExportBadToken( t *testing.T ) {
 }
 
 //
-// delete tests
+// fulfill tests
 //
 
-//func TestDeleteHappyDay( t *testing.T ) {
-//    newId := createNewReg( t )
-//    expected := http.StatusOK
-//    status := client.DeleteDepositAuthorization( cfg.Endpoint, newId, goodToken )
-//    if status != expected {
-//        t.Fatalf( "Expected %v, got %v\n", expected, status )
-//    }
-//}
+func TestFulfillHappyDay( t *testing.T ) {
+    existing := getExistingAuthorization( )
+    if existing == nil {
+        t.Fatalf( "Unable to get existing authorization\n" )
+    }
 
-func TestDeleteEmptyId( t *testing.T ) {
+    expected := http.StatusOK
+    status := client.FulfillDepositAuthorization( cfg.Endpoint, existing.Id, goodDepositId, goodToken )
+    if status != expected {
+        t.Fatalf( "Expected %v, got %v\n", expected, status )
+    }
+}
+
+func TestFulfillEmptyId( t *testing.T ) {
     expected := http.StatusBadRequest
-    status := client.DeleteDepositAuthorization( cfg.Endpoint, empty, goodToken )
+    status := client.FulfillDepositAuthorization( cfg.Endpoint, empty, goodDepositId, goodToken )
     if status != expected {
         t.Fatalf( "Expected %v, got %v\n", expected, status )
     }
 }
 
-func TestDeleteNotFoundId( t *testing.T ) {
+func TestFulfillNotFoundId( t *testing.T ) {
     expected := http.StatusNotFound
-    status := client.DeleteDepositAuthorization( cfg.Endpoint, notFoundId, goodToken )
+    status := client.FulfillDepositAuthorization( cfg.Endpoint, notFoundId, goodDepositId, goodToken )
     if status != expected {
         t.Fatalf( "Expected %v, got %v\n", expected, status )
     }
 }
 
-func TestDeleteBadToken( t *testing.T ) {
+func TestFulfillBadToken( t *testing.T ) {
     expected := http.StatusForbidden
-    status := client.DeleteDepositAuthorization( cfg.Endpoint, goodId, badToken )
+    status := client.FulfillDepositAuthorization( cfg.Endpoint, goodId, goodDepositId, badToken )
     if status != expected {
         t.Fatalf( "Expected %v, got %v\n", expected, status )
     }
+}
+
+func TestFulfillBadDepositId( t *testing.T ) {
+    expected := http.StatusBadRequest
+    status := client.FulfillDepositAuthorization( cfg.Endpoint, goodId, badDepositId, goodToken )
+    if status != expected {
+        t.Fatalf( "Expected %v, got %v\n", expected, status )
+    }
+}
+
+func getExistingAuthorization( ) * api.Authorization {
+
+    status, details := client.SearchDepositAuthorization( cfg.Endpoint, "0", goodToken )
+    if status == http.StatusOK {
+        if len( details ) != 0 {
+            return details[ 0 ]
+        }
+    }
+
+    return nil
 }
 
 func ensureValidAuthorizations( t *testing.T, details [] * api.Authorization ) {

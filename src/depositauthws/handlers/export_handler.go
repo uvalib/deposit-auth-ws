@@ -58,7 +58,7 @@ func AuthorizationExport( w http.ResponseWriter, r *http.Request ) {
     }
 
     // update the status so we do not export them again
-    err = dao.Database.UpdatedExportedDepositAuthorization( exports )
+    err = dao.Database.UpdateExportedDepositAuthorization( exports )
     if err != nil {
         log.Println( err )
         status := http.StatusInternalServerError

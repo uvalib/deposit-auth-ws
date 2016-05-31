@@ -1,23 +1,24 @@
 package handlers
 
 import (
-    "log"
-    "fmt"
     "net/http"
     "github.com/gorilla/mux"
     "depositauthws/authtoken"
     "depositauthws/config"
     "depositauthws/dao"
+    "log"
+    "fmt"
 )
 
-func AuthorizationGet( w http.ResponseWriter, r *http.Request ) {
+func AuthorizationFulfill( w http.ResponseWriter, r *http.Request ) {
 
     vars := mux.Vars( r )
     id := vars[ "id" ]
     token := r.URL.Query( ).Get( "auth" )
+    did := r.URL.Query( ).Get( "deposit" )
 
     // parameters OK ?
-    if NotEmpty( id ) == false || NotEmpty( token ) == false {
+    if NotEmpty( id ) == false || NotEmpty( token ) == false || NotEmpty( did ) == false {
         status := http.StatusBadRequest
         EncodeStandardResponse( w, status, http.StatusText( status ), nil )
         return
@@ -48,9 +49,18 @@ func AuthorizationGet( w http.ResponseWriter, r *http.Request ) {
         return
     }
 
-    // do necessary field mappings
-    MapResultsFieldValues( reqs )
+    // handle the fulfill
+    err = dao.Database.UpdateFulfilledDepositAuthorization( id, did )
+    if err != nil {
+        log.Println( err )
+        status := http.StatusInternalServerError
+        EncodeStandardResponse( w, status,
+            fmt.Sprintf( "%s (%s)", http.StatusText( status ), err ),
+            nil )
+        return
+    }
 
+    // its all over
     status := http.StatusOK
-    EncodeStandardResponse( w, status, http.StatusText( status ), reqs )
+    EncodeStandardResponse( w, status, http.StatusText( status ), nil )
 }

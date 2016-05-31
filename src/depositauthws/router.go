@@ -39,6 +39,13 @@ var routes = Routes{
     },
 
     Route{
+        "AuthorizationFulfill",
+        "PUT",
+        "/{id}",
+        handlers.AuthorizationFulfill,
+    },
+
+    Route{
         "AuthorizationExport",
         "POST",
         "/import",

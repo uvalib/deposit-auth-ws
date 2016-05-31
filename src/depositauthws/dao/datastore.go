@@ -124,7 +124,7 @@ func ( db *DB ) GetDepositAuthorizationForExport( ) ( [] * api.Authorization, er
     return depositAuthorizationResults( rows )
 }
 
-func ( db *DB ) UpdatedExportedDepositAuthorization( exports [] * api.Authorization ) error {
+func ( db *DB ) UpdateExportedDepositAuthorization( exports [] * api.Authorization ) error {
 
     stmt, err := db.Prepare( "UPDATE depositauth SET exported_at = NOW( ) WHERE id = ? LIMIT 1" )
     if err != nil {
@@ -136,6 +136,21 @@ func ( db *DB ) UpdatedExportedDepositAuthorization( exports [] * api.Authorizat
         if err != nil {
             return err
         }
+    }
+
+    return nil
+}
+
+func ( db *DB ) UpdateFulfilledDepositAuthorization( id string, did string ) error {
+
+    stmt, err := db.Prepare( "UPDATE depositauth SET accepted_at = NOW( ), libra_id = ? WHERE id = ? LIMIT 1" )
+    if err != nil {
+        return err
+    }
+
+    _, err = stmt.Exec( did, id )
+    if err != nil {
+        return err
     }
 
     return nil
