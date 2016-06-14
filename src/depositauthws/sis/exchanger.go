@@ -24,14 +24,14 @@ var Exchanger * SIS
 func NewExchanger( ImportFs string, ExportFs string ) error {
 
     // check the import and export file systems
-    err := checkReadableFs( ImportFs )
-    if err != nil {
-        return err
-    }
-    err = checkWritableFs( ExportFs )
-    if err != nil {
-        return err
-    }
+    //err := checkReadableFs( ImportFs )
+    //if err != nil {
+    //    return err
+    //}
+    //err = checkWritableFs( ExportFs )
+    //if err != nil {
+    //    return err
+    //}
 
     Exchanger = &SIS{ ImportFs: ImportFs, ExportFs: ExportFs }
     return nil
