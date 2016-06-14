@@ -1,6 +1,8 @@
 package api
 
 type HealthCheckResponse struct {
-	CheckType      HealthCheckResult `json:"mysql"`
+	DbCheck        HealthCheckResult `json:"mysql"`
+    ImportFsCheck  HealthCheckResult `json:"import_fs"`
+    ExportFsCheck  HealthCheckResult `json:"export_fs"`
 }
 

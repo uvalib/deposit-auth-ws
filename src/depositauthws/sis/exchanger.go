@@ -10,6 +10,7 @@ import (
     "io/ioutil"
     "regexp"
     "strings"
+    "errors"
 )
 
 type SIS struct {
@@ -256,10 +257,29 @@ func dateToNativeFormat( date string ) string {
 
 // check the supplied filesystem to ensure it is available and readable
 func checkReadableFs( filesystem string ) error {
+
+    f, err := os.Stat( filesystem )
+    if err != nil {
+        return err
+    }
+
+    if f.IsDir( ) == false {
+        return errors.New( fmt.Sprintf( "%s is not a directory", filesystem ) )
+    }
+
     return nil
 }
 
 // check the supplied filesystem to ensure it is available and writable
 func checkWritableFs( filesystem string ) error {
+
+    f, err := os.Stat( filesystem )
+    if err != nil {
+        return err
+    }
+
+    if f.IsDir( ) == false {
+        return errors.New( fmt.Sprintf( "%s is not a directory", filesystem ) )
+    }
     return nil
 }

@@ -30,11 +30,25 @@ func EncodeImportExportResponse( w http.ResponseWriter, status int, message stri
     }
 }
 
-func EncodeHealthCheckResponse( w http.ResponseWriter, status int, message string ) {
-    healthy := status == http.StatusOK
+func EncodeHealthCheckResponse( w http.ResponseWriter, status int, dbmsg string, importmsg string, exportmsg string ) {
+
+    //healthy := status == http.StatusOK
+    db_healthy, import_healthy, export_healthy := true, true, true
+    if len( dbmsg ) != 0 {
+        db_healthy = false
+    }
+    if len( importmsg ) != 0 {
+        import_healthy = false
+    }
+    if len( exportmsg ) != 0 {
+        export_healthy = false
+    }
     jsonAttributes( w )
     w.WriteHeader( status )
-    if err := json.NewEncoder(w).Encode( api.HealthCheckResponse { CheckType: api.HealthCheckResult{ Healthy: healthy, Message: message } } ); err != nil {
+    if err := json.NewEncoder(w).Encode( api.HealthCheckResponse {
+        DbCheck: api.HealthCheckResult{ Healthy: db_healthy, Message: dbmsg },
+        ImportFsCheck: api.HealthCheckResult{ Healthy: import_healthy, Message: importmsg },
+        ExportFsCheck: api.HealthCheckResult{ Healthy: export_healthy, Message: exportmsg } } ); err != nil {
         log.Fatal( err )
     }
 }
