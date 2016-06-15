@@ -267,6 +267,11 @@ func checkReadableFs( filesystem string ) error {
         return errors.New( fmt.Sprintf( "%s is not a directory", filesystem ) )
     }
 
+    _, err = ioutil.ReadDir( filesystem )
+    if err != nil {
+        return err
+    }
+
     return nil
 }
 
@@ -281,5 +286,17 @@ func checkWritableFs( filesystem string ) error {
     if f.IsDir( ) == false {
         return errors.New( fmt.Sprintf( "%s is not a directory", filesystem ) )
     }
+
+    tmpfile, err := ioutil.TempFile( filesystem, "tmpfile" )
+    if err != nil {
+        return err
+    }
+
+    defer os.Remove( tmpfile.Name( ) )
+
+    if err := tmpfile.Close( ); err != nil {
+        return err
+    }
+
     return nil
 }
