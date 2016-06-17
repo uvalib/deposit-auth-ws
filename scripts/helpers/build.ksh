@@ -2,12 +2,12 @@ export GOPATH=$(pwd)
 
 res=0
 if [ $res -eq 0 ]; then
-  env GOOS=darwin go build -o bin/deposit-auth-ws.darwin depositauthws
+  GOOS=darwin go build -o bin/deposit-auth-ws.darwin depositauthws
   res=$?
 fi
 
 if [ $res -eq 0 ]; then
-  env GOOS=linux go build -o bin/deposit-auth-ws.linux depositauthws
+  CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/deposit-auth-ws.linux depositauthws
   res=$?
 fi
 
