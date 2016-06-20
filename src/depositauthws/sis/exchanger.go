@@ -201,7 +201,7 @@ func createExportRecord( rec * api.Authorization ) string {
         rec.Career, delimiter,
         rec.Program, delimiter,
         rec.Plan, delimiter,
-        rec.LibraId, delimiter,
+        fullIdentifierUrl( rec.LibraId ), delimiter,
         rec.DocType, delimiter,
         rec.Degree, delimiter,
         dateToExportFormat( rec.AcceptedAt ) )
@@ -230,6 +230,16 @@ func createImportRecord( s string ) * api.Authorization {
         return &rec
     }
     return nil
+}
+
+// convert the document identifier (DOI) to a fully qualified URL
+func fullIdentifierUrl( identifier string ) string {
+    base := "http://dx.doi.org"
+    if len( identifier ) == 0 {
+        return base
+    }
+
+    return fmt.Sprintf( "%s/%s", base, strings.Replace( identifier, "doi:", "", 1 ) )
 }
 
 // convert a date from the native format to the export format
