@@ -97,7 +97,7 @@ func importFromFile( filename * string ) ( [ ] * api.Authorization, error ) {
 
     // tokenize by newline...
     contents := strings.Split( string( b ), "\n" )
-    previous := ""
+    //previous := ""
     for i := range contents {
         s := contents[ i ]
         // ignore empty records
@@ -106,18 +106,18 @@ func importFromFile( filename * string ) ( [ ] * api.Authorization, error ) {
         }
 
         // handle the case where we get a truncated record (if the line is too long ???)
-        if truncatedImportRecord( s ) == true {
-           previous = s
-        } else {
-            r := createImportRecord( previous + s )
+        //if truncatedImportRecord( s ) == true {
+        //   previous = s
+        //} else {
+            r := createImportRecord( /* previous + */ s )
             if r != nil {
                 results = append( results, r )
             } else {
-                log.Printf( "ERROR: bad SIS record [%s]", previous + s )
+                log.Printf( "ERROR: bad SIS record [%s]", /* previous + */ s )
                 // handle the error here
             }
-            previous = ""
-        }
+        //    previous = ""
+        //}
     }
 
     log.Printf( "%d record(s) loaded", len( results ) )

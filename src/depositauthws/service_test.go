@@ -92,7 +92,7 @@ func TestGetBadToken( t *testing.T ) {
 
 func TestSearchHappyDay( t *testing.T ) {
     expected := http.StatusOK
-    status, details := client.SearchDepositAuthorization( cfg.Endpoint, "0", goodToken )
+    status, details := client.SearchDepositAuthorizationById( cfg.Endpoint, "0", goodToken )
     if status != expected {
         t.Fatalf( "Expected %v, got %v\n", expected, status )
     }
@@ -101,7 +101,7 @@ func TestSearchHappyDay( t *testing.T ) {
 
 func TestSearchEmptyId( t *testing.T ) {
     expected := http.StatusBadRequest
-    status, _ := client.SearchDepositAuthorization( cfg.Endpoint, empty, goodToken )
+    status, _ := client.SearchDepositAuthorizationById( cfg.Endpoint, empty, goodToken )
     if status != expected {
         t.Fatalf( "Expected %v, got %v\n", expected, status )
     }
@@ -109,7 +109,7 @@ func TestSearchEmptyId( t *testing.T ) {
 
 func TestSearchBadToken( t *testing.T ) {
     expected := http.StatusForbidden
-    status, _ := client.SearchDepositAuthorization( cfg.Endpoint, goodId, badToken )
+    status, _ := client.SearchDepositAuthorizationById( cfg.Endpoint, goodId, badToken )
     if status != expected {
         t.Fatalf( "Expected %v, got %v\n", expected, status )
     }
@@ -206,7 +206,7 @@ func TestFulfillBadDepositId( t *testing.T ) {
 
 func getExistingAuthorization( ) * api.Authorization {
 
-    status, details := client.SearchDepositAuthorization( cfg.Endpoint, "0", goodToken )
+    status, details := client.SearchDepositAuthorizationById( cfg.Endpoint, "0", goodToken )
     if status == http.StatusOK {
         if len( details ) != 0 {
             return details[ 0 ]

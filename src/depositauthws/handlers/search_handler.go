@@ -30,7 +30,7 @@ func AuthorizationSearch( w http.ResponseWriter, r *http.Request ) {
     }
 
     // get the request details
-    reqs, err := dao.Database.SearchDepositAuthorization( id )
+    reqs, err := dao.Database.SearchDepositAuthorizationById( id )
     if err != nil {
         log.Println( err )
         status := http.StatusInternalServerError

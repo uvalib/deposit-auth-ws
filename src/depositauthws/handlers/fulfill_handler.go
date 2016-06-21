@@ -50,7 +50,7 @@ func AuthorizationFulfill( w http.ResponseWriter, r *http.Request ) {
     }
 
     // handle the fulfill
-    err = dao.Database.UpdateFulfilledDepositAuthorization( id, did )
+    err = dao.Database.UpdateFulfilledDepositAuthorizationById( id, did )
     if err != nil {
         log.Println( err )
         status := http.StatusInternalServerError

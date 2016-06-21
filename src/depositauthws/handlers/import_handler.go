@@ -48,13 +48,27 @@ func AuthorizationImport( w http.ResponseWriter, r *http.Request ) {
 
     // import each record and keep track of progress
     okCount := 0
+    duplicateCount := 0
     errorCount := 0
     for _, e := range imports {
-        _, err = dao.Database.CreateDepositAuthorization( *e )
+
+        // check to see if this record already exists
+        exists, err := dao.Database.DepositAuthorizationExists( *e )
         if err != nil {
             errorCount += 1
         } else {
-            okCount += 1
+           if exists == true {
+            duplicateCount += 1
+            log.Printf( "record already exists, ignoring (%s/%s/%s/%s)", e.ComputingId, e.Degree, e.Plan, e.Title )
+           } else {
+               _, err = dao.Database.CreateDepositAuthorization( *e )
+               if err != nil {
+                   log.Printf( "Error inserting record; ignoring %s for (%s/%s/%s/%s)", err, e.ComputingId, e.Degree, e.Plan, e.Title )
+                   errorCount += 1
+               } else {
+                   okCount += 1
+               }
+           }
         }
     }
 

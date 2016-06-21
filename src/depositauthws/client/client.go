@@ -57,7 +57,7 @@ func GetDepositAuthorization( endpoint string, id string, token string ) ( int, 
     return resp.StatusCode, r.Details
 }
 
-func SearchDepositAuthorization( endpoint string, id string, token string ) ( int, [] * api.Authorization ) {
+func SearchDepositAuthorizationById( endpoint string, id string, token string ) ( int, [] * api.Authorization ) {
 
     url := fmt.Sprintf( "%s?auth=%s&later=%s", endpoint, token, id )
     //fmt.Printf( "%s\n", url )
