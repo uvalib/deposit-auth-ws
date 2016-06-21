@@ -142,6 +142,7 @@ INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "departm
 -- manually added later after processing SIS files
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "ANTHRO-MA", "Department of Anthropology" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "BIOLPS-MS", "Department of Biological and Physical Sciences" );
+INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "CHEM-MA", "Department of Chemistry" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "CLAS-MA", "Department of Classics" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "EDPOL-EDD", "Department of Education Policy Studies" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "FRENCH-MA", "Department of French" );
