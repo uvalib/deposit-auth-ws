@@ -9,6 +9,7 @@ CREATE TABLE fieldmapper(
    field_value VARCHAR( 255 ) NOT NULL DEFAULT '',
    create_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) CHARACTER SET utf8 COLLATE utf8_bin;
+-- ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- set of degree mapping values (manually created)
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree", "DNP", "DNP (Doctor of Nursing Practice)" );
