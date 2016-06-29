@@ -37,7 +37,7 @@ if [ -f $TARGET ]; then
    exit 1
 fi
 
-cat $SAMPLE | sed -e "s/XXCOMPUTEIDXX/$COMPUTEID/g" | sed -e "s/XXFIRSTNAMEXX/$FIRSTNAME/g" | sed -e "s/XXLASTNAMEXX/$LASTNAME/g" | awk '{gsub(/.{170}/,"&\n")}1' > $TARGET
+cat $SAMPLE | sed -e "s/XXCOMPUTEIDXX/$COMPUTEID/g" | sed -e "s/XXFIRSTNAMEXX/$FIRSTNAME/g" | sed -e "s/XXLASTNAMEXX/$LASTNAME/g" | sed -e "s/XXRANDOMXX/$RANDOM/g" > $TARGET
 
 echo "Created $TARGET"
 exit 0
