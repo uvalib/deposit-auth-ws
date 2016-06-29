@@ -10,7 +10,7 @@ fi
 
 # and an API token
 if [ -z "$API_TOKEN" ]; then
-   echo "ERROR: DEPOSITAUTH_URL is not defined"
+   echo "ERROR: API_TOKEN is not defined"
    exit 1
 fi
 
