@@ -1,10 +1,14 @@
 FROM alpine:3.4
 
-# Add bash cos we dont get by default
-RUN apk --update add bash
+# Add bash and timezone data cos we dont get them by default
+RUN apk --update add bash tzdata
 
 # Create the run user and group
 RUN addgroup webservice && adduser webservice -G webservice -D
+
+# set the timezone appropriatly
+ENV TZ=EST5EDT
+RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Specify home 
 ENV APP_HOME /depositauth-ws
