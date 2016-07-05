@@ -7,3 +7,4 @@ pkg
 env.*
 src/depositauthws/service_test.yml
 legacy
+buildtag.build-0

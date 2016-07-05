@@ -18,6 +18,9 @@ WORKDIR $APP_HOME
 RUN mkdir -p $APP_HOME/scripts $APP_HOME/bin $APP_DIR/data
 RUN chown -R webservice $APP_HOME && chgrp -R webservice $APP_HOME
 
+# Add the build tag
+COPY buildtag.* $APP_HOME/
+
 # Specify the user
 USER webservice
 
