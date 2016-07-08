@@ -298,6 +298,6 @@ func depositAuthorizationResults( rows * sql.Rows ) ( [] * api.Authorization, er
         return nil, err
     }
 
-    log.Printf( "Returning %d row(s)", len( results ) )
+    log.Printf( "Deposit authorization request returns %d row(s)", len( results ) )
     return results, nil
 }
