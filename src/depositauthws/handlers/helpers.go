@@ -53,6 +53,14 @@ func EncodeHealthCheckResponse( w http.ResponseWriter, status int, dbmsg string,
     }
 }
 
+func encodeVersionResponse( w http.ResponseWriter, status int, version string ) {
+    jsonAttributes( w )
+    w.WriteHeader( status )
+    if err := json.NewEncoder(w).Encode( api.VersionResponse { Version: version } ); err != nil {
+        log.Fatal( err )
+    }
+}
+
 func jsonAttributes( w http.ResponseWriter ) {
     w.Header( ).Set( "Content-Type", "application/json; charset=UTF-8" )
 }

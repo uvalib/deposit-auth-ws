@@ -1,9 +1,10 @@
 package main
 
 import (
-   "log"
-   "net/http"
-   "time"
+    "log"
+    "net/http"
+    "time"
+    "depositauthws/config"
 )
 
 func Logger(inner http.Handler, name string) http.Handler {
@@ -16,7 +17,7 @@ func Logger(inner http.Handler, name string) http.Handler {
 
        log.Printf(
            "%s: %s (%s) -> method %s, time %s",
-           "DEPOSITAUTH",
+           config.Configuration.ServiceName,
            r.Method,
            r.RequestURI,
            name,
