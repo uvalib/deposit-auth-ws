@@ -53,7 +53,7 @@ var routes = Routes{
     },
 
     Route{
-        "AuthorizationExport",
+        "AuthorizationImport",
         "POST",
         "/import",
         handlers.AuthorizationImport,
