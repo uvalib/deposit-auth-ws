@@ -87,6 +87,7 @@ func ( sis * SIS ) CheckImport( ) error {
 func importFromFile( filename * string ) ( [ ] * api.Authorization, error ) {
 
     log.Printf( "Importing from: %s", *filename )
+
     // open the file for reading
     b, err := ioutil.ReadFile( *filename )
     if err != nil {
@@ -97,27 +98,23 @@ func importFromFile( filename * string ) ( [ ] * api.Authorization, error ) {
 
     // tokenize by newline...
     contents := strings.Split( string( b ), "\n" )
+
     //previous := ""
     for i := range contents {
         s := contents[ i ]
+
         // ignore empty records
         if len( s ) == 0 {
             continue
         }
 
-        // handle the case where we get a truncated record (if the line is too long ???)
-        //if truncatedImportRecord( s ) == true {
-        //   previous = s
-        //} else {
-            r := createImportRecord( /* previous + */ s )
-            if r != nil {
-                results = append( results, r )
-            } else {
-                log.Printf( "ERROR: bad SIS record [%s]", /* previous + */ s )
-                // handle the error here
-            }
-        //    previous = ""
-        //}
+         r := createImportRecord( s )
+         if r != nil {
+             results = append( results, r )
+         } else {
+             log.Printf( "ERROR: bad SIS record [%s]", /* previous + */ s )
+             // handle the error here
+         }
     }
 
     log.Printf( "%d record(s) loaded", len( results ) )
@@ -211,6 +208,8 @@ func createExportRecord( rec * api.Authorization ) string {
 // create an export record from an authorization record
 func createImportRecord( s string ) * api.Authorization {
 
+    //log.Printf( "[%s]", s )
+
     delimiter := "|"
     tokens := strings.Split( s, delimiter )
     if len( tokens ) == 12 {
@@ -223,10 +222,13 @@ func createImportRecord( s string ) * api.Authorization {
         rec.Career = tokens[ 5 ]
         rec.Program = tokens[ 6 ]
         rec.Plan = tokens[ 7 ]
-        rec.Title = tokens[ 8 ]
+        rec.Title = compressSpaces( tokens[ 8 ] )
         rec.DocType = tokens[ 9 ]
         rec.Degree = tokens[ 10 ]
         rec.ApprovedAt = dateToNativeFormat( tokens[ 11 ] )
+
+        //log.Printf( "Title [%s]", rec.Title )
+
         return &rec
     }
     return nil
@@ -263,6 +265,13 @@ func dateToNativeFormat( date string ) string {
         return date
     }
     return t.Format( "2006-01-02" )
+}
+
+// compress multiple spaces into a single space
+func compressSpaces( s string ) string {
+
+    changed := strings.Replace( s, "  ", " ", -1 )
+    return changed
 }
 
 // check the supplied filesystem to ensure it is available and readable
