@@ -222,7 +222,7 @@ func createImportRecord( s string ) * api.Authorization {
         rec.Career = tokens[ 5 ]
         rec.Program = tokens[ 6 ]
         rec.Plan = tokens[ 7 ]
-        rec.Title = compressSpaces( tokens[ 8 ] )
+        rec.Title = tokens[ 8 ]
         rec.DocType = tokens[ 9 ]
         rec.Degree = tokens[ 10 ]
         rec.ApprovedAt = dateToNativeFormat( tokens[ 11 ] )
@@ -265,13 +265,6 @@ func dateToNativeFormat( date string ) string {
         return date
     }
     return t.Format( "2006-01-02" )
-}
-
-// compress multiple spaces into a single space
-func compressSpaces( s string ) string {
-
-    changed := strings.Replace( s, "  ", " ", -1 )
-    return changed
 }
 
 // check the supplied filesystem to ensure it is available and readable
