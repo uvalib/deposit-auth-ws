@@ -29,6 +29,7 @@ CMD scripts/entry.sh
 COPY scripts/entry.sh $APP_HOME/scripts/
 COPY scripts/*.ksh $APP_HOME/scripts/
 COPY data/sample_from_sis.txt $APP_HOME/data/
+COPY data/container_bash_profile /home/webservice/.profile
 COPY bin/deposit-auth-ws.linux $APP_HOME/bin/deposit-auth-ws
 
 # Add the build tag
