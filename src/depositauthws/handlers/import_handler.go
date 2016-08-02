@@ -66,6 +66,7 @@ func AuthorizationImport( w http.ResponseWriter, r *http.Request ) {
                    log.Printf( "Error inserting record; ignoring %s for (%s/%s/%s/%s)", err, e.ComputingId, e.Degree, e.Plan, e.Title )
                    errorCount += 1
                } else {
+                   log.Printf( "Success inserting (%s/%s/%s/%s)", e.ComputingId, e.Degree, e.Plan, e.Title )
                    okCount += 1
                }
            }
