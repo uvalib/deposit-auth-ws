@@ -2,8 +2,6 @@ package sis
 
 import (
    "time"
-   "depositauthws/api"
-    "log"
     "path/filepath"
     "fmt"
     "os"
@@ -11,6 +9,8 @@ import (
     "regexp"
     "strings"
     "errors"
+    "depositauthws/api"
+    "depositauthws/logger"
 )
 
 type SIS struct {
@@ -59,7 +59,7 @@ func ( sis * SIS ) Import( ) ( [ ] * api.Authorization, error ) {
             // and remove the file
             markFileComplete( f )
         } else {
-            log.Printf( "ERROR: while importing from %s", f )
+            logger.Log( fmt.Sprintf( "ERROR: while importing from %s", f ) )
             // handle the error
         }
     }
@@ -86,7 +86,7 @@ func ( sis * SIS ) CheckImport( ) error {
 // import records from the supplied file
 func importFromFile( filename * string ) ( [ ] * api.Authorization, error ) {
 
-    log.Printf( "Importing from: %s", *filename )
+    logger.Log( fmt.Sprintf( "Importing from: %s", *filename ) )
 
     // open the file for reading
     b, err := ioutil.ReadFile( *filename )
@@ -112,12 +112,12 @@ func importFromFile( filename * string ) ( [ ] * api.Authorization, error ) {
          if r != nil {
              results = append( results, r )
          } else {
-             log.Printf( "ERROR: bad SIS record [%s]", /* previous + */ s )
+             logger.Log( fmt.Sprintf( "ERROR: bad SIS record [%s]", s ) )
              // handle the error here
          }
     }
 
-    log.Printf( "%d record(s) loaded", len( results ) )
+    logger.Log( fmt.Sprintf( "%d record(s) loaded", len( results ) ) )
     return results, nil
 }
 
@@ -151,7 +151,7 @@ func truncatedImportRecord( rec string ) bool {
 func markFileComplete( filename * string ) error {
 
     newname := fmt.Sprintf( "%s.done-%d", *filename, time.Now( ).UnixNano( ) )
-    log.Printf( "Renaming %s -> %s", *filename, newname )
+    logger.Log( fmt.Sprintf( "Renaming %s -> %s", *filename, newname ) )
     return os.Rename( *filename, newname )
 }
 
@@ -182,7 +182,7 @@ func createExportFilename( filesystem string )  string {
     yymmddDate := time.Now( ).Format( "060102" )
     filename := fmt.Sprintf( "UV_LIBRA_IN_%s.txt", yymmddDate )
     fullname := filepath.Join( filesystem, filename )
-    log.Printf( "Exporting to: %s", fullname )
+    logger.Log( fmt.Sprintf( "Exporting to: %s", fullname ) )
     return fullname
 }
 

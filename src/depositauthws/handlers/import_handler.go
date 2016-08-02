@@ -8,6 +8,7 @@ import (
     "depositauthws/config"
     "depositauthws/sis"
     "depositauthws/dao"
+    "depositauthws/logger"
 )
 
 func AuthorizationImport( w http.ResponseWriter, r *http.Request ) {
@@ -59,14 +60,14 @@ func AuthorizationImport( w http.ResponseWriter, r *http.Request ) {
         } else {
            if exists == true {
             duplicateCount += 1
-            log.Printf( "record already exists, ignoring (%s/%s/%s/%s)", e.ComputingId, e.Degree, e.Plan, e.Title )
+               logger.Log( fmt.Sprintf( "record already exists, ignoring (%s/%s/%s/%s)", e.ComputingId, e.Degree, e.Plan, e.Title ) )
            } else {
                _, err = dao.Database.CreateDepositAuthorization( *e )
                if err != nil {
-                   log.Printf( "Error inserting record; ignoring %s for (%s/%s/%s/%s)", err, e.ComputingId, e.Degree, e.Plan, e.Title )
+                   logger.Log( fmt.Sprintf( "Error inserting record; ignoring %s for (%s/%s/%s/%s)", err, e.ComputingId, e.Degree, e.Plan, e.Title ) )
                    errorCount += 1
                } else {
-                   log.Printf( "Success inserting (%s/%s/%s/%s)", e.ComputingId, e.Degree, e.Plan, e.Title )
+                   logger.Log( fmt.Sprintf( "Success inserting (%s/%s/%s/%s)", e.ComputingId, e.Degree, e.Plan, e.Title ) )
                    okCount += 1
                }
            }

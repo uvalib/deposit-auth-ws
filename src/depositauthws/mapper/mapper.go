@@ -1,9 +1,10 @@
 package mapper
 
 import (
-    "log"
+    "fmt"
     "github.com/patrickmn/go-cache"
     "depositauthws/dao"
+    "depositauthws/logger"
 )
 
 // create the cache of mapped values
@@ -30,7 +31,7 @@ func LoadMappingCache( ) error {
         c.Set( key, value, cache.NoExpiration )
     }
 
-    log.Printf( "Added %d mappings to cache", len( mapper ) )
+    logger.Log( fmt.Sprintf( "Added %d mappings to cache", len( mapper ) ) )
     return nil
 }
 
@@ -44,6 +45,6 @@ func MapField( field_class string, source_value string ) ( string, bool ) {
         return hit.(string), true
     }
 
-    log.Printf( "WARNING: mapped field not found: %s", token )
+    logger.Log( fmt.Sprintf( "WARNING: mapped field not found: %s", token ) )
     return source_value, false
 }

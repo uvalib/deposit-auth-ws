@@ -4,8 +4,9 @@ import (
     "database/sql"
     _ "github.com/go-sql-driver/mysql"
     "depositauthws/api"
-    "log"
+    "depositauthws/logger"
     "strconv"
+    "fmt"
 )
 
 type DB struct {
@@ -298,6 +299,6 @@ func depositAuthorizationResults( rows * sql.Rows ) ( [] * api.Authorization, er
         return nil, err
     }
 
-    log.Printf( "Deposit authorization request returns %d row(s)", len( results ) )
+    logger.Log( fmt.Sprintf( "Deposit authorization request returns %d row(s)", len( results ) ) )
     return results, nil
 }
