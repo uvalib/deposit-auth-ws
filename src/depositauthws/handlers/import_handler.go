@@ -40,7 +40,7 @@ func AuthorizationImport( w http.ResponseWriter, r *http.Request ) {
     }
 
     // if we have nothing to import, bail out
-    if imports == nil || len( imports ) == 0 {
+    if len( imports ) == 0 {
         status := http.StatusOK
         EncodeImportExportResponse( w, status, http.StatusText( status ), 0 )
         return
