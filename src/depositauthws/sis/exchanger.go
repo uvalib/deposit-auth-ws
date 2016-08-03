@@ -108,13 +108,15 @@ func importFromFile( filename * string ) ( [ ] * api.Authorization, error ) {
             continue
         }
 
-         r := createImportRecord( s )
-         if r != nil {
-             results = append( results, r )
-         } else {
-             logger.Log( fmt.Sprintf( "ERROR: bad SIS record [%s]", s ) )
-             // handle the error here
-         }
+        converted := convertToUtf8( s )
+
+        r := createImportRecord( converted )
+        if r != nil {
+           results = append( results, r )
+        } else {
+           logger.Log( fmt.Sprintf( "ERROR: bad SIS record [%s]", s ) )
+           // handle the error here
+        }
     }
 
     logger.Log( fmt.Sprintf( "%d record(s) loaded", len( results ) ) )
@@ -142,12 +144,21 @@ func exportToFile( filename string, exports [ ] * api.Authorization ) error {
     return nil
 }
 
-// determine that the record is truncated because it is 170 characters long
-func truncatedImportRecord( rec string ) bool {
-   return len( rec ) >= 170
+// attempt to convert the character string to utf8
+func convertToUtf8( si string ) string {
+
+    //logger.Log( fmt.Sprintf( "==> IN: [%s]", si ) )
+    ba := [ ]byte ( si )
+    buf := make([ ]rune, len( ba ) )
+    for i, b := range ba {
+        buf[ i ] = rune( b )
+    }
+    so := string( buf )
+//    logger.Log( fmt.Sprintf( "==> OUT: [%s]", so ) )
+    return( so )
 }
 
-// mark the file as done so we dont process it again
+// mark the file as done so we don't process it again
 func markFileComplete( filename * string ) error {
 
     newname := fmt.Sprintf( "%s.done-%d", *filename, time.Now( ).UnixNano( ) )
