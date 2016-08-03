@@ -39,13 +39,6 @@ func AuthorizationExport( w http.ResponseWriter, r *http.Request ) {
         return
     }
 
-    // if we have nothing to export, bail out
-    if exports == nil || len( exports ) == 0 {
-        status := http.StatusOK
-        EncodeImportExportResponse( w, status, http.StatusText( status ), 0 )
-        return
-    }
-
     // do the export
     err = sis.Exchanger.Export( exports )
     if err != nil {
