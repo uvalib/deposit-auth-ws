@@ -1,7 +1,6 @@
 package handlers
 
 import (
-    "log"
     "fmt"
     "net/http"
     "depositauthws/authtoken"
@@ -32,7 +31,7 @@ func AuthorizationImport( w http.ResponseWriter, r *http.Request ) {
     // get the details ready to be imported
     imports, err := sis.Exchanger.Import( )
     if err != nil {
-        log.Println( err )
+        logger.Log( fmt.Sprintf( "ERROR: %s\n", err.Error( ) ) )
         status := http.StatusInternalServerError
         EncodeImportExportResponse( w, status,
             fmt.Sprintf( "%s (%s)", http.StatusText( status ), err ),

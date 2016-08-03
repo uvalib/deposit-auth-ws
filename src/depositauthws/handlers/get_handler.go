@@ -1,13 +1,13 @@
 package handlers
 
 import (
-    "log"
     "fmt"
     "net/http"
     "github.com/gorilla/mux"
     "depositauthws/authtoken"
     "depositauthws/config"
     "depositauthws/dao"
+    "depositauthws/logger"
 )
 
 func AuthorizationGet( w http.ResponseWriter, r *http.Request ) {
@@ -33,7 +33,7 @@ func AuthorizationGet( w http.ResponseWriter, r *http.Request ) {
     // get the authorization details
     reqs, err := dao.Database.GetDepositAuthorizationById( id )
     if err != nil {
-        log.Println( err )
+        logger.Log( fmt.Sprintf( "ERROR: %s\n", err.Error( ) ) )
         status := http.StatusInternalServerError
         EncodeStandardResponse( w, status,
             fmt.Sprintf( "%s (%s)", http.StatusText( status ), err ),

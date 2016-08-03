@@ -6,7 +6,7 @@ import (
     "depositauthws/config"
     "depositauthws/dao"
     "depositauthws/sis"
-    "log"
+    "depositauthws/logger"
     "fmt"
 )
 
@@ -31,7 +31,7 @@ func AuthorizationExport( w http.ResponseWriter, r *http.Request ) {
     // get the details ready to be exported
     exports, err := dao.Database.GetDepositAuthorizationForExport( )
     if err != nil {
-        log.Println( err )
+        logger.Log( fmt.Sprintf( "ERROR: %s\n", err.Error( ) ) )
         status := http.StatusInternalServerError
         EncodeImportExportResponse( w, status,
             fmt.Sprintf( "%s (%s)", http.StatusText( status ), err ),
@@ -49,7 +49,7 @@ func AuthorizationExport( w http.ResponseWriter, r *http.Request ) {
     // do the export
     err = sis.Exchanger.Export( exports )
     if err != nil {
-        log.Println( err )
+        logger.Log( fmt.Sprintf( "ERROR: %s\n", err.Error( ) ) )
         status := http.StatusInternalServerError
         EncodeImportExportResponse( w, status,
             fmt.Sprintf( "%s (%s)", http.StatusText( status ), err ),
@@ -60,7 +60,7 @@ func AuthorizationExport( w http.ResponseWriter, r *http.Request ) {
     // update the status so we do not export them again
     err = dao.Database.UpdateExportedDepositAuthorization( exports )
     if err != nil {
-        log.Println( err )
+        logger.Log( fmt.Sprintf( "ERROR: %s\n", err.Error( ) ) )
         status := http.StatusInternalServerError
         EncodeImportExportResponse( w, status,
             fmt.Sprintf( "%s (%s)", http.StatusText( status ), err ),

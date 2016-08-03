@@ -6,7 +6,7 @@ import (
     "depositauthws/authtoken"
     "depositauthws/config"
     "depositauthws/dao"
-    "log"
+    "depositauthws/logger"
     "fmt"
 )
 
@@ -34,7 +34,7 @@ func AuthorizationFulfill( w http.ResponseWriter, r *http.Request ) {
     // get the authorization details
     reqs, err := dao.Database.GetDepositAuthorizationById( id )
     if err != nil {
-        log.Println( err )
+        logger.Log( fmt.Sprintf( "ERROR: %s\n", err.Error( ) ) )
         status := http.StatusInternalServerError
         EncodeStandardResponse( w, status,
             fmt.Sprintf( "%s (%s)", http.StatusText( status ), err ),
@@ -52,7 +52,7 @@ func AuthorizationFulfill( w http.ResponseWriter, r *http.Request ) {
     // handle the fulfill
     err = dao.Database.UpdateFulfilledDepositAuthorizationById( id, did )
     if err != nil {
-        log.Println( err )
+        logger.Log( fmt.Sprintf( "ERROR: %s\n", err.Error( ) ) )
         status := http.StatusInternalServerError
         EncodeStandardResponse( w, status,
             fmt.Sprintf( "%s (%s)", http.StatusText( status ), err ),
