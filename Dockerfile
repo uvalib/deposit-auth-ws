@@ -1,5 +1,8 @@
 FROM alpine:3.4
 
+# temp cos the CDN is down
+RUN sed -i -e 's/dl-cdn/dl-4/g' /etc/apk/repositories
+
 # Add bash and timezone data cos we dont get them by default
 RUN apk --update add bash tzdata
 
