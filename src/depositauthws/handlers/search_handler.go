@@ -7,15 +7,18 @@ import (
     "depositauthws/config"
     "depositauthws/dao"
     "depositauthws/logger"
+    "depositauthws/api"
+    //"golang.org/x/net/http2/hpack"
 )
 
 func AuthorizationSearch( w http.ResponseWriter, r *http.Request ) {
 
     token := r.URL.Query( ).Get( "auth" )
     id := r.URL.Query( ).Get( "later" )
+    cid := r.URL.Query( ).Get( "cid" )
 
     // parameters OK ?
-    if NotEmpty( token ) == false || NotEmpty( id ) == false {
+    if NotEmpty( token ) == false || ( NotEmpty( id ) == false && NotEmpty( cid ) == false ) {
         status := http.StatusBadRequest
         EncodeStandardResponse( w, status, http.StatusText( status ), nil )
         return
@@ -28,14 +31,23 @@ func AuthorizationSearch( w http.ResponseWriter, r *http.Request ) {
         return
     }
 
-    // get the request details
-    reqs, err := dao.Database.SearchDepositAuthorizationById( id )
+    var reqs [] * api.Authorization
+    var err error
+
+    if NotEmpty( id ) {
+        // doing a search by ID
+        reqs, err = dao.Database.SearchDepositAuthorizationById(id)
+    } else {
+        // doing a search by computing ID
+        reqs, err = dao.Database.SearchDepositAuthorizationByCid(cid)
+    }
+
     if err != nil {
-        logger.Log( fmt.Sprintf( "ERROR: %s\n", err.Error( ) ) )
+        logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
         status := http.StatusInternalServerError
-        EncodeStandardResponse( w, status,
-            fmt.Sprintf( "%s (%s)", http.StatusText( status ), err ),
-            nil )
+        EncodeStandardResponse(w, status,
+            fmt.Sprintf("%s (%s)", http.StatusText(status), err),
+            nil)
         return
     }
 

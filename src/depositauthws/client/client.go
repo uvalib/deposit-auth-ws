@@ -109,6 +109,32 @@ func SearchDepositAuthorizationById( endpoint string, id string, token string ) 
     return resp.StatusCode, r.Details
 }
 
+func SearchDepositAuthorizationByCid( endpoint string, cid string, token string ) ( int, [] * api.Authorization ) {
+
+    url := fmt.Sprintf( "%s?auth=%s&cid=%s", endpoint, token, cid )
+    //fmt.Printf( "%s\n", url )
+
+    resp, body, errs := gorequest.New( ).
+        SetDebug( debugHttp ).
+        Get( url  ).
+        Timeout( time.Duration( 5 ) * time.Second ).
+        End( )
+
+    if errs != nil {
+        return http.StatusInternalServerError, nil
+    }
+
+    defer resp.Body.Close( )
+
+    r := api.StandardResponse{ }
+    err := json.Unmarshal( []byte( body ), &r )
+    if err != nil {
+        return http.StatusInternalServerError, nil
+    }
+
+    return resp.StatusCode, r.Details
+}
+
 func ImportDepositAuthorization( endpoint string, token string ) ( int, int ) {
 
     url := fmt.Sprintf( "%s/import?auth=%s", endpoint, token )

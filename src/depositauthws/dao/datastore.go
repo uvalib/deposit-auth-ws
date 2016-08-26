@@ -101,6 +101,20 @@ func ( db *DB ) SearchDepositAuthorizationById( id string ) ( [] * api.Authoriza
 }
 
 //
+// get all similar to the a specified computing ID
+//
+func ( db *DB ) SearchDepositAuthorizationByCid( cid string ) ( [] * api.Authorization, error ) {
+
+    rows, err := db.Query( "SELECT * FROM depositauth WHERE computing_id LIKE ? ORDER BY id ASC", fmt.Sprintf( "%%%s%%", cid ) )
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close( )
+
+    return depositAuthorizationResults( rows )
+}
+
+//
 // create a new deposit authorization
 //
 func ( db *DB ) CreateDepositAuthorization( reg api.Authorization ) ( * api.Authorization, error ) {

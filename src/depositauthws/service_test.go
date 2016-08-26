@@ -106,7 +106,7 @@ func TestGetBadToken( t *testing.T ) {
 // search tests
 //
 
-func TestSearchHappyDay( t *testing.T ) {
+func TestSearchByIdHappyDay( t *testing.T ) {
     expected := http.StatusOK
     status, details := client.SearchDepositAuthorizationById( cfg.Endpoint, "0", goodToken )
     if status != expected {
@@ -115,7 +115,7 @@ func TestSearchHappyDay( t *testing.T ) {
     ensureValidAuthorizations( t, details )
 }
 
-func TestSearchEmptyId( t *testing.T ) {
+func TestSearchByIdEmptyId( t *testing.T ) {
     expected := http.StatusBadRequest
     status, _ := client.SearchDepositAuthorizationById( cfg.Endpoint, empty, goodToken )
     if status != expected {
@@ -123,7 +123,38 @@ func TestSearchEmptyId( t *testing.T ) {
     }
 }
 
-func TestSearchBadToken( t *testing.T ) {
+func TestSearchByIdBadToken( t *testing.T ) {
+    expected := http.StatusForbidden
+    status, _ := client.SearchDepositAuthorizationById( cfg.Endpoint, goodId, badToken )
+    if status != expected {
+        t.Fatalf( "Expected %v, got %v\n", expected, status )
+    }
+}
+
+func TestSearchByCidHappyDay( t *testing.T ) {
+
+    existing := getExistingAuthorization( )
+    if existing == nil {
+        t.Fatalf( "Unable to get existing authorization\n" )
+    }
+
+    expected := http.StatusOK
+    status, details := client.SearchDepositAuthorizationById( cfg.Endpoint, existing.ComputingId, goodToken )
+    if status != expected {
+        t.Fatalf( "Expected %v, got %v\n", expected, status )
+    }
+    ensureValidAuthorizations( t, details )
+}
+
+func TestSearchByCidEmptyId( t *testing.T ) {
+    expected := http.StatusBadRequest
+    status, _ := client.SearchDepositAuthorizationById( cfg.Endpoint, empty, goodToken )
+    if status != expected {
+        t.Fatalf( "Expected %v, got %v\n", expected, status )
+    }
+}
+
+func TestSearchByCidBadToken( t *testing.T ) {
     expected := http.StatusForbidden
     status, _ := client.SearchDepositAuthorizationById( cfg.Endpoint, goodId, badToken )
     if status != expected {
