@@ -105,7 +105,7 @@ func ( db *DB ) SearchDepositAuthorizationById( id string ) ( [] * api.Authoriza
 //
 func ( db *DB ) SearchDepositAuthorizationByCid( cid string ) ( [] * api.Authorization, error ) {
 
-    rows, err := db.Query( "SELECT * FROM depositauth WHERE computing_id LIKE ? ORDER BY id ASC", fmt.Sprintf( "%%%s%%", cid ) )
+    rows, err := db.Query( "SELECT * FROM depositauth WHERE computing_id LIKE ? ORDER BY id ASC", fmt.Sprintf( "%s%%", cid ) )
     if err != nil {
         return nil, err
     }
