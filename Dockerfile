@@ -1,10 +1,7 @@
 FROM alpine:3.4
 
-# temp cos the CDN is down
-RUN sed -i -e 's/dl-cdn/dl-4/g' /etc/apk/repositories
-
-# Add bash and timezone data cos we dont get them by default
-RUN apk --update add bash tzdata
+# update the packages
+RUN apk update && apk upgrade && apk add bash tzdata
 
 # Create the run user and group
 RUN addgroup webservice && adduser webservice -G webservice -D
