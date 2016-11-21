@@ -73,6 +73,9 @@ func AuthorizationImport( w http.ResponseWriter, r *http.Request ) {
         }
     }
 
+    // log summary
+    logger.Log( fmt.Sprintf( "Import summary: %d success(es), %d duplicate(s), %d error(s)", okCount, duplicateCount, errorCount ) )
+
     // did we encounter any errors
     if errorCount != 0 {
         status := http.StatusCreated

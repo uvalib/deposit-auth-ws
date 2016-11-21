@@ -13,7 +13,7 @@ import (
 
 func EncodeStandardResponse( w http.ResponseWriter, status int, message string, details [] * api.Authorization ) {
 
-    logger.Log( fmt.Sprintf( "Status: %d (%s)\n", status, message ) )
+    logger.Log( fmt.Sprintf( "EncodeStandardResponse status: %d (%s)\n", status, message ) )
     jsonAttributes( w )
     coorsAttributes( w )
     w.WriteHeader( status )
@@ -24,7 +24,7 @@ func EncodeStandardResponse( w http.ResponseWriter, status int, message string, 
 
 func EncodeImportExportResponse( w http.ResponseWriter, status int, message string, count int ) {
 
-    logger.Log( fmt.Sprintf( "Status: %d (%s)\n", status, message ) )
+    logger.Log( fmt.Sprintf( "EncodeImportExportResponse status: %d (%s)\n", status, message ) )
     jsonAttributes( w )
     w.WriteHeader( status )
     if err := json.NewEncoder(w).Encode( api.ImportExportResponse { Status: status, Message: message, Count: count } ); err != nil {

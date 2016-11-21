@@ -61,6 +61,9 @@ func AuthorizationExport( w http.ResponseWriter, r *http.Request ) {
         return
     }
 
+    // log summary
+    logger.Log( fmt.Sprintf( "Export summary: %d record(s) exported", len( exports ) ) )
+
     // its all over
     status := http.StatusOK
     EncodeImportExportResponse( w, status, http.StatusText( status ), len( exports ) )
