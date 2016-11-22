@@ -1,8 +1,17 @@
-export GOPATH=$(pwd)
-go get github.com/gorilla/mux
-go get github.com/patrickmn/go-cache
-go get github.com/go-sql-driver/mysql
+if [ -z "$GOPATH" ]; then
+   echo "ERROR: $GOPATH not defined"
+   exit 1
+fi
+
+cd $GOPATH/src
+rm -fr vendor
+
+go get -u github.com/FiloSottile/gvt
+
+gvt fetch github.com/gorilla/mux
+gvt fetch github.com/patrickmn/go-cache
+gvt fetch -tag v1.2 github.com/go-sql-driver/mysql
 
 # for tests
-go get gopkg.in/yaml.v2
-go get github.com/parnurzeal/gorequest
+gvt fetch gopkg.in/yaml.v2
+gvt fetch github.com/parnurzeal/gorequest
