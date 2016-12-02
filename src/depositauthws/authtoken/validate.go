@@ -6,6 +6,8 @@ import (
     "net/http"
     "github.com/parnurzeal/gorequest"
     "depositauthws/logger"
+    "io"
+    "io/ioutil"
 )
 
 func Validate( endpoint string, token string ) bool {
@@ -26,6 +28,7 @@ func Validate( endpoint string, token string ) bool {
         return false
     }
 
+    defer io.Copy( ioutil.Discard, resp.Body )
     defer resp.Body.Close( )
 
     logger.Log( fmt.Sprintf( "Token auth (%s) returns http %d in %s\n", url, resp.StatusCode, duration ) )

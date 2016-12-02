@@ -7,6 +7,8 @@ import (
     "net/http"
     "depositauthws/api"
     "encoding/json"
+    "io"
+    "io/ioutil"
 )
 
 var debugHttp = false
@@ -26,6 +28,7 @@ func HealthCheck( endpoint string ) int {
         return http.StatusInternalServerError
     }
 
+    defer io.Copy( ioutil.Discard, resp.Body )
     defer resp.Body.Close( )
 
     return resp.StatusCode
@@ -46,6 +49,7 @@ func VersionCheck( endpoint string ) ( int, string ) {
         return http.StatusInternalServerError, ""
     }
 
+    defer io.Copy( ioutil.Discard, resp.Body )
     defer resp.Body.Close( )
 
     r := api.VersionResponse{ }
@@ -72,6 +76,7 @@ func GetDepositAuthorization( endpoint string, id string, token string ) ( int, 
        return http.StatusInternalServerError, nil
     }
 
+    defer io.Copy( ioutil.Discard, resp.Body )
     defer resp.Body.Close( )
 
     r := api.StandardResponse{ }
@@ -98,6 +103,7 @@ func SearchDepositAuthorizationById( endpoint string, id string, token string ) 
         return http.StatusInternalServerError, nil
     }
 
+    defer io.Copy( ioutil.Discard, resp.Body )
     defer resp.Body.Close( )
 
     r := api.StandardResponse{ }
@@ -124,6 +130,7 @@ func SearchDepositAuthorizationByCid( endpoint string, cid string, token string 
         return http.StatusInternalServerError, nil
     }
 
+    defer io.Copy( ioutil.Discard, resp.Body )
     defer resp.Body.Close( )
 
     r := api.StandardResponse{ }
@@ -150,6 +157,7 @@ func ImportDepositAuthorization( endpoint string, token string ) ( int, int ) {
         return http.StatusInternalServerError, 0
     }
 
+    defer io.Copy( ioutil.Discard, resp.Body )
     defer resp.Body.Close( )
 
     r := api.ImportExportResponse{ }
@@ -176,6 +184,7 @@ func ExportDepositAuthorization( endpoint string, token string ) ( int, int ) {
         return http.StatusInternalServerError, 0
     }
 
+    defer io.Copy( ioutil.Discard, resp.Body )
     defer resp.Body.Close( )
 
     r := api.ImportExportResponse{ }
@@ -202,6 +211,7 @@ func FulfillDepositAuthorization( endpoint string, id string, depositId string, 
         return http.StatusInternalServerError
     }
 
+    defer io.Copy( ioutil.Discard, resp.Body )
     defer resp.Body.Close( )
 
     return resp.StatusCode
