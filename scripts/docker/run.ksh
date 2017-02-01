@@ -24,7 +24,7 @@ docker rmi $NAMESPACE/$INSTANCE:current
 # tag the latest as the current
 docker tag -f $NAMESPACE/$INSTANCE:latest $NAMESPACE/$INSTANCE:current
 
-docker run -d -p 8230:8080 -e DBPASSWD=$DBPASSWD --name $INSTANCE $NAMESPACE/$INSTANCE:latest
+docker run -d -p 8230:8080 --log-opt tag=$INSTANCE -e DBPASSWD=$DBPASSWD --name $INSTANCE $NAMESPACE/$INSTANCE:latest
 
 # return status
 exit $?
