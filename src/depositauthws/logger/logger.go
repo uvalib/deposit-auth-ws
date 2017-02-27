@@ -5,5 +5,5 @@ import (
 )
 
 func Log( msg string ) {
-    log.Printf( "DEPOSITAUTH: %s", msg )
+    log.Printf( "%s", msg )
 }
