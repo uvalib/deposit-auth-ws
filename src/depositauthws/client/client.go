@@ -12,6 +12,7 @@ import (
 )
 
 var debugHttp = false
+var serviceTimeout = 5
 
 func HealthCheck( endpoint string ) int {
 
@@ -21,7 +22,7 @@ func HealthCheck( endpoint string ) int {
     resp, _, errs := gorequest.New( ).
        SetDebug( debugHttp ).
        Get( url ).
-       Timeout( time.Duration( 5 ) * time.Second ).
+       Timeout( time.Duration( serviceTimeout ) * time.Second ).
        End( )
 
     if errs != nil {
@@ -42,7 +43,7 @@ func VersionCheck( endpoint string ) ( int, string ) {
     resp, body, errs := gorequest.New( ).
        SetDebug( false ).
        Get( url ).
-       Timeout( time.Duration( 5 ) * time.Second ).
+       Timeout( time.Duration( serviceTimeout ) * time.Second ).
        End( )
 
     if errs != nil {
@@ -69,7 +70,7 @@ func RuntimeCheck( endpoint string ) ( int, * api.RuntimeResponse ) {
     resp, body, errs := gorequest.New( ).
             SetDebug( false ).
             Get( url  ).
-            Timeout( time.Duration( 5 ) * time.Second ).
+            Timeout( time.Duration( serviceTimeout ) * time.Second ).
             End( )
 
     if errs != nil {
@@ -96,7 +97,7 @@ func GetDepositAuthorization( endpoint string, id string, token string ) ( int, 
     resp, body, errs := gorequest.New( ).
        SetDebug( debugHttp ).
        Get( url  ).
-       Timeout( time.Duration( 5 ) * time.Second ).
+       Timeout( time.Duration( serviceTimeout ) * time.Second ).
        End( )
 
     if errs != nil {
@@ -123,7 +124,7 @@ func SearchDepositAuthorizationById( endpoint string, id string, token string ) 
     resp, body, errs := gorequest.New( ).
        SetDebug( debugHttp ).
        Get( url  ).
-       Timeout( time.Duration( 5 ) * time.Second ).
+       Timeout( time.Duration( serviceTimeout ) * time.Second ).
        End( )
 
     if errs != nil {
@@ -150,7 +151,7 @@ func SearchDepositAuthorizationByCid( endpoint string, cid string, token string 
     resp, body, errs := gorequest.New( ).
         SetDebug( debugHttp ).
         Get( url  ).
-        Timeout( time.Duration( 5 ) * time.Second ).
+        Timeout( time.Duration( serviceTimeout ) * time.Second ).
         End( )
 
     if errs != nil {
@@ -177,7 +178,7 @@ func ImportDepositAuthorization( endpoint string, token string ) ( int, int ) {
     resp, body, errs := gorequest.New( ).
        SetDebug( debugHttp ).
        Post( url  ).
-       Timeout( time.Duration( 5 ) * time.Second ).
+       Timeout( time.Duration( serviceTimeout ) * time.Second ).
        End( )
 
     if errs != nil {
@@ -204,7 +205,7 @@ func ExportDepositAuthorization( endpoint string, token string ) ( int, int ) {
     resp, body, errs := gorequest.New( ).
        SetDebug( debugHttp ).
        Post( url  ).
-       Timeout( time.Duration( 5 ) * time.Second ).
+       Timeout( time.Duration( serviceTimeout ) * time.Second ).
        End( )
 
     if errs != nil {
@@ -231,7 +232,7 @@ func FulfillDepositAuthorization( endpoint string, id string, depositId string, 
     resp, _, errs := gorequest.New( ).
        SetDebug( debugHttp ).
        Put( url ).
-       Timeout( time.Duration( 5 ) * time.Second ).
+       Timeout( time.Duration( serviceTimeout ) * time.Second ).
        End( )
 
     if errs != nil {

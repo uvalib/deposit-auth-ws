@@ -10,7 +10,7 @@ import (
     "io/ioutil"
 )
 
-func Validate( endpoint string, token string ) bool {
+func Validate( endpoint string, token string, timeout int ) bool {
 
     url := fmt.Sprintf( "%s/authorize/%s/%s/%s", endpoint, "depositauthservice", "userlookup", token )
     //log.Printf( "%s\n", url )
@@ -19,7 +19,7 @@ func Validate( endpoint string, token string ) bool {
     resp, _, errs := gorequest.New( ).
        SetDebug( false ).
        Get( url  ).
-       Timeout( time.Duration( 5 ) * time.Second ).
+       Timeout( time.Duration( timeout ) * time.Second ).
        End( )
     duration := time.Since( start )
 

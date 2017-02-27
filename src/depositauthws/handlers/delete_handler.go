@@ -24,7 +24,7 @@ func AuthorizationDelete( w http.ResponseWriter, r *http.Request ) {
     }
 
     // validate the token
-    if authtoken.Validate( config.Configuration.AuthTokenEndpoint, token ) == false {
+    if authtoken.Validate( config.Configuration.AuthTokenEndpoint, token, config.Configuration.Timeout ) == false {
         status := http.StatusForbidden
         EncodeStandardResponse( w, status, http.StatusText( status ), nil )
         return

@@ -16,6 +16,7 @@ type Config struct {
     AuthTokenEndpoint  string
     ImportFs           string
     ExportFs           string
+    Timeout            int
     Debug              bool
 }
 
@@ -34,6 +35,7 @@ func LoadConfig( ) Config {
     flag.StringVar( &c.ImportFs, "importfs", "/tmp/import", "The import filesystem")
     flag.StringVar( &c.ExportFs, "exportfs", "/tmp/export", "The export filesystem")
     flag.StringVar( &c.AuthTokenEndpoint, "tokenauth", "http://docker1.lib.virginia.edu:8200", "The token authentication endpoint")
+    flag.IntVar( &c.Timeout, "timeout", 15, "The external service timeout in seconds")
     flag.BoolVar( &c.Debug, "debug", false, "Enable debugging")
 
     flag.Parse()
@@ -46,6 +48,7 @@ func LoadConfig( ) Config {
     logger.Log( fmt.Sprintf( "AuthTokenEndpoint  %s", c.AuthTokenEndpoint ) )
     logger.Log( fmt.Sprintf( "ImportFs           %s", c.ImportFs ) )
     logger.Log( fmt.Sprintf( "ExportFs           %s", c.ExportFs ) )
+    logger.Log( fmt.Sprintf( "Timeout:           %d", c.Timeout ) )
     logger.Log( fmt.Sprintf( "Debug              %t", c.Debug ) )
 
     return c
