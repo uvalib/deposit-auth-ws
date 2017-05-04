@@ -120,39 +120,37 @@ func SearchDepositAuthorizationById( endpoint string, id string, token string ) 
 
     url := fmt.Sprintf( "%s?auth=%s&later=%s", endpoint, token, id )
     //fmt.Printf( "%s\n", url )
-
-    resp, body, errs := gorequest.New( ).
-       SetDebug( debugHttp ).
-       Get( url  ).
-       Timeout( time.Duration( serviceTimeout ) * time.Second ).
-       End( )
-
-    if errs != nil {
-        return http.StatusInternalServerError, nil
-    }
-
-    defer io.Copy( ioutil.Discard, resp.Body )
-    defer resp.Body.Close( )
-
-    r := api.StandardResponse{ }
-    err := json.Unmarshal( []byte( body ), &r )
-    if err != nil {
-        return http.StatusInternalServerError, nil
-    }
-
-    return resp.StatusCode, r.Details
+    return( searchDepositAuthorization( url ) )
 }
 
 func SearchDepositAuthorizationByCid( endpoint string, cid string, token string ) ( int, [] * api.Authorization ) {
 
     url := fmt.Sprintf( "%s?auth=%s&cid=%s", endpoint, token, cid )
     //fmt.Printf( "%s\n", url )
+    return( searchDepositAuthorization( url ) )
+}
+
+func SearchDepositAuthorizationByCreated( endpoint string, created string, token string ) ( int, [] * api.Authorization ) {
+
+    url := fmt.Sprintf( "%s?auth=%s&created=%s", endpoint, token, created )
+    //fmt.Printf( "%s\n", url )
+    return( searchDepositAuthorization( url ) )
+}
+
+func SearchDepositAuthorizationByExported( endpoint string, exported string, token string ) ( int, [] * api.Authorization ) {
+
+    url := fmt.Sprintf( "%s?auth=%s&exported=%s", endpoint, token, exported )
+    //fmt.Printf( "%s\n", url )
+    return( searchDepositAuthorization( url ) )
+}
+
+func searchDepositAuthorization( url string ) ( int, [] * api.Authorization ) {
 
     resp, body, errs := gorequest.New( ).
-        SetDebug( debugHttp ).
-        Get( url  ).
-        Timeout( time.Duration( serviceTimeout ) * time.Second ).
-        End( )
+            SetDebug( debugHttp ).
+            Get( url  ).
+            Timeout( time.Duration( serviceTimeout ) * time.Second ).
+            End( )
 
     if errs != nil {
         return http.StatusInternalServerError, nil

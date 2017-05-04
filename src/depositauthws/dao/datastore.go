@@ -115,6 +115,34 @@ func ( db *DB ) SearchDepositAuthorizationByCid( cid string ) ( [] * api.Authori
 }
 
 //
+// get all greater than a specified created date
+//
+func ( db *DB ) SearchDepositAuthorizationByCreateDate( created_at string ) ( [] * api.Authorization, error ) {
+
+    rows, err := db.Query( "SELECT * FROM depositauth WHERE created_at >= ? ORDER BY id ASC", created_at )
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close( )
+
+    return depositAuthorizationResults( rows )
+}
+
+//
+// get all greater than a specified exported date
+//
+func ( db *DB ) SearchDepositAuthorizationByExportDate( created_at string ) ( [] * api.Authorization, error ) {
+
+    rows, err := db.Query( "SELECT * FROM depositauth WHERE exported_at >= ? ORDER BY id ASC", created_at )
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close( )
+
+    return depositAuthorizationResults( rows )
+}
+
+//
 // create a new deposit authorization
 //
 func ( db *DB ) CreateDepositAuthorization( reg api.Authorization ) ( * api.Authorization, error ) {

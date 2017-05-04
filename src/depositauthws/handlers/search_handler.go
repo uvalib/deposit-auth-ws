@@ -16,9 +16,11 @@ func AuthorizationSearch( w http.ResponseWriter, r *http.Request ) {
     token := r.URL.Query( ).Get( "auth" )
     id := r.URL.Query( ).Get( "later" )
     cid := r.URL.Query( ).Get( "cid" )
+    created_at := r.URL.Query( ).Get( "created" )
+    exported_at := r.URL.Query( ).Get( "exported" )
 
     // parameters OK ?
-    if NotEmpty( token ) == false || ( NotEmpty( id ) == false && NotEmpty( cid ) == false ) {
+    if NotEmpty( token ) == false || ( NotEmpty( id ) == false && NotEmpty( cid ) == false && NotEmpty( created_at ) == false && NotEmpty( exported_at ) == false ) {
         status := http.StatusBadRequest
         EncodeStandardResponse( w, status, http.StatusText( status ), nil )
         return
@@ -37,9 +39,15 @@ func AuthorizationSearch( w http.ResponseWriter, r *http.Request ) {
     if NotEmpty( id ) {
         // doing a search by ID
         reqs, err = dao.Database.SearchDepositAuthorizationById(id)
-    } else {
+    } else if NotEmpty( cid ) {
         // doing a search by computing ID
         reqs, err = dao.Database.SearchDepositAuthorizationByCid(cid)
+    } else if NotEmpty( created_at ) {
+        // doing a search by create date
+        reqs, err = dao.Database.SearchDepositAuthorizationByCreateDate( created_at )
+    } else if NotEmpty( exported_at ) {
+        // doing a search by export date
+        reqs, err = dao.Database.SearchDepositAuthorizationByExportDate( exported_at )
     }
 
     if err != nil {
