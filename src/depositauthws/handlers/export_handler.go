@@ -1,70 +1,70 @@
 package handlers
 
 import (
-    "net/http"
-    "depositauthws/authtoken"
-    "depositauthws/config"
-    "depositauthws/dao"
-    "depositauthws/sis"
-    "depositauthws/logger"
-    "fmt"
+	"depositauthws/authtoken"
+	"depositauthws/config"
+	"depositauthws/dao"
+	"depositauthws/logger"
+	"depositauthws/sis"
+	"fmt"
+	"net/http"
 )
 
-func AuthorizationExport( w http.ResponseWriter, r *http.Request ) {
+func AuthorizationExport(w http.ResponseWriter, r *http.Request) {
 
-    token := r.URL.Query( ).Get( "auth" )
+	token := r.URL.Query().Get("auth")
 
-    // parameters OK ?
-    if NotEmpty( token ) == false {
-        status := http.StatusBadRequest
-        EncodeImportExportResponse( w, status, http.StatusText( status ), 0 )
-        return
-    }
+	// parameters OK ?
+	if NotEmpty(token) == false {
+		status := http.StatusBadRequest
+		EncodeImportExportResponse(w, status, http.StatusText(status), 0)
+		return
+	}
 
-    // validate the token
-    if authtoken.Validate( config.Configuration.AuthTokenEndpoint, token, config.Configuration.Timeout) == false {
-        status := http.StatusForbidden
-        EncodeImportExportResponse( w, status, http.StatusText( status ), 0 )
-        return
-    }
+	// validate the token
+	if authtoken.Validate(config.Configuration.AuthTokenEndpoint, token, config.Configuration.Timeout) == false {
+		status := http.StatusForbidden
+		EncodeImportExportResponse(w, status, http.StatusText(status), 0)
+		return
+	}
 
-    // get the details ready to be exported
-    exports, err := dao.Database.GetDepositAuthorizationForExport( )
-    if err != nil {
-        logger.Log( fmt.Sprintf( "ERROR: %s\n", err.Error( ) ) )
-        status := http.StatusInternalServerError
-        EncodeImportExportResponse( w, status,
-            fmt.Sprintf( "%s (%s)", http.StatusText( status ), err ),
-            0 )
-        return
-    }
+	// get the details ready to be exported
+	exports, err := dao.Database.GetDepositAuthorizationForExport()
+	if err != nil {
+		logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
+		status := http.StatusInternalServerError
+		EncodeImportExportResponse(w, status,
+			fmt.Sprintf("%s (%s)", http.StatusText(status), err),
+			0)
+		return
+	}
 
-    // do the export
-    err = sis.Exchanger.Export( exports )
-    if err != nil {
-        logger.Log( fmt.Sprintf( "ERROR: %s\n", err.Error( ) ) )
-        status := http.StatusInternalServerError
-        EncodeImportExportResponse( w, status,
-            fmt.Sprintf( "%s (%s)", http.StatusText( status ), err ),
-            0 )
-        return
-    }
+	// do the export
+	err = sis.Exchanger.Export(exports)
+	if err != nil {
+		logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
+		status := http.StatusInternalServerError
+		EncodeImportExportResponse(w, status,
+			fmt.Sprintf("%s (%s)", http.StatusText(status), err),
+			0)
+		return
+	}
 
-    // update the status so we do not export them again
-    err = dao.Database.UpdateExportedDepositAuthorization( exports )
-    if err != nil {
-        logger.Log( fmt.Sprintf( "ERROR: %s\n", err.Error( ) ) )
-        status := http.StatusInternalServerError
-        EncodeImportExportResponse( w, status,
-            fmt.Sprintf( "%s (%s)", http.StatusText( status ), err ),
-            0 )
-        return
-    }
+	// update the status so we do not export them again
+	err = dao.Database.UpdateExportedDepositAuthorization(exports)
+	if err != nil {
+		logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
+		status := http.StatusInternalServerError
+		EncodeImportExportResponse(w, status,
+			fmt.Sprintf("%s (%s)", http.StatusText(status), err),
+			0)
+		return
+	}
 
-    // log summary
-    logger.Log( fmt.Sprintf( "Export summary: %d record(s) exported", len( exports ) ) )
+	// log summary
+	logger.Log(fmt.Sprintf("Export summary: %d record(s) exported", len(exports)))
 
-    // its all over
-    status := http.StatusOK
-    EncodeImportExportResponse( w, status, http.StatusText( status ), len( exports ) )
+	// its all over
+	status := http.StatusOK
+	EncodeImportExportResponse(w, status, http.StatusText(status), len(exports))
 }
