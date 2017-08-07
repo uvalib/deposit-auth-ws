@@ -10,7 +10,8 @@ go get -u github.com/FiloSottile/gvt
 
 gvt fetch github.com/gorilla/mux
 gvt fetch github.com/patrickmn/go-cache
-gvt fetch -tag v1.2 github.com/go-sql-driver/mysql
+#gvt fetch -tag v1.2 github.com/go-sql-driver/mysql
+gvt fetch github.com/go-sql-driver/mysql
 
 # for tests
 gvt fetch gopkg.in/yaml.v2
