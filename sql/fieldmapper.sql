@@ -156,3 +156,6 @@ INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "departm
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "PHYS-MAPE", "Department of Physics" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "SPAN-MA", "Department of Spanish" );
 INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "department", "STATS-MS", "Department of Statistics" );
+
+-- added for new programs
+INSERT INTO fieldmapper( field_class, field_name, field_value ) VALUES( "degree", "MED", "MED (Master of Education)" );
