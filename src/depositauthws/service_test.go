@@ -8,22 +8,22 @@ import (
    "net/http"
    "strings"
    "testing"
-	"gopkg.in/yaml.v2"
+   "gopkg.in/yaml.v2"
 )
 
-type TestConfig struct {
+type testConfig struct {
    Endpoint string
    Token    string
 }
 
 var cfg = loadConfig()
 
-var goodId = "1"
-var notFoundId = "x"
+var goodID = "1"
+var notFoundID = "x"
 var goodToken = cfg.Token
 var badToken = "badness"
-var goodDepositId = "libra:12345"
-var badDepositId = " "
+var goodDepositID = "libra:12345"
+var badDepositID = " "
 var empty = " "
 var goodDate = "2016-01-01"
 
@@ -72,7 +72,7 @@ func TestRuntimeCheck(t *testing.T) {
 
    if len( runtime.Version ) == 0 ||
       runtime.AllocatedMemory == 0 ||
-      runtime.CpuCount == 0 ||
+      runtime.CPUCount == 0 ||
       runtime.GoRoutineCount == 0 ||
       runtime.ObjectCount == 0 {
       t.Fatalf("Expected non-zero value in runtime info but one is zero\n")
@@ -91,7 +91,7 @@ func TestGetHappyDay(t *testing.T) {
    }
 
    expected := http.StatusOK
-   status, details := client.GetDepositAuthorization(cfg.Endpoint, existing.Id, goodToken)
+   status, details := client.GetDepositAuthorization(cfg.Endpoint, existing.ID, goodToken)
    if status != expected {
       t.Fatalf("Expected %v, got %v\n", expected, status)
    }
@@ -113,7 +113,7 @@ func TestGetEmptyId(t *testing.T) {
 
 func TestGetNotFoundId(t *testing.T) {
    expected := http.StatusNotFound
-   status, _ := client.GetDepositAuthorization(cfg.Endpoint, notFoundId, goodToken)
+   status, _ := client.GetDepositAuthorization(cfg.Endpoint, notFoundID, goodToken)
    if status != expected {
       t.Fatalf("Expected %v, got %v\n", expected, status)
    }
@@ -121,7 +121,7 @@ func TestGetNotFoundId(t *testing.T) {
 
 func TestGetBadToken(t *testing.T) {
    expected := http.StatusForbidden
-   status, _ := client.GetDepositAuthorization(cfg.Endpoint, goodId, badToken)
+   status, _ := client.GetDepositAuthorization(cfg.Endpoint, goodID, badToken)
    if status != expected {
       t.Fatalf("Expected %v, got %v\n", expected, status)
    }
@@ -133,7 +133,7 @@ func TestGetBadToken(t *testing.T) {
 
 func TestSearchByIdHappyDay(t *testing.T) {
    expected := http.StatusOK
-   status, details := client.SearchDepositAuthorizationById(cfg.Endpoint, "0", goodToken)
+   status, details := client.SearchDepositAuthorizationByID(cfg.Endpoint, "0", goodToken)
    if status != expected {
       t.Fatalf("Expected %v, got %v\n", expected, status)
    }
@@ -142,7 +142,7 @@ func TestSearchByIdHappyDay(t *testing.T) {
 
 func TestSearchByIdEmptyId(t *testing.T) {
    expected := http.StatusBadRequest
-   status, _ := client.SearchDepositAuthorizationById(cfg.Endpoint, empty, goodToken)
+   status, _ := client.SearchDepositAuthorizationByID(cfg.Endpoint, empty, goodToken)
    if status != expected {
       t.Fatalf("Expected %v, got %v\n", expected, status)
    }
@@ -150,7 +150,7 @@ func TestSearchByIdEmptyId(t *testing.T) {
 
 func TestSearchByIdBadToken(t *testing.T) {
    expected := http.StatusForbidden
-   status, _ := client.SearchDepositAuthorizationById(cfg.Endpoint, goodId, badToken)
+   status, _ := client.SearchDepositAuthorizationByID(cfg.Endpoint, goodID, badToken)
    if status != expected {
       t.Fatalf("Expected %v, got %v\n", expected, status)
    }
@@ -168,7 +168,7 @@ func TestSearchByCidHappyDay(t *testing.T) {
    }
 
    expected := http.StatusOK
-   status, details := client.SearchDepositAuthorizationByCid(cfg.Endpoint, existing.ComputingId, goodToken)
+   status, details := client.SearchDepositAuthorizationByCid(cfg.Endpoint, existing.ComputingID, goodToken)
    if status != expected {
       t.Fatalf("Expected %v, got %v\n", expected, status)
    }
@@ -185,7 +185,7 @@ func TestSearchByCidEmptyCid(t *testing.T) {
 
 func TestSearchByCidBadToken(t *testing.T) {
    expected := http.StatusForbidden
-   status, _ := client.SearchDepositAuthorizationByCid(cfg.Endpoint, goodId, badToken)
+   status, _ := client.SearchDepositAuthorizationByCid(cfg.Endpoint, goodID, badToken)
    if status != expected {
       t.Fatalf("Expected %v, got %v\n", expected, status)
    }
@@ -300,7 +300,7 @@ func TestFulfillHappyDay(t *testing.T) {
    }
 
    expected := http.StatusOK
-   status := client.FulfillDepositAuthorization(cfg.Endpoint, existing.Id, goodDepositId, goodToken)
+   status := client.FulfillDepositAuthorization(cfg.Endpoint, existing.ID, goodDepositID, goodToken)
    if status != expected {
       t.Fatalf("Expected %v, got %v\n", expected, status)
    }
@@ -308,7 +308,7 @@ func TestFulfillHappyDay(t *testing.T) {
 
 func TestFulfillEmptyId(t *testing.T) {
    expected := http.StatusBadRequest
-   status := client.FulfillDepositAuthorization(cfg.Endpoint, empty, goodDepositId, goodToken)
+   status := client.FulfillDepositAuthorization(cfg.Endpoint, empty, goodDepositID, goodToken)
    if status != expected {
       t.Fatalf("Expected %v, got %v\n", expected, status)
    }
@@ -316,7 +316,7 @@ func TestFulfillEmptyId(t *testing.T) {
 
 func TestFulfillNotFoundId(t *testing.T) {
    expected := http.StatusNotFound
-   status := client.FulfillDepositAuthorization(cfg.Endpoint, notFoundId, goodDepositId, goodToken)
+   status := client.FulfillDepositAuthorization(cfg.Endpoint, notFoundID, goodDepositID, goodToken)
    if status != expected {
       t.Fatalf("Expected %v, got %v\n", expected, status)
    }
@@ -324,7 +324,7 @@ func TestFulfillNotFoundId(t *testing.T) {
 
 func TestFulfillBadToken(t *testing.T) {
    expected := http.StatusForbidden
-   status := client.FulfillDepositAuthorization(cfg.Endpoint, goodId, goodDepositId, badToken)
+   status := client.FulfillDepositAuthorization(cfg.Endpoint, goodID, goodDepositID, badToken)
    if status != expected {
       t.Fatalf("Expected %v, got %v\n", expected, status)
    }
@@ -332,7 +332,7 @@ func TestFulfillBadToken(t *testing.T) {
 
 func TestFulfillBadDepositId(t *testing.T) {
    expected := http.StatusBadRequest
-   status := client.FulfillDepositAuthorization(cfg.Endpoint, goodId, badDepositId, goodToken)
+   status := client.FulfillDepositAuthorization(cfg.Endpoint, goodID, badDepositID, goodToken)
    if status != expected {
       t.Fatalf("Expected %v, got %v\n", expected, status)
    }
@@ -340,7 +340,7 @@ func TestFulfillBadDepositId(t *testing.T) {
 
 func getExistingAuthorization() *api.Authorization {
 
-   status, details := client.SearchDepositAuthorizationById(cfg.Endpoint, "0", goodToken)
+   status, details := client.SearchDepositAuthorizationByID(cfg.Endpoint, "0", goodToken)
    if status == http.StatusOK {
       if len(details) != 0 {
          return details[0]
@@ -353,9 +353,9 @@ func getExistingAuthorization() *api.Authorization {
 func ensureValidAuthorizations(t *testing.T, details []*api.Authorization) {
 
    for _, e := range details {
-      if emptyField(e.Id) ||
-         emptyField(e.EmployeeId) ||
-         emptyField(e.ComputingId) ||
+      if emptyField(e.ID) ||
+         emptyField(e.EmployeeID) ||
+         emptyField(e.ComputingID) ||
          emptyField(e.FirstName) ||
          //emptyField( e.MiddleName ) ||
          emptyField(e.LastName) ||
@@ -366,7 +366,7 @@ func ensureValidAuthorizations(t *testing.T, details []*api.Authorization) {
          //emptyField( e.Department ) ||
          //emptyField( e.Title ) ||
          emptyField(e.DocType) ||
-         //emptyField( e.LibraId ) ||
+         //emptyField( e.LibraID ) ||
          emptyField(e.Status) ||
          //emptyField( e.ApprovedAt ) ||
          //emptyField( e.AcceptedAt ) ||
@@ -383,14 +383,14 @@ func emptyField(field string) bool {
    return len(strings.TrimSpace(field)) == 0
 }
 
-func loadConfig() TestConfig {
+func loadConfig() testConfig {
 
    data, err := ioutil.ReadFile("service_test.yml")
    if err != nil {
       log.Fatal(err)
    }
 
-   var c TestConfig
+   var c testConfig
    if err := yaml.Unmarshal(data, &c); err != nil {
       log.Fatal(err)
    }
@@ -400,3 +400,7 @@ func loadConfig() TestConfig {
 
    return c
 }
+
+//
+// end of file
+//
