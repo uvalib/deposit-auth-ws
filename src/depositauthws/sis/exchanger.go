@@ -10,6 +10,7 @@ import (
    "regexp"
    "strings"
    "time"
+   "sort"
 )
 
 type sisImpliementation struct {
@@ -98,12 +99,12 @@ func (sis *sisImpliementation) CheckImport() error {
 //
 // import records from the supplied file
 //
-func importFromFile(filename *string) ([]*api.Authorization, error) {
+func importFromFile(filename string) ([]*api.Authorization, error) {
 
-   logger.Log(fmt.Sprintf("Importing from: %s", *filename))
+   logger.Log(fmt.Sprintf("Importing from: %s", filename))
 
    // open the file for reading
-   b, err := ioutil.ReadFile(*filename)
+   b, err := ioutil.ReadFile(filename)
    if err != nil {
       return nil, err
    }
@@ -179,23 +180,23 @@ func convertToUtf8(si string) string {
 //
 // mark the file as done so we don't process it again
 //
-func markFileComplete(filename *string) error {
+func markFileComplete(filename string) error {
 
-   newname := fmt.Sprintf("%s.done-%d", *filename, time.Now().UnixNano())
-   logger.Log(fmt.Sprintf("Renaming %s -> %s", *filename, newname))
-   return os.Rename(*filename, newname)
+   newname := fmt.Sprintf("%s.done-%d", filename, time.Now().UnixNano())
+   logger.Log(fmt.Sprintf("Renaming %s -> %s", filename, newname))
+   return os.Rename(filename, newname)
 }
 
 //
 // look for any available files that can be imported
 //
-func locateImportFiles(filesystem string) ([]*string, error) {
+func locateImportFiles(filesystem string) ([] string, error) {
    files, err := ioutil.ReadDir(filesystem)
    if err != nil {
       return nil, err
    }
 
-   results := make([]*string, 0)
+   results := make([] string, 0)
 
    // the pattern to search for
    rx, _ := regexp.Compile("UV_Libra_From_SIS_\\d{6}.txt$")
@@ -203,10 +204,11 @@ func locateImportFiles(filesystem string) ([]*string, error) {
    for _, f := range files {
       if rx.MatchString(f.Name()) == true {
          fullname := filepath.Join(filesystem, f.Name())
-         results = append(results, &fullname)
+         results = append(results, fullname)
       }
    }
 
+   sort.Strings( results )
    return results, nil
 }
 
