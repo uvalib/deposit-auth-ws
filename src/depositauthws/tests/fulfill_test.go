@@ -11,13 +11,13 @@ import (
 //
 
 func TestFulfillHappyDay(t *testing.T) {
-   existing := getExistingAuthorization()
-   if existing == nil {
-      t.Fatalf("Unable to get existing authorization\n")
+   status, existing := getExistingAuthorization( )
+   if status != http.StatusOK {
+      t.Fatalf("Unable to get existing authorization: status %d\n", status )
    }
 
    expected := http.StatusOK
-   status := client.FulfillDepositAuthorization(cfg.Endpoint, existing.ID, goodDepositID, goodToken)
+   status = client.FulfillDepositAuthorization(cfg.Endpoint, existing.ID, goodDepositID, goodToken)
    if status != expected {
       t.Fatalf("Expected %v, got %v\n", expected, status)
    }

@@ -129,13 +129,13 @@ func GetDepositAuthorization(endpoint string, id string, token string) (int, []*
 }
 
 //
-// SearchDepositAuthorizationByID -- calls the service get by id method
+// GetInboundDepositAuthorization -- gets new authorizations
 //
-func SearchDepositAuthorizationByID(endpoint string, id string, token string) (int, []*api.Authorization) {
+func GetInboundDepositAuthorization(endpoint string, after string, token string) (int, []*api.Authorization) {
 
-   url := fmt.Sprintf("%s?auth=%s&later=%s", endpoint, token, id)
+   url := fmt.Sprintf("%s/inbound?auth=%s&after=%s", endpoint, token, after )
    //fmt.Printf( "%s\n", url )
-   return (searchDepositAuthorization(url))
+   return (getDepositAuthorization(url))
 }
 
 //
@@ -145,7 +145,7 @@ func SearchDepositAuthorizationByCid(endpoint string, cid string, token string) 
 
    url := fmt.Sprintf("%s?auth=%s&cid=%s", endpoint, token, cid)
    //fmt.Printf( "%s\n", url )
-   return (searchDepositAuthorization(url))
+   return (getDepositAuthorization(url))
 }
 
 //
@@ -155,7 +155,7 @@ func SearchDepositAuthorizationByCreated(endpoint string, created string, token 
 
    url := fmt.Sprintf("%s?auth=%s&created=%s", endpoint, token, created)
    //fmt.Printf( "%s\n", url )
-   return (searchDepositAuthorization(url))
+   return (getDepositAuthorization(url))
 }
 
 //
@@ -165,7 +165,7 @@ func SearchDepositAuthorizationByExported(endpoint string, exported string, toke
 
    url := fmt.Sprintf("%s?auth=%s&exported=%s", endpoint, token, exported)
    //fmt.Printf( "%s\n", url )
-   return (searchDepositAuthorization(url))
+   return (getDepositAuthorization(url))
 }
 
 //
@@ -252,7 +252,7 @@ func FulfillDepositAuthorization(endpoint string, id string, depositID string, t
    return resp.StatusCode
 }
 
-func searchDepositAuthorization(url string) (int, []*api.Authorization) {
+func getDepositAuthorization(url string) (int, []*api.Authorization) {
 
    resp, body, errs := gorequest.New().
       SetDebug(debugHTTP).

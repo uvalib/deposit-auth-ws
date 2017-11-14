@@ -11,14 +11,14 @@ import (
 )
 
 //
-// AuthorizationExport -- export authorizations request handler
+// ExportHandler -- export authorizations request handler
 //
-func AuthorizationExport(w http.ResponseWriter, r *http.Request) {
+func ExportHandler(w http.ResponseWriter, r *http.Request) {
 
    token := r.URL.Query().Get("auth")
 
    // parameters OK ?
-   if notEmpty(token) == false {
+   if isEmpty(token) {
       status := http.StatusBadRequest
       encodeImportExportResponse(w, status, http.StatusText(status), 0)
       return

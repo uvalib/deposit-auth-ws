@@ -1,26 +1,26 @@
 package handlers
 
 import (
+   "depositauthws/api"
    "depositauthws/authtoken"
    "depositauthws/config"
-   "depositauthws/dao"
+   //"depositauthws/dao"
    "depositauthws/logger"
    "fmt"
-   "github.com/gorilla/mux"
    "net/http"
+   //"golang.org/x/net/http2/hpack"
 )
 
 //
-// GetHandler -- get authorization request handler
+// InboundHandler -- search authorization request handler
 //
-func GetHandler(w http.ResponseWriter, r *http.Request) {
+func InboundHandler(w http.ResponseWriter, r *http.Request) {
 
-   vars := mux.Vars(r)
-   id := vars["id"]
    token := r.URL.Query().Get("auth")
+   after := r.URL.Query().Get("after")
 
    // parameters OK ?
-   if isEmpty(id) || isEmpty(token) {
+   if isEmpty(token) || isEmpty(after) {
       status := http.StatusBadRequest
       encodeStandardResponse(w, status, http.StatusText(status), nil)
       return
@@ -33,8 +33,14 @@ func GetHandler(w http.ResponseWriter, r *http.Request) {
       return
    }
 
-   // get the authorization details
-   reqs, err := dao.DB.GetDepositAuthorizationByID(id)
+   var reqs []*api.Authorization
+   var err error
+
+//   if notEmpty(id) {
+//      // doing a search by ID
+//      reqs, err = dao.DB.SearchDepositAuthorizationByID(id)
+//   }
+
    if err != nil {
       logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
       status := http.StatusInternalServerError
@@ -44,7 +50,6 @@ func GetHandler(w http.ResponseWriter, r *http.Request) {
       return
    }
 
-   // we did not find the item, return 404
    if reqs == nil || len(reqs) == 0 {
       status := http.StatusNotFound
       encodeStandardResponse(w, status, http.StatusText(status), nil)

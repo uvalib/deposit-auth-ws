@@ -5,9 +5,9 @@ import (
 )
 
 //
-// VersionInfo - get version handler
+// VersionHandler - get version handler
 //
-func VersionInfo(w http.ResponseWriter, r *http.Request) {
+func VersionHandler(w http.ResponseWriter, r *http.Request) {
    encodeVersionResponse(w, http.StatusOK, Version())
 }
 

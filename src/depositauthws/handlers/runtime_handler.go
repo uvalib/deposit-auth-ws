@@ -6,9 +6,9 @@ import (
 )
 
 //
-// RuntimeInfo -- get the runtime information
+// RuntimeHandler -- get the runtime information
 //
-func RuntimeInfo(w http.ResponseWriter, r *http.Request) {
+func RuntimeHandler(w http.ResponseWriter, r *http.Request) {
 
    version := runtime.Version()
    ncpu := runtime.NumCPU()

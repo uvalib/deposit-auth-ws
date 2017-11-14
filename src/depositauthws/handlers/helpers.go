@@ -80,8 +80,8 @@ func coorsAttributes(w http.ResponseWriter) {
    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 }
 
-func notEmpty(param string) bool {
-   return len(strings.TrimSpace(param)) != 0
+func isEmpty(param string) bool {
+   return len(strings.TrimSpace(param)) == 0
 }
 
 // map any field values as necessary

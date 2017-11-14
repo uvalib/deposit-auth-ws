@@ -18,6 +18,8 @@ type testConfig struct {
 
 var cfg = loadConfig()
 
+var firstID = "0"
+var lastID = "9999999"
 var goodID = "1"
 var notFoundID = "x"
 var goodToken = cfg.Token
@@ -27,16 +29,16 @@ var badDepositID = " "
 var empty = " "
 var goodDate = "2016-01-01"
 
-func getExistingAuthorization() *api.Authorization {
+func getExistingAuthorization( ) ( int, *api.Authorization ) {
 
-   status, details := client.SearchDepositAuthorizationByID(cfg.Endpoint, "0", goodToken)
+   status, details := client.SearchDepositAuthorizationByCreated(cfg.Endpoint, goodDate, goodToken)
    if status == http.StatusOK {
       if len(details) != 0 {
-         return details[0]
+         return status, details[0]
       }
    }
 
-   return nil
+   return status, nil
 }
 
 func ensureValidAuthorizations(t *testing.T, details []*api.Authorization) {

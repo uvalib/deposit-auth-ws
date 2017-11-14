@@ -11,9 +11,9 @@ import (
 )
 
 //
-// AuthorizationFulfill -- fulfill authorization request handler
+// FulfillHandler -- fulfill authorization request handler
 //
-func AuthorizationFulfill(w http.ResponseWriter, r *http.Request) {
+func FulfillHandler(w http.ResponseWriter, r *http.Request) {
 
    vars := mux.Vars(r)
    id := vars["id"]
@@ -21,7 +21,7 @@ func AuthorizationFulfill(w http.ResponseWriter, r *http.Request) {
    did := r.URL.Query().Get("deposit")
 
    // parameters OK ?
-   if notEmpty(id) == false || notEmpty(token) == false || notEmpty(did) == false {
+   if isEmpty(id) || isEmpty(token) || isEmpty(did) {
       status := http.StatusBadRequest
       encodeStandardResponse(w, status, http.StatusText(status), nil)
       return

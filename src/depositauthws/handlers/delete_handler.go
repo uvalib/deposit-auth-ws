@@ -11,16 +11,16 @@ import (
 )
 
 //
-// AuthorizationDelete -- delete the authorization request handler
+// DeleteHandler -- delete the authorization request handler
 //
-func AuthorizationDelete(w http.ResponseWriter, r *http.Request) {
+func DeleteHandler(w http.ResponseWriter, r *http.Request) {
 
    vars := mux.Vars(r)
    id := vars["id"]
    token := r.URL.Query().Get("auth")
 
    // parameters OK ?
-   if notEmpty(id) == false || notEmpty(token) == false {
+   if isEmpty(id) || isEmpty(token) {
       status := http.StatusBadRequest
       encodeStandardResponse(w, status, http.StatusText(status), nil)
       return

@@ -7,43 +7,14 @@ import (
 )
 
 //
-// search by ID tests
-//
-
-func TestSearchByIdHappyDay(t *testing.T) {
-   expected := http.StatusOK
-   status, details := client.SearchDepositAuthorizationByID(cfg.Endpoint, "0", goodToken)
-   if status != expected {
-      t.Fatalf("Expected %v, got %v\n", expected, status)
-   }
-   ensureValidAuthorizations(t, details)
-}
-
-func TestSearchByIdEmptyId(t *testing.T) {
-   expected := http.StatusBadRequest
-   status, _ := client.SearchDepositAuthorizationByID(cfg.Endpoint, empty, goodToken)
-   if status != expected {
-      t.Fatalf("Expected %v, got %v\n", expected, status)
-   }
-}
-
-func TestSearchByIdBadToken(t *testing.T) {
-   expected := http.StatusForbidden
-   status, _ := client.SearchDepositAuthorizationByID(cfg.Endpoint, goodID, badToken)
-   if status != expected {
-      t.Fatalf("Expected %v, got %v\n", expected, status)
-   }
-}
-
-//
 // search by computing ID tests
 //
 
 func TestSearchByCidHappyDay(t *testing.T) {
 
-   existing := getExistingAuthorization()
-   if existing == nil {
-      t.Fatalf("Unable to get existing authorization\n")
+   status, existing := getExistingAuthorization( )
+   if status != http.StatusOK {
+      t.Fatalf("Unable to get existing authorization: status %d\n", status )
    }
 
    expected := http.StatusOK

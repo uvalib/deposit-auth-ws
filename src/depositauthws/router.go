@@ -18,66 +18,73 @@ type routeSlice []route
 var routes = routeSlice{
 
    route{
-      "HealthCheck",
+      "HealthCheckHandler",
       "GET",
       "/healthcheck",
-      handlers.HealthCheck,
+      handlers.HealthCheckHandler,
    },
 
    route{
-      "VersionInfo",
+      "VersionHandler",
       "GET",
       "/version",
-      handlers.VersionInfo,
+      handlers.VersionHandler,
    },
 
    route{
-      "RuntimeInfo",
+      "RuntimeHandler",
       "GET",
       "/runtime",
-      handlers.RuntimeInfo,
+      handlers.RuntimeHandler,
    },
 
    route{
-      "AuthorizationGet",
+      "InboundHandler",
+      "GET",
+      "/inbound",
+      handlers.InboundHandler,
+   },
+
+   route{
+      "GetHandler",
       "GET",
       "/{id}",
-      handlers.AuthorizationGet,
+      handlers.GetHandler,
    },
 
    route{
-      "AuthorizationSearch",
+      "SearchHandler",
       "GET",
       "/",
-      handlers.AuthorizationSearch,
+      handlers.SearchHandler,
    },
 
    route{
-      "AuthorizationFulfill",
+      "FulfillHandler",
       "PUT",
       "/{id}",
-      handlers.AuthorizationFulfill,
+      handlers.FulfillHandler,
    },
 
    route{
-      "AuthorizationImport",
+      "ImportHandler",
       "POST",
       "/import",
-      handlers.AuthorizationImport,
+      handlers.ImportHandler,
    },
 
    route{
-      "AuthorizationExport",
+      "ExportHandler",
       "POST",
       "/export",
-      handlers.AuthorizationExport,
+      handlers.ExportHandler,
    },
 
    route{
-      "AuthorizationDelete",
+      "DeleteHandler",
       "DELETE",
       "/{id}",
-      handlers.AuthorizationDelete,
+      handlers.DeleteHandler,
    },
 }
 

@@ -7,9 +7,9 @@ import (
 )
 
 //
-// HealthCheck -- do the healthcheck
+// HealthCheckHandler -- do the healthcheck
 //
-func HealthCheck(w http.ResponseWriter, r *http.Request) {
+func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 
    status := http.StatusOK
    dbErr := dao.DB.CheckDB()

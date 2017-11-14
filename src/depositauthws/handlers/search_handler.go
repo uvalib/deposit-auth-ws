@@ -12,18 +12,17 @@ import (
 )
 
 //
-// AuthorizationSearch -- search authorization request handler
+// SearchHandler -- search authorization request handler
 //
-func AuthorizationSearch(w http.ResponseWriter, r *http.Request) {
+func SearchHandler(w http.ResponseWriter, r *http.Request) {
 
    token := r.URL.Query().Get("auth")
-   id := r.URL.Query().Get("later")
    cid := r.URL.Query().Get("cid")
    createdAt := r.URL.Query().Get("created")
    exportedAt := r.URL.Query().Get("exported")
 
    // parameters OK ?
-   if notEmpty(token) == false || (notEmpty(id) == false && notEmpty(cid) == false && notEmpty(createdAt) == false && notEmpty(exportedAt) == false) {
+   if isEmpty(token) || (isEmpty(cid) && isEmpty(createdAt) && isEmpty(exportedAt)) {
       status := http.StatusBadRequest
       encodeStandardResponse(w, status, http.StatusText(status), nil)
       return
@@ -39,16 +38,13 @@ func AuthorizationSearch(w http.ResponseWriter, r *http.Request) {
    var reqs []*api.Authorization
    var err error
 
-   if notEmpty(id) {
-      // doing a search by ID
-      reqs, err = dao.DB.SearchDepositAuthorizationByID(id)
-   } else if notEmpty(cid) {
+   if isEmpty(cid) == false {
       // doing a search by computing ID
       reqs, err = dao.DB.SearchDepositAuthorizationByCid(cid)
-   } else if notEmpty(createdAt) {
+   } else if isEmpty(createdAt) == false {
       // doing a search by create date
       reqs, err = dao.DB.SearchDepositAuthorizationByCreateDate(createdAt)
-   } else if notEmpty(exportedAt) {
+   } else if isEmpty(exportedAt) == false {
       // doing a search by export date
       reqs, err = dao.DB.SearchDepositAuthorizationByExportDate(exportedAt)
    }
