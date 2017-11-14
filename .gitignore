@@ -5,5 +5,5 @@
 /env.*
 /src/depositauthws/tests/service_test.yml
 /legacy
+/current
 /buildtag.build-0
-/data/UV*

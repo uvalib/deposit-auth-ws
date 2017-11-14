@@ -8,7 +8,6 @@ import (
    "depositauthws/logger"
    "fmt"
    "net/http"
-   //"golang.org/x/net/http2/hpack"
 )
 
 //
