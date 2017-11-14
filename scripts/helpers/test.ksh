@@ -8,4 +8,4 @@ if [ $# -ge 1 ]; then
    RUN="-run $*"
 fi
 
-go test -v depositauthws $RUN
+go test -v depositauthws/tests $RUN

@@ -3,7 +3,7 @@
 /bin
 /pkg
 /env.*
-/src/depositauthws/service_test.yml
+/src/depositauthws/tests/service_test.yml
 /legacy
 /buildtag.build-0
 /data/UV*
