@@ -20,14 +20,14 @@ func ExportHandler(w http.ResponseWriter, r *http.Request) {
    // parameters OK ?
    if isEmpty(token) {
       status := http.StatusBadRequest
-      encodeImportExportResponse(w, status, http.StatusText(status), 0)
+      encodeExportResponse(w, status, http.StatusText(status), 0, 0)
       return
    }
 
    // validate the token
    if authtoken.Validate(config.Configuration.AuthTokenEndpoint, token, config.Configuration.Timeout) == false {
       status := http.StatusForbidden
-      encodeImportExportResponse(w, status, http.StatusText(status), 0)
+      encodeExportResponse(w, status, http.StatusText(status), 0, 0)
       return
    }
 
@@ -36,9 +36,9 @@ func ExportHandler(w http.ResponseWriter, r *http.Request) {
    if err != nil {
       logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
       status := http.StatusInternalServerError
-      encodeImportExportResponse(w, status,
+      encodeExportResponse(w, status,
          fmt.Sprintf("%s (%s)", http.StatusText(status), err),
-         0)
+         0, 0)
       return
    }
 
@@ -47,9 +47,9 @@ func ExportHandler(w http.ResponseWriter, r *http.Request) {
    if err != nil {
       logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
       status := http.StatusInternalServerError
-      encodeImportExportResponse(w, status,
+      encodeExportResponse(w, status,
          fmt.Sprintf("%s (%s)", http.StatusText(status), err),
-         0)
+         0, 0)
       return
    }
 
@@ -58,9 +58,9 @@ func ExportHandler(w http.ResponseWriter, r *http.Request) {
    if err != nil {
       logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
       status := http.StatusInternalServerError
-      encodeImportExportResponse(w, status,
+      encodeExportResponse(w, status,
          fmt.Sprintf("%s (%s)", http.StatusText(status), err),
-         0)
+         0, 0)
       return
    }
 
@@ -69,7 +69,7 @@ func ExportHandler(w http.ResponseWriter, r *http.Request) {
 
    // its all over
    status := http.StatusOK
-   encodeImportExportResponse(w, status, http.StatusText(status), len(exports))
+   encodeExportResponse(w, status, http.StatusText(status), len(exports), 0)
 }
 
 //

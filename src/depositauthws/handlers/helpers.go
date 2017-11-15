@@ -22,12 +22,24 @@ func encodeStandardResponse(w http.ResponseWriter, status int, message string, d
    }
 }
 
-func encodeImportExportResponse(w http.ResponseWriter, status int, message string, count int) {
+func encodeImportResponse(w http.ResponseWriter, status int, message string, newCount int, updateCount int, duplicateCount int, errorCount int ) {
 
-   logger.Log(fmt.Sprintf("encodeImportExportResponse status: %d (%s)\n", status, message))
+   logger.Log(fmt.Sprintf("encodeImportResponse status: %d (%s)\n", status, message))
    jsonAttributes(w)
    w.WriteHeader(status)
-   if err := json.NewEncoder(w).Encode(api.ImportExportResponse{Status: status, Message: message, Count: count}); err != nil {
+   if err := json.NewEncoder(w).Encode(api.ImportResponse{Status: status,
+   Message: message, NewCount: newCount, UpdatedCount: updateCount,
+   DuplicateCount: duplicateCount, ErrorCount: errorCount }); err != nil {
+      log.Fatal(err)
+   }
+}
+
+func encodeExportResponse(w http.ResponseWriter, status int, message string, exportCount int, errorCount int ) {
+
+   logger.Log(fmt.Sprintf("encodeExportResponse status: %d (%s)\n", status, message))
+   jsonAttributes(w)
+   w.WriteHeader(status)
+   if err := json.NewEncoder(w).Encode(api.ExportResponse{Status: status, Message: message, ExportCount: exportCount, ErrorCount: errorCount }); err != nil {
       log.Fatal(err)
    }
 }

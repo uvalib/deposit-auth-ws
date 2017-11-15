@@ -1,10 +1,9 @@
 package handlers
 
 import (
-   "depositauthws/api"
    "depositauthws/authtoken"
    "depositauthws/config"
-   //"depositauthws/dao"
+   "depositauthws/dao"
    "depositauthws/logger"
    "fmt"
    "net/http"
@@ -32,13 +31,8 @@ func InboundHandler(w http.ResponseWriter, r *http.Request) {
       return
    }
 
-   var reqs []*api.Authorization
-   var err error
-
-//   if notEmpty(id) {
-//      // doing a search by ID
-//      reqs, err = dao.DB.SearchDepositAuthorizationByID(id)
-//   }
+   // get from the inbound queue
+   reqs, err := dao.DB.GetInbound( after )
 
    if err != nil {
       logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))

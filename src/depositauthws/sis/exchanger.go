@@ -11,6 +11,7 @@ import (
    "strings"
    "time"
    "sort"
+   "log"
 )
 
 type sisImpliementation struct {
@@ -249,7 +250,7 @@ func createExportRecord(rec *api.Authorization) string {
 //
 func createImportRecord(s string) *api.Authorization {
 
-   //log.Printf( "[%s]", s )
+   log.Printf( "==> [%s]", s )
 
    delimiter := "|"
    tokens := strings.Split(s, delimiter)

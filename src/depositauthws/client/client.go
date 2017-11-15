@@ -171,7 +171,7 @@ func SearchDepositAuthorizationByExported(endpoint string, exported string, toke
 //
 // ImportDepositAuthorization -- calls the service import method
 //
-func ImportDepositAuthorization(endpoint string, token string) (int, int) {
+func ImportDepositAuthorization(endpoint string, token string) (int, int, int, int, int) {
 
    url := fmt.Sprintf("%s/import?auth=%s", endpoint, token)
    //fmt.Printf( "%s\n", url )
@@ -183,25 +183,25 @@ func ImportDepositAuthorization(endpoint string, token string) (int, int) {
       End()
 
    if errs != nil {
-      return http.StatusInternalServerError, 0
+      return http.StatusInternalServerError, 0, 0, 0, 0
    }
 
    defer io.Copy(ioutil.Discard, resp.Body)
    defer resp.Body.Close()
 
-   r := api.ImportExportResponse{}
+   r := api.ImportResponse{}
    err := json.Unmarshal([]byte(body), &r)
    if err != nil {
-      return http.StatusInternalServerError, 0
+      return http.StatusInternalServerError, 0, 0, 0, 0
    }
 
-   return resp.StatusCode, r.Count
+   return resp.StatusCode, r.NewCount, r.UpdatedCount, r.DuplicateCount, r.ErrorCount
 }
 
 //
 // ExportDepositAuthorization -- calls the service export method
 //
-func ExportDepositAuthorization(endpoint string, token string) (int, int) {
+func ExportDepositAuthorization(endpoint string, token string) (int, int, int) {
 
    url := fmt.Sprintf("%s/export?auth=%s", endpoint, token)
    //fmt.Printf( "%s\n", url )
@@ -213,19 +213,19 @@ func ExportDepositAuthorization(endpoint string, token string) (int, int) {
       End()
 
    if errs != nil {
-      return http.StatusInternalServerError, 0
+      return http.StatusInternalServerError, 0, 0
    }
 
    defer io.Copy(ioutil.Discard, resp.Body)
    defer resp.Body.Close()
 
-   r := api.ImportExportResponse{}
+   r := api.ExportResponse{}
    err := json.Unmarshal([]byte(body), &r)
    if err != nil {
-      return http.StatusInternalServerError, 0
+      return http.StatusInternalServerError, 0, 0
    }
 
-   return resp.StatusCode, r.Count
+   return resp.StatusCode, r.ExportCount, r.ErrorCount
 }
 
 //

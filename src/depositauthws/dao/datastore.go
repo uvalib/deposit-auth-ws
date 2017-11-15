@@ -48,37 +48,11 @@ func (db *dbStruct) CheckDB() error {
 }
 
 //
-// DepositAuthorizationExists -- determine if the supplied deposit authorization already exists
+// GetInbound -- get all inbound after the specified ID
 //
-func (db *dbStruct) DepositAuthorizationExists(e api.Authorization) (bool, error) {
+func (db *dbStruct) GetInbound( after string ) ([]*api.Authorization, error) {
 
-   rows, err := db.Query("SELECT COUNT(*) FROM depositauth WHERE computing_id = ? AND degree = ? AND plan = ? AND title = ?", e.ComputingID, e.Degree, e.Plan, e.Title)
-   if err != nil {
-      return false, err
-   }
-   defer rows.Close()
-
-   var count int
-   for rows.Next() {
-      err := rows.Scan(&count)
-      if err != nil {
-         return false, err
-      }
-   }
-
-   if err := rows.Err(); err != nil {
-      return false, err
-   }
-
-   return count != 0, nil
-}
-
-//
-// GetDepositAuthorizationByID -- get all by ID (should only be 1)
-//
-func (db *dbStruct) GetDepositAuthorizationByID(id string) ([]*api.Authorization, error) {
-
-   rows, err := db.Query("SELECT * FROM depositauth WHERE id = ? LIMIT 1", id)
+   rows, err := db.Query("SELECT i.id, d.* FROM depositauth d, inbound i WHERE d.id = i.deposit_id AND i.id > ? ORDER BY i.id ASC", after )
    if err != nil {
       return nil, err
    }
@@ -88,11 +62,25 @@ func (db *dbStruct) GetDepositAuthorizationByID(id string) ([]*api.Authorization
 }
 
 //
-// SearchDepositAuthorizationByID -- get all greater than a specified ID
+// DepositAuthorizationExists -- determine if the supplied deposit authorization already exists
 //
-func (db *dbStruct) SearchDepositAuthorizationByID(id string) ([]*api.Authorization, error) {
+func (db *dbStruct) GetMatchingDepositAuthorization(e api.Authorization) ([]*api.Authorization, error) {
 
-   rows, err := db.Query("SELECT * FROM depositauth WHERE id > ? ORDER BY id ASC", id)
+   rows, err := db.Query("SELECT 0, d.* FROM depositauth d WHERE d.computing_id = ? AND d.degree = ? AND d.plan = ? ORDER BY d.id ASC", e.ComputingID, e.Degree, e.Plan )
+   if err != nil {
+      return nil, err
+   }
+   defer rows.Close()
+
+   return depositAuthorizationResults(rows)
+}
+
+//
+// GetDepositAuthorizationByID -- get all by ID (should only be 1)
+//
+func (db *dbStruct) GetDepositAuthorizationByID(id string) ([]*api.Authorization, error) {
+
+   rows, err := db.Query("SELECT 0, d.* FROM depositauth d WHERE d.id = ? LIMIT 1", id)
    if err != nil {
       return nil, err
    }
@@ -106,7 +94,7 @@ func (db *dbStruct) SearchDepositAuthorizationByID(id string) ([]*api.Authorizat
 //
 func (db *dbStruct) SearchDepositAuthorizationByCid(cid string) ([]*api.Authorization, error) {
 
-   rows, err := db.Query("SELECT * FROM depositauth WHERE computing_id LIKE ? ORDER BY id ASC", fmt.Sprintf("%s%%", cid))
+   rows, err := db.Query("SELECT 0, d.* FROM depositauth d WHERE d.computing_id LIKE ? ORDER BY d.id ASC", fmt.Sprintf("%s%%", cid))
    if err != nil {
       return nil, err
    }
@@ -120,7 +108,7 @@ func (db *dbStruct) SearchDepositAuthorizationByCid(cid string) ([]*api.Authoriz
 //
 func (db *dbStruct) SearchDepositAuthorizationByCreateDate(createdAt string) ([]*api.Authorization, error) {
 
-   rows, err := db.Query("SELECT * FROM depositauth WHERE created_at >= ? ORDER BY id ASC", createdAt)
+   rows, err := db.Query("SELECT 0, d.* FROM depositauth d WHERE d.created_at >= ? ORDER BY d.id ASC", createdAt)
    if err != nil {
       return nil, err
    }
@@ -134,13 +122,27 @@ func (db *dbStruct) SearchDepositAuthorizationByCreateDate(createdAt string) ([]
 //
 func (db *dbStruct) SearchDepositAuthorizationByExportDate(exportedAt string) ([]*api.Authorization, error) {
 
-   rows, err := db.Query("SELECT * FROM depositauth WHERE exported_at >= ? ORDER BY id ASC", exportedAt)
+   rows, err := db.Query("SELECT 0, d.* FROM depositauth d WHERE d.exported_at >= ? ORDER BY d.id ASC", exportedAt)
    if err != nil {
       return nil, err
    }
    defer rows.Close()
 
    return depositAuthorizationResults(rows)
+}
+
+//
+// CreateInbound -- create a new inbound record
+//
+func (db *dbStruct) CreateInbound( auth_id string ) error {
+
+   stmt, err := db.Prepare("INSERT INTO inbound( deposit_id ) VALUES(?)")
+   if err != nil {
+      return err
+   }
+
+   _, err = stmt.Exec( auth_id )
+   return err
 }
 
 //
@@ -206,7 +208,7 @@ func (db *dbStruct) DeleteDepositAuthorizationByID(id string) (int64, error) {
 //
 func (db *dbStruct) GetDepositAuthorizationForExport() ([]*api.Authorization, error) {
 
-   rows, err := db.Query("SELECT * FROM depositauth WHERE accepted_at IS NOT NULL AND exported_at IS NULL ORDER BY id ASC")
+   rows, err := db.Query("SELECT 0, d.* FROM depositauth d WHERE d.accepted_at IS NOT NULL AND d.exported_at IS NULL ORDER BY d.id ASC")
    if err != nil {
       return nil, err
    }
@@ -236,9 +238,9 @@ func (db *dbStruct) UpdateExportedDepositAuthorization(exports []*api.Authorizat
 }
 
 //
-// UpdateFulfilledDepositAuthorizationByID -- update an item that has been 'fulfilled'
+// UpdateDepositAuthorizationByIDSetFulfilled -- update an item that has been 'fulfilled'
 //
-func (db *dbStruct) UpdateFulfilledDepositAuthorizationByID(id string, did string) error {
+func (db *dbStruct) UpdateDepositAuthorizationByIDSetFulfilled(id string, did string) error {
 
    stmt, err := db.Prepare("UPDATE depositauth SET exported_at = NULL, accepted_at = NOW( ), status = ?, libra_id = ? WHERE id = ? LIMIT 1")
    if err != nil {
@@ -246,6 +248,24 @@ func (db *dbStruct) UpdateFulfilledDepositAuthorizationByID(id string, did strin
    }
 
    _, err = stmt.Exec("submitted", did, id)
+   if err != nil {
+      return err
+   }
+
+   return nil
+}
+
+//
+// UpdateDepositAuthorizationByIDSetTitle -- update an items title
+//
+func (db *dbStruct) UpdateDepositAuthorizationByIDSetTitle( id string, title string) error {
+
+   stmt, err := db.Prepare("UPDATE depositauth SET title = ? WHERE id = ? LIMIT 1")
+   if err != nil {
+      return err
+   }
+
+   _, err = stmt.Exec( title, id )
    if err != nil {
       return err
    }
@@ -300,7 +320,9 @@ func depositAuthorizationResults(rows *sql.Rows) ([]*api.Authorization, error) {
    results := make([]*api.Authorization, 0)
    for rows.Next() {
       reg := new(api.Authorization)
-      err := rows.Scan(&reg.ID,
+      err := rows.Scan(
+         &reg.InboundID,
+         &reg.ID,
          &reg.EmployeeID,
          &reg.ComputingID,
          &reg.FirstName,
@@ -348,3 +370,7 @@ func depositAuthorizationResults(rows *sql.Rows) ([]*api.Authorization, error) {
    logger.Log(fmt.Sprintf("Deposit authorization request returns %d row(s)", len(results)))
    return results, nil
 }
+
+//
+// end of file
+//
