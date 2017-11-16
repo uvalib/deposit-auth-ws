@@ -134,14 +134,14 @@ func (db *dbStruct) SearchDepositAuthorizationByExportDate(exportedAt string) ([
 //
 // CreateInbound -- create a new inbound record
 //
-func (db *dbStruct) CreateInbound( auth_id string ) error {
+func (db *dbStruct) CreateInbound( authID string ) error {
 
    stmt, err := db.Prepare("INSERT INTO inbound( deposit_id ) VALUES(?)")
    if err != nil {
       return err
    }
 
-   _, err = stmt.Exec( auth_id )
+   _, err = stmt.Exec(authID)
    return err
 }
 
