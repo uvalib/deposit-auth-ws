@@ -1,91 +1,91 @@
 package main
 
 import (
-   "depositauthws/handlers"
-   "github.com/gorilla/mux"
-   "net/http"
+	"depositauthws/handlers"
+	"github.com/gorilla/mux"
+	"net/http"
 )
 
 type route struct {
-   Name        string
-   Method      string
-   Pattern     string
-   HandlerFunc http.HandlerFunc
+	Name        string
+	Method      string
+	Pattern     string
+	HandlerFunc http.HandlerFunc
 }
 
 type routeSlice []route
 
 var routes = routeSlice{
 
-   route{
-      "HealthCheckHandler",
-      "GET",
-      "/healthcheck",
-      handlers.HealthCheckHandler,
-   },
+	route{
+		"HealthCheckHandler",
+		"GET",
+		"/healthcheck",
+		handlers.HealthCheckHandler,
+	},
 
-   route{
-      "VersionHandler",
-      "GET",
-      "/version",
-      handlers.VersionHandler,
-   },
+	route{
+		"VersionHandler",
+		"GET",
+		"/version",
+		handlers.VersionHandler,
+	},
 
-   route{
-      "RuntimeHandler",
-      "GET",
-      "/runtime",
-      handlers.RuntimeHandler,
-   },
+	route{
+		"RuntimeHandler",
+		"GET",
+		"/runtime",
+		handlers.RuntimeHandler,
+	},
 
-   route{
-      "InboundHandler",
-      "GET",
-      "/inbound",
-      handlers.InboundHandler,
-   },
+	route{
+		"InboundHandler",
+		"GET",
+		"/inbound",
+		handlers.InboundHandler,
+	},
 
-   route{
-      "GetHandler",
-      "GET",
-      "/{id}",
-      handlers.GetHandler,
-   },
+	route{
+		"GetHandler",
+		"GET",
+		"/{id}",
+		handlers.GetHandler,
+	},
 
-   route{
-      "SearchHandler",
-      "GET",
-      "/",
-      handlers.SearchHandler,
-   },
+	route{
+		"SearchHandler",
+		"GET",
+		"/",
+		handlers.SearchHandler,
+	},
 
-   route{
-      "FulfillHandler",
-      "PUT",
-      "/{id}",
-      handlers.FulfillHandler,
-   },
+	route{
+		"FulfillHandler",
+		"PUT",
+		"/{id}",
+		handlers.FulfillHandler,
+	},
 
-   route{
-      "ImportHandler",
-      "POST",
-      "/import",
-      handlers.ImportHandler,
-   },
+	route{
+		"ImportHandler",
+		"POST",
+		"/import",
+		handlers.ImportHandler,
+	},
 
-   route{
-      "ExportHandler",
-      "POST",
-      "/export",
-      handlers.ExportHandler,
-   },
+	route{
+		"ExportHandler",
+		"POST",
+		"/export",
+		handlers.ExportHandler,
+	},
 
-   route{
-      "DeleteHandler",
-      "DELETE",
-      "/{id}",
-      handlers.DeleteHandler,
-   },
+	route{
+		"DeleteHandler",
+		"DELETE",
+		"/{id}",
+		handlers.DeleteHandler,
+	},
 }
 
 //
@@ -93,22 +93,22 @@ var routes = routeSlice{
 //
 func NewRouter() *mux.Router {
 
-   router := mux.NewRouter().StrictSlash(true)
-   for _, route := range routes {
+	router := mux.NewRouter().StrictSlash(true)
+	for _, route := range routes {
 
-      var handler http.Handler
+		var handler http.Handler
 
-      handler = route.HandlerFunc
-      handler = HandlerLogger(handler, route.Name)
+		handler = route.HandlerFunc
+		handler = HandlerLogger(handler, route.Name)
 
-      router.
-         Methods(route.Method).
-         Path(route.Pattern).
-         Name(route.Name).
-         Handler(handler)
-   }
+		router.
+			Methods(route.Method).
+			Path(route.Pattern).
+			Name(route.Name).
+			Handler(handler)
+	}
 
-   return router
+	return router
 }
 
 //

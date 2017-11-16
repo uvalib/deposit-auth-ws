@@ -1,9 +1,9 @@
 package tests
 
 import (
-   "depositauthws/client"
-   "net/http"
-   "testing"
+	"depositauthws/client"
+	"net/http"
+	"testing"
 )
 
 //
@@ -11,11 +11,11 @@ import (
 //
 
 func TestHealthCheck(t *testing.T) {
-   expected := http.StatusOK
-   status := client.HealthCheck(cfg.Endpoint)
-   if status != expected {
-      t.Fatalf("Expected %v, got %v\n", expected, status)
-   }
+	expected := http.StatusOK
+	status := client.HealthCheck(cfg.Endpoint)
+	if status != expected {
+		t.Fatalf("Expected %v, got %v\n", expected, status)
+	}
 }
 
 //

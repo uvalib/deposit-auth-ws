@@ -1,14 +1,14 @@
 package client
 
 import (
-   "depositauthws/api"
-   "encoding/json"
-   "fmt"
-   "github.com/parnurzeal/gorequest"
-   "io"
-   "io/ioutil"
-   "net/http"
-   "time"
+	"depositauthws/api"
+	"encoding/json"
+	"fmt"
+	"github.com/parnurzeal/gorequest"
+	"io"
+	"io/ioutil"
+	"net/http"
+	"time"
 )
 
 var debugHTTP = false
@@ -19,23 +19,23 @@ var serviceTimeout = 5
 //
 func HealthCheck(endpoint string) int {
 
-   url := fmt.Sprintf("%s/healthcheck", endpoint)
-   //fmt.Printf( "%s\n", url )
+	url := fmt.Sprintf("%s/healthcheck", endpoint)
+	//fmt.Printf( "%s\n", url )
 
-   resp, _, errs := gorequest.New().
-      SetDebug(debugHTTP).
-      Get(url).
-      Timeout(time.Duration(serviceTimeout) * time.Second).
-      End()
+	resp, _, errs := gorequest.New().
+		SetDebug(debugHTTP).
+		Get(url).
+		Timeout(time.Duration(serviceTimeout) * time.Second).
+		End()
 
-   if errs != nil {
-      return http.StatusInternalServerError
-   }
+	if errs != nil {
+		return http.StatusInternalServerError
+	}
 
-   defer io.Copy(ioutil.Discard, resp.Body)
-   defer resp.Body.Close()
+	defer io.Copy(ioutil.Discard, resp.Body)
+	defer resp.Body.Close()
 
-   return resp.StatusCode
+	return resp.StatusCode
 }
 
 //
@@ -43,29 +43,29 @@ func HealthCheck(endpoint string) int {
 //
 func VersionCheck(endpoint string) (int, string) {
 
-   url := fmt.Sprintf("%s/version", endpoint)
-   //fmt.Printf( "%s\n", url )
+	url := fmt.Sprintf("%s/version", endpoint)
+	//fmt.Printf( "%s\n", url )
 
-   resp, body, errs := gorequest.New().
-      SetDebug(false).
-      Get(url).
-      Timeout(time.Duration(serviceTimeout) * time.Second).
-      End()
+	resp, body, errs := gorequest.New().
+		SetDebug(false).
+		Get(url).
+		Timeout(time.Duration(serviceTimeout) * time.Second).
+		End()
 
-   if errs != nil {
-      return http.StatusInternalServerError, ""
-   }
+	if errs != nil {
+		return http.StatusInternalServerError, ""
+	}
 
-   defer io.Copy(ioutil.Discard, resp.Body)
-   defer resp.Body.Close()
+	defer io.Copy(ioutil.Discard, resp.Body)
+	defer resp.Body.Close()
 
-   r := api.VersionResponse{}
-   err := json.Unmarshal([]byte(body), &r)
-   if err != nil {
-      return http.StatusInternalServerError, ""
-   }
+	r := api.VersionResponse{}
+	err := json.Unmarshal([]byte(body), &r)
+	if err != nil {
+		return http.StatusInternalServerError, ""
+	}
 
-   return resp.StatusCode, r.Version
+	return resp.StatusCode, r.Version
 }
 
 //
@@ -73,29 +73,29 @@ func VersionCheck(endpoint string) (int, string) {
 //
 func RuntimeCheck(endpoint string) (int, *api.RuntimeResponse) {
 
-   url := fmt.Sprintf("%s/runtime", endpoint)
-   //fmt.Printf( "%s\n", url )
+	url := fmt.Sprintf("%s/runtime", endpoint)
+	//fmt.Printf( "%s\n", url )
 
-   resp, body, errs := gorequest.New().
-      SetDebug(false).
-      Get(url).
-      Timeout(time.Duration(serviceTimeout) * time.Second).
-      End()
+	resp, body, errs := gorequest.New().
+		SetDebug(false).
+		Get(url).
+		Timeout(time.Duration(serviceTimeout) * time.Second).
+		End()
 
-   if errs != nil {
-      return http.StatusInternalServerError, nil
-   }
+	if errs != nil {
+		return http.StatusInternalServerError, nil
+	}
 
-   defer io.Copy(ioutil.Discard, resp.Body)
-   defer resp.Body.Close()
+	defer io.Copy(ioutil.Discard, resp.Body)
+	defer resp.Body.Close()
 
-   r := api.RuntimeResponse{}
-   err := json.Unmarshal([]byte(body), &r)
-   if err != nil {
-      return http.StatusInternalServerError, nil
-   }
+	r := api.RuntimeResponse{}
+	err := json.Unmarshal([]byte(body), &r)
+	if err != nil {
+		return http.StatusInternalServerError, nil
+	}
 
-   return resp.StatusCode, &r
+	return resp.StatusCode, &r
 }
 
 //
@@ -103,29 +103,29 @@ func RuntimeCheck(endpoint string) (int, *api.RuntimeResponse) {
 //
 func GetDepositAuthorization(endpoint string, id string, token string) (int, []*api.Authorization) {
 
-   url := fmt.Sprintf("%s/%s?auth=%s", endpoint, id, token)
-   //fmt.Printf( "%s\n", url )
+	url := fmt.Sprintf("%s/%s?auth=%s", endpoint, id, token)
+	//fmt.Printf( "%s\n", url )
 
-   resp, body, errs := gorequest.New().
-      SetDebug(debugHTTP).
-      Get(url).
-      Timeout(time.Duration(serviceTimeout) * time.Second).
-      End()
+	resp, body, errs := gorequest.New().
+		SetDebug(debugHTTP).
+		Get(url).
+		Timeout(time.Duration(serviceTimeout) * time.Second).
+		End()
 
-   if errs != nil {
-      return http.StatusInternalServerError, nil
-   }
+	if errs != nil {
+		return http.StatusInternalServerError, nil
+	}
 
-   defer io.Copy(ioutil.Discard, resp.Body)
-   defer resp.Body.Close()
+	defer io.Copy(ioutil.Discard, resp.Body)
+	defer resp.Body.Close()
 
-   r := api.StandardResponse{}
-   err := json.Unmarshal([]byte(body), &r)
-   if err != nil {
-      return http.StatusInternalServerError, nil
-   }
+	r := api.StandardResponse{}
+	err := json.Unmarshal([]byte(body), &r)
+	if err != nil {
+		return http.StatusInternalServerError, nil
+	}
 
-   return resp.StatusCode, r.Details
+	return resp.StatusCode, r.Details
 }
 
 //
@@ -133,9 +133,9 @@ func GetDepositAuthorization(endpoint string, id string, token string) (int, []*
 //
 func GetInboundDepositAuthorization(endpoint string, after string, token string) (int, []*api.Authorization) {
 
-   url := fmt.Sprintf("%s/inbound?auth=%s&after=%s", endpoint, token, after )
-   //fmt.Printf( "%s\n", url )
-   return (getDepositAuthorization(url))
+	url := fmt.Sprintf("%s/inbound?auth=%s&after=%s", endpoint, token, after)
+	//fmt.Printf( "%s\n", url )
+	return (getDepositAuthorization(url))
 }
 
 //
@@ -143,9 +143,9 @@ func GetInboundDepositAuthorization(endpoint string, after string, token string)
 //
 func SearchDepositAuthorizationByCid(endpoint string, cid string, token string) (int, []*api.Authorization) {
 
-   url := fmt.Sprintf("%s?auth=%s&cid=%s", endpoint, token, cid)
-   //fmt.Printf( "%s\n", url )
-   return (getDepositAuthorization(url))
+	url := fmt.Sprintf("%s?auth=%s&cid=%s", endpoint, token, cid)
+	//fmt.Printf( "%s\n", url )
+	return (getDepositAuthorization(url))
 }
 
 //
@@ -153,9 +153,9 @@ func SearchDepositAuthorizationByCid(endpoint string, cid string, token string) 
 //
 func SearchDepositAuthorizationByCreated(endpoint string, created string, token string) (int, []*api.Authorization) {
 
-   url := fmt.Sprintf("%s?auth=%s&created=%s", endpoint, token, created)
-   //fmt.Printf( "%s\n", url )
-   return (getDepositAuthorization(url))
+	url := fmt.Sprintf("%s?auth=%s&created=%s", endpoint, token, created)
+	//fmt.Printf( "%s\n", url )
+	return (getDepositAuthorization(url))
 }
 
 //
@@ -163,9 +163,9 @@ func SearchDepositAuthorizationByCreated(endpoint string, created string, token 
 //
 func SearchDepositAuthorizationByExported(endpoint string, exported string, token string) (int, []*api.Authorization) {
 
-   url := fmt.Sprintf("%s?auth=%s&exported=%s", endpoint, token, exported)
-   //fmt.Printf( "%s\n", url )
-   return (getDepositAuthorization(url))
+	url := fmt.Sprintf("%s?auth=%s&exported=%s", endpoint, token, exported)
+	//fmt.Printf( "%s\n", url )
+	return (getDepositAuthorization(url))
 }
 
 //
@@ -173,29 +173,29 @@ func SearchDepositAuthorizationByExported(endpoint string, exported string, toke
 //
 func ImportDepositAuthorization(endpoint string, token string) (int, int, int, int, int) {
 
-   url := fmt.Sprintf("%s/import?auth=%s", endpoint, token)
-   //fmt.Printf( "%s\n", url )
+	url := fmt.Sprintf("%s/import?auth=%s", endpoint, token)
+	//fmt.Printf( "%s\n", url )
 
-   resp, body, errs := gorequest.New().
-      SetDebug(debugHTTP).
-      Post(url).
-      Timeout(time.Duration(serviceTimeout) * time.Second).
-      End()
+	resp, body, errs := gorequest.New().
+		SetDebug(debugHTTP).
+		Post(url).
+		Timeout(time.Duration(serviceTimeout) * time.Second).
+		End()
 
-   if errs != nil {
-      return http.StatusInternalServerError, 0, 0, 0, 0
-   }
+	if errs != nil {
+		return http.StatusInternalServerError, 0, 0, 0, 0
+	}
 
-   defer io.Copy(ioutil.Discard, resp.Body)
-   defer resp.Body.Close()
+	defer io.Copy(ioutil.Discard, resp.Body)
+	defer resp.Body.Close()
 
-   r := api.ImportResponse{}
-   err := json.Unmarshal([]byte(body), &r)
-   if err != nil {
-      return http.StatusInternalServerError, 0, 0, 0, 0
-   }
+	r := api.ImportResponse{}
+	err := json.Unmarshal([]byte(body), &r)
+	if err != nil {
+		return http.StatusInternalServerError, 0, 0, 0, 0
+	}
 
-   return resp.StatusCode, r.NewCount, r.UpdatedCount, r.DuplicateCount, r.ErrorCount
+	return resp.StatusCode, r.NewCount, r.UpdatedCount, r.DuplicateCount, r.ErrorCount
 }
 
 //
@@ -203,29 +203,29 @@ func ImportDepositAuthorization(endpoint string, token string) (int, int, int, i
 //
 func ExportDepositAuthorization(endpoint string, token string) (int, int, int) {
 
-   url := fmt.Sprintf("%s/export?auth=%s", endpoint, token)
-   //fmt.Printf( "%s\n", url )
+	url := fmt.Sprintf("%s/export?auth=%s", endpoint, token)
+	//fmt.Printf( "%s\n", url )
 
-   resp, body, errs := gorequest.New().
-      SetDebug(debugHTTP).
-      Post(url).
-      Timeout(time.Duration(serviceTimeout) * time.Second).
-      End()
+	resp, body, errs := gorequest.New().
+		SetDebug(debugHTTP).
+		Post(url).
+		Timeout(time.Duration(serviceTimeout) * time.Second).
+		End()
 
-   if errs != nil {
-      return http.StatusInternalServerError, 0, 0
-   }
+	if errs != nil {
+		return http.StatusInternalServerError, 0, 0
+	}
 
-   defer io.Copy(ioutil.Discard, resp.Body)
-   defer resp.Body.Close()
+	defer io.Copy(ioutil.Discard, resp.Body)
+	defer resp.Body.Close()
 
-   r := api.ExportResponse{}
-   err := json.Unmarshal([]byte(body), &r)
-   if err != nil {
-      return http.StatusInternalServerError, 0, 0
-   }
+	r := api.ExportResponse{}
+	err := json.Unmarshal([]byte(body), &r)
+	if err != nil {
+		return http.StatusInternalServerError, 0, 0
+	}
 
-   return resp.StatusCode, r.ExportCount, r.ErrorCount
+	return resp.StatusCode, r.ExportCount, r.ErrorCount
 }
 
 //
@@ -233,47 +233,47 @@ func ExportDepositAuthorization(endpoint string, token string) (int, int, int) {
 //
 func FulfillDepositAuthorization(endpoint string, id string, depositID string, token string) int {
 
-   url := fmt.Sprintf("%s/%s?deposit=%s&auth=%s", endpoint, id, depositID, token)
-   //fmt.Printf( "%s\n", url )
+	url := fmt.Sprintf("%s/%s?deposit=%s&auth=%s", endpoint, id, depositID, token)
+	//fmt.Printf( "%s\n", url )
 
-   resp, _, errs := gorequest.New().
-      SetDebug(debugHTTP).
-      Put(url).
-      Timeout(time.Duration(serviceTimeout) * time.Second).
-      End()
+	resp, _, errs := gorequest.New().
+		SetDebug(debugHTTP).
+		Put(url).
+		Timeout(time.Duration(serviceTimeout) * time.Second).
+		End()
 
-   if errs != nil {
-      return http.StatusInternalServerError
-   }
+	if errs != nil {
+		return http.StatusInternalServerError
+	}
 
-   defer io.Copy(ioutil.Discard, resp.Body)
-   defer resp.Body.Close()
+	defer io.Copy(ioutil.Discard, resp.Body)
+	defer resp.Body.Close()
 
-   return resp.StatusCode
+	return resp.StatusCode
 }
 
 func getDepositAuthorization(url string) (int, []*api.Authorization) {
 
-   resp, body, errs := gorequest.New().
-      SetDebug(debugHTTP).
-      Get(url).
-      Timeout(time.Duration(serviceTimeout) * time.Second).
-      End()
+	resp, body, errs := gorequest.New().
+		SetDebug(debugHTTP).
+		Get(url).
+		Timeout(time.Duration(serviceTimeout) * time.Second).
+		End()
 
-   if errs != nil {
-      return http.StatusInternalServerError, nil
-   }
+	if errs != nil {
+		return http.StatusInternalServerError, nil
+	}
 
-   defer io.Copy(ioutil.Discard, resp.Body)
-   defer resp.Body.Close()
+	defer io.Copy(ioutil.Discard, resp.Body)
+	defer resp.Body.Close()
 
-   r := api.StandardResponse{}
-   err := json.Unmarshal([]byte(body), &r)
-   if err != nil {
-      return http.StatusInternalServerError, nil
-   }
+	r := api.StandardResponse{}
+	err := json.Unmarshal([]byte(body), &r)
+	if err != nil {
+		return http.StatusInternalServerError, nil
+	}
 
-   return resp.StatusCode, r.Details
+	return resp.StatusCode, r.Details
 }
 
 //
