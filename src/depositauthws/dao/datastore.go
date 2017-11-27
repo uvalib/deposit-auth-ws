@@ -222,7 +222,7 @@ func (db *dbStruct) GetDepositAuthorizationForExport() ([]*api.Authorization, er
 //
 func (db *dbStruct) UpdateExportedDepositAuthorization(exports []*api.Authorization) error {
 
-	stmt, err := db.Prepare("UPDATE depositauth SET exported_at = NOW( ), updated_at = NOW( ) WHERE id = ? LIMIT 1")
+	stmt, err := db.Prepare("UPDATE depositauth SET exported_at = NOW( ) WHERE id = ? LIMIT 1")
 	if err != nil {
 		return err
 	}
@@ -242,7 +242,7 @@ func (db *dbStruct) UpdateExportedDepositAuthorization(exports []*api.Authorizat
 //
 func (db *dbStruct) UpdateDepositAuthorizationByIDSetFulfilled(id string, did string) error {
 
-	stmt, err := db.Prepare("UPDATE depositauth SET exported_at = NULL, accepted_at = NOW( ), updated_at = NOW( ), status = ?, libra_id = ? WHERE id = ? LIMIT 1")
+	stmt, err := db.Prepare("UPDATE depositauth SET exported_at = NULL, accepted_at = NOW( ), status = ?, libra_id = ? WHERE id = ? LIMIT 1")
 	if err != nil {
 		return err
 	}
