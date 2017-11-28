@@ -59,7 +59,7 @@ func ensureValidAuthorizations(t *testing.T, details []*api.Authorization) {
 			emptyField(e.DocType) ||
 			//emptyField( e.LibraID ) ||
 			emptyField(e.Status) ||
-		    emptyField( e.CreatedAt ) ||
+			emptyField(e.CreatedAt) ||
 			//emptyField( e.ApprovedAt ) ||
 			//emptyField( e.AcceptedAt ) ||
 			//emptyField( e.ExportedAt ) ||
