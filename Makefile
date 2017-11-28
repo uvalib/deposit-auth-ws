@@ -25,25 +25,25 @@ RUNNER=scripts/entry.sh
 build: build-darwin build-linux
 
 build-darwin:
-	GOOS=darwin $(GOBUILD) -a -o $(BIN)/$(BASE_NAME).darwin $(SRC_TREE)
+	GOPATH=$(GOPATH) GOOS=darwin $(GOBUILD) -a -o $(BIN)/$(BASE_NAME).darwin $(SRC_TREE)
 
 build-linux:
-	CGO_ENABLED=0 GOOS=linux $(GOBUILD) -a -installsuffix cgo -o $(BIN)/$(BASE_NAME).linux $(SRC_TREE)
+	GOPATH=$(GOPATH) CGO_ENABLED=0 GOOS=linux $(GOBUILD) -a -installsuffix cgo -o $(BIN)/$(BASE_NAME).linux $(SRC_TREE)
 
 test:
-	$(GOTEST) -v $(SRC_TREE)/tests $(if $(TEST),-run $(TEST),)
+	GOPATH=$(GOPATH) $(GOTEST) -v $(SRC_TREE)/tests $(if $(TEST),-run $(TEST),)
 
 fmt:
-	$(GOFMT) $(SRC_TREE)/...
+	GOPATH=$(GOPATH) $(GOFMT) $(SRC_TREE)/...
 
 vet:
-	$(GOVET) $(SRC_TREE)/...
+	GOPATH=$(GOPATH) $(GOVET) $(SRC_TREE)/...
 
 lint:
-	$(LINT) $(SRC_TREE)/...
+	GOPATH=$(GOPATH) $(LINT) $(SRC_TREE)/...
 
 clean:
-	$(GOCLEAN)
+	GOPATH=$(GOPATH) $(GOCLEAN)
 	rm -f $(BIN)/$(BASE_NAME).*
 
 run:
