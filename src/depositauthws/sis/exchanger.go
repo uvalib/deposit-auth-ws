@@ -217,7 +217,14 @@ func locateImportFiles(filesystem string) ([]string, error) {
 // create a filename that can be used for export
 //
 func createExportFilename(filesystem string) string {
-	yymmddDate := time.Now().Format("060102")
+	yymmddFormat := "060102"
+	t := time.Now()
+	yymmddDate := t.Format(yymmddFormat)
+	// we strive to exist in UTC so attempt to localize the timestamp
+	location, err := time.LoadLocation("EST")
+	if err == nil {
+		yymmddDate = t.In(location).Format(yymmddFormat)
+	}
 	filename := fmt.Sprintf("UV_LIBRA_IN_%s.txt", yymmddDate)
 	fullname := filepath.Join(filesystem, filename)
 	logger.Log(fmt.Sprintf("Exporting to: %s", fullname))
