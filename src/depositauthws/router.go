@@ -108,6 +108,9 @@ func NewRouter() *mux.Router {
 			Handler(handler)
 	}
 
+	// add the route for the expvars endpoint
+	router.Handle("/debug/vars", http.DefaultServeMux )
+
 	return router
 }
 
