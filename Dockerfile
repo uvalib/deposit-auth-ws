@@ -1,7 +1,7 @@
 FROM alpine:3.7
 
 # update the packages
-RUN apk update && apk upgrade && apk add bash tzdata
+RUN apk update && apk upgrade && apk add bash tzdata && rm -fr /var/cache/apk/*
 
 # Create the run user and group
 RUN addgroup webservice && adduser webservice -G webservice -D
@@ -26,10 +26,10 @@ EXPOSE 8080
 CMD scripts/entry.sh
 
 # Move in necessary helper scripts and binary
+COPY data/container_bash_profile /home/webservice/.profile
 COPY scripts/entry.sh $APP_HOME/scripts/
 COPY scripts/*.ksh $APP_HOME/scripts/
 COPY data/sample_from_sis.txt $APP_HOME/data/
-COPY data/container_bash_profile /home/webservice/.profile
 COPY bin/deposit-auth-ws.linux $APP_HOME/bin/deposit-auth-ws
 
 # Add the build tag
