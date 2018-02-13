@@ -4,6 +4,8 @@ import (
 	"depositauthws/handlers"
 	"github.com/gorilla/mux"
 	"net/http"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/prometheus/client_golang/prometheus"
 )
 
 type route struct {
@@ -94,6 +96,10 @@ var routes = routeSlice{
 func NewRouter() *mux.Router {
 
 	router := mux.NewRouter().StrictSlash(true)
+
+	// add the route for the prometheus metrics
+	router.Handle("/metrics", HandlerLogger( promhttp.Handler( ), "promhttp.Handler" ) )
+
 	for _, route := range routes {
 
 		var handler http.Handler
@@ -107,9 +113,6 @@ func NewRouter() *mux.Router {
 			Name(route.Name).
 			Handler(handler)
 	}
-
-	// add the route for the expvars endpoint
-	router.Handle("/debug/vars", http.DefaultServeMux )
 
 	return router
 }
