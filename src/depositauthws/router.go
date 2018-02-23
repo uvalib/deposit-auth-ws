@@ -34,13 +34,6 @@ var routes = routeSlice{
 	},
 
 	route{
-		"RuntimeHandler",
-		"GET",
-		"/runtime",
-		handlers.RuntimeHandler,
-	},
-
-	route{
 		"InboundHandler",
 		"GET",
 		"/inbound",

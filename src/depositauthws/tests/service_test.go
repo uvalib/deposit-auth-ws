@@ -65,7 +65,7 @@ func ensureValidAuthorizations(t *testing.T, details []*api.Authorization) {
 			//emptyField( e.ExportedAt ) ||
 			//emptyField( e.UpdatedAt ) ||
 			emptyField(e.Status) {
-			log.Printf("%t", e)
+			log.Printf("%v", e)
 			t.Fatalf("Expected non-empty field but one is empty\n")
 		}
 	}
