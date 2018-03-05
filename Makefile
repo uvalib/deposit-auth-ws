@@ -53,15 +53,16 @@ run:
 
 deps:
 	rm -fr $(VENDOR)
-	cd $(SRC); $(GOGET) -u github.com/golang/lint/golint
-	cd $(SRC); $(GOGET) -u github.com/FiloSottile/gvt
-	cd $(SRC); $(GVT) fetch github.com/gorilla/mux
-	cd $(SRC); $(GVT) fetch github.com/patrickmn/go-cache
-	cd $(SRC); $(GVT) fetch github.com/go-sql-driver/mysql
-	cd $(SRC); $(GVT) fetch github.com/prometheus/client_golang/prometheus
+	cd $(SRC); GOPATH=$(GOPATH) $(GOGET) -u github.com/golang/lint/golint
+	cd $(SRC); GOPATH=$(GOPATH) $(GOGET) -u github.com/FiloSottile/gvt
+	cd $(SRC); GOPATH=$(GOPATH) $(GOGET) -u github.com/codesenberg/bombardier
+	cd $(SRC); GOPATH=$(GOPATH) $(GVT) fetch github.com/gorilla/mux
+	cd $(SRC); GOPATH=$(GOPATH) $(GVT) fetch github.com/patrickmn/go-cache
+	cd $(SRC); GOPATH=$(GOPATH) $(GVT) fetch github.com/go-sql-driver/mysql
+	cd $(SRC); GOPATH=$(GOPATH) $(GVT) fetch github.com/prometheus/client_golang/prometheus
 	# for tests
-	cd $(SRC); $(GVT) fetch gopkg.in/yaml.v2
-	cd $(SRC); $(GVT) fetch github.com/parnurzeal/gorequest
+	cd $(SRC); GOPATH=$(GOPATH) $(GVT) fetch gopkg.in/yaml.v2
+	cd $(SRC); GOPATH=$(GOPATH) $(GVT) fetch github.com/parnurzeal/gorequest
 
 #
 # end of file
