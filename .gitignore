@@ -4,6 +4,7 @@
 /bin
 /pkg
 /env.*
+/scripts/load/env.*
 /src/depositauthws/tests/service_test.yml
 /legacy
 /current
