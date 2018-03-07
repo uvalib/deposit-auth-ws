@@ -28,7 +28,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// validate the token
-	if authtoken.Validate(config.Configuration.AuthTokenEndpoint, token, config.Configuration.Timeout) == false {
+	if authtoken.Validate(config.Configuration.AuthTokenEndpoint, token, config.Configuration.ServiceTimeout) == false {
 		status := http.StatusForbidden
 		encodeStandardResponse(w, status, http.StatusText(status), nil)
 		return

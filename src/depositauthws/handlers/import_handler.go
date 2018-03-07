@@ -25,7 +25,7 @@ func ImportHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// validate the token
-	if authtoken.Validate(config.Configuration.AuthTokenEndpoint, token, config.Configuration.Timeout) == false {
+	if authtoken.Validate(config.Configuration.AuthTokenEndpoint, token, config.Configuration.ServiceTimeout) == false {
 		status := http.StatusForbidden
 		encodeImportResponse(w, status, http.StatusText(status), 0, 0, 0, 0)
 		return
