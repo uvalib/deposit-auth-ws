@@ -4,6 +4,8 @@ import (
 	"depositauthws/dao"
 	"depositauthws/sis"
 	"net/http"
+	"depositauthws/logger"
+	"fmt"
 )
 
 //
@@ -24,14 +26,17 @@ func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 
 		if dbErr != nil {
 			dbMsg = dbErr.Error()
+			logger.Log(fmt.Sprintf( "ERROR: Database reports '%s'", dbMsg ) )
 		}
 
 		if importErr != nil {
 			importMsg = importErr.Error()
+			logger.Log(fmt.Sprintf( "ERROR: Importer reports '%s'", importMsg ) )
 		}
 
 		if exportErr != nil {
 			exportMsg = exportErr.Error()
+			logger.Log(fmt.Sprintf( "ERROR: Exporter reports '%s'", exportMsg ) )
 		}
 	}
 
