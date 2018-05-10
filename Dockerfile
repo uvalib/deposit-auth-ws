@@ -15,7 +15,7 @@ ENV APP_HOME /depositauth-ws
 WORKDIR $APP_HOME
 
 # Create necessary directories
-RUN mkdir -p $APP_HOME/scripts $APP_HOME/bin $APP_DIR/data
+RUN mkdir -p $APP_HOME/scripts $APP_HOME/bin $APP_HOME/assets $APP_DIR/data
 RUN chown -R webservice $APP_HOME && chgrp -R webservice $APP_HOME
 
 # Specify the user
@@ -31,6 +31,7 @@ COPY scripts/entry.sh $APP_HOME/scripts/
 COPY scripts/*.ksh $APP_HOME/scripts/
 COPY data/sample_from_sis.txt $APP_HOME/data/
 COPY bin/deposit-auth-ws.linux $APP_HOME/bin/deposit-auth-ws
+COPY assets/* $APP_HOME/assets/
 
 # Add the build tag
 COPY buildtag.* $APP_HOME/
