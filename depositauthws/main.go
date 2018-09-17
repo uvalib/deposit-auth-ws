@@ -20,6 +20,7 @@ func main() {
 	// access the database
 	err := dao.NewDB(
 		config.Configuration.DbHost,
+		config.Configuration.DbSecure,
 		config.Configuration.DbName,
 		config.Configuration.DbUser,
 		config.Configuration.DbPassphrase,

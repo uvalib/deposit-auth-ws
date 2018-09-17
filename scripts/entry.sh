@@ -1,4 +1,5 @@
 # set blank options variables
+DBSECURE_OPT=""
 DBHOST_OPT=""
 DBNAME_OPT=""
 DBUSER_OPT=""
@@ -8,6 +9,11 @@ EXPORT_OPT=""
 TOKENURL_OPT=""
 TIMEOUT_OPT=""
 DEBUG_OPT=""
+
+# secure database access
+if [ -n "$DBSECURE" ]; then
+   DBSECURE_OPT="--dbsecure=$DBSECURE"
+fi
 
 # database host
 if [ -n "$DBHOST" ]; then
@@ -51,10 +57,10 @@ fi
 
 # service debugging
 if [ -n "$DEPOSITAUTH_DEBUG" ]; then
-   DEBUG_OPT="--debug"
+   DEBUG_OPT="--debug=$DEPOSITAUTH_DEBUG"
 fi
 
-bin/deposit-auth-ws $DBHOST_OPT $DBNAME_OPT $DBUSER_OPT $DBPASSWD_OPT $IMPORT_OPT $EXPORT_OPT $TOKENURL_OPT $TIMEOUT_OPT $DEBUG_OPT
+bin/deposit-auth-ws $DBSECURE_OPT $DBHOST_OPT $DBNAME_OPT $DBUSER_OPT $DBPASSWD_OPT $IMPORT_OPT $EXPORT_OPT $TOKENURL_OPT $TIMEOUT_OPT $DEBUG_OPT
 
 #
 # end of file

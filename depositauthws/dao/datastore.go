@@ -28,14 +28,17 @@ var DB *dbStruct
 //
 // NewDB -- create the database singletomn
 //
-func NewDB( dbHost string, dbName string, dbUser string, dbPassword string, dbTimeout string) error {
+func NewDB( dbHost string, dbSecure bool, dbName string, dbUser string, dbPassword string, dbTimeout string) error {
 
-	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s?allowOldPasswords=1&sql_notes=false&timeout=%s&readTimeout=%s&writeTimeout=%s",
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s?allowOldPasswords=1&tls=%t&sql_notes=false&timeout=%s&readTimeout=%s&writeTimeout=%s",
 		dbUser,
 		dbPassword,
 		dbHost,
 		dbName,
-		dbTimeout, dbTimeout, dbTimeout)
+		dbSecure,
+		dbTimeout,
+		dbTimeout,
+		dbTimeout)
 
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
