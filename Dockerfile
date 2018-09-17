@@ -1,7 +1,7 @@
 FROM alpine:3.8
 
 # update the packages
-RUN apk update && apk upgrade && apk add bash tzdata && rm -fr /var/cache/apk/*
+RUN apk update && apk upgrade && apk add bash tzdata ca-certificates && rm -fr /var/cache/apk/*
 
 # Create the run user and group
 RUN addgroup webservice && adduser webservice -G webservice -D
@@ -17,6 +17,9 @@ WORKDIR $APP_HOME
 # Create necessary directories
 RUN mkdir -p $APP_HOME/scripts $APP_HOME/bin $APP_HOME/assets $APP_DIR/data
 RUN chown -R webservice $APP_HOME && chgrp -R webservice $APP_HOME
+
+# Add the RDS certificates
+COPY data/rds-combined-ca-bundle.pem /etc/ssl/certs
 
 # Specify the user
 USER webservice
