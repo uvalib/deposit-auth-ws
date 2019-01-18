@@ -32,7 +32,7 @@ func ExportHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// get the details ready to be exported
-	exports, err := dao.DB.GetDepositAuthorizationForExport()
+	exports, err := dao.Store.GetDepositAuthorizationForExport()
 	if err != nil {
 		logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
 		status := http.StatusInternalServerError
@@ -54,7 +54,7 @@ func ExportHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// update the status so we do not export them again
-	err = dao.DB.UpdateExportedDepositAuthorization(exports)
+	err = dao.Store.UpdateExportedDepositAuthorization(exports)
 	if err != nil {
 		logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
 		status := http.StatusInternalServerError

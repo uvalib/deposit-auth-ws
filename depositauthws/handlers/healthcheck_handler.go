@@ -14,7 +14,7 @@ import (
 func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 
 	status := http.StatusOK
-	dbErr := dao.DB.CheckDB()
+	dbErr := dao.Store.Check()
 	importErr := sis.Exchanger.CheckImport()
 	exportErr := sis.Exchanger.CheckExport()
 
@@ -26,7 +26,7 @@ func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 
 		if dbErr != nil {
 			dbMsg = dbErr.Error()
-			logger.Log(fmt.Sprintf("ERROR: Database reports '%s'", dbMsg))
+			logger.Log(fmt.Sprintf("ERROR: Datastore reports '%s'", dbMsg))
 		}
 
 		if importErr != nil {

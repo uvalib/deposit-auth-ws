@@ -39,13 +39,13 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 
 	if isEmpty(cid) == false {
 		// doing a search by computing ID
-		reqs, err = dao.DB.SearchDepositAuthorizationByCid(cid)
+		reqs, err = dao.Store.SearchDepositAuthorizationByCid(cid)
 	} else if isEmpty(createdAt) == false {
 		// doing a search by create date
-		reqs, err = dao.DB.SearchDepositAuthorizationByCreateDate(createdAt)
+		reqs, err = dao.Store.SearchDepositAuthorizationByCreateDate(createdAt)
 	} else if isEmpty(exportedAt) == false {
 		// doing a search by export date
-		reqs, err = dao.DB.SearchDepositAuthorizationByExportDate(exportedAt)
+		reqs, err = dao.Store.SearchDepositAuthorizationByExportDate(exportedAt)
 	}
 
 	if err != nil {

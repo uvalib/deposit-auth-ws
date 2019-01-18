@@ -57,7 +57,7 @@ func ImportHandler(w http.ResponseWriter, r *http.Request) {
 	for _, e := range imports {
 
 		// check to see if this record already exists
-		matching, err := dao.DB.GetMatchingDepositAuthorization(*e)
+		matching, err := dao.Store.GetMatchingDepositAuthorization(*e)
 		if err != nil {
 			logger.Log(fmt.Sprintf("Error querying record; '%s' for (%s/%s/%s/%s)", err, e.ComputingID, e.Degree, e.Plan, e.Title))
 			errorCount++
@@ -65,12 +65,12 @@ func ImportHandler(w http.ResponseWriter, r *http.Request) {
 			matchCount := len(matching)
 			if matchCount == 0 {
 				// no match, must be a new record
-				rec, err := dao.DB.CreateDepositAuthorization(*e)
+				rec, err := dao.Store.CreateDepositAuthorization(*e)
 				if err != nil {
 					logger.Log(fmt.Sprintf("Error inserting record; '%s' for (%s/%s/%s/%s)", err, e.ComputingID, e.Degree, e.Plan, e.Title))
 					errorCount++
 				} else {
-					err = dao.DB.CreateInbound(rec.ID)
+					err = dao.Store.CreateInbound(rec.ID)
 					if err != nil {
 						logger.Log(fmt.Sprintf("Error creating inbound record; '%s' for (%s/%s/%s/%s)", err, e.ComputingID, e.Degree, e.Plan, e.Title))
 						errorCount++
@@ -86,12 +86,12 @@ func ImportHandler(w http.ResponseWriter, r *http.Request) {
 					duplicateCount++
 				} else {
 					// titles differ, update the title and mark as an updated item
-					err = dao.DB.UpdateDepositAuthorizationByIDSetTitle(matching[0].ID, e.Title)
+					err = dao.Store.UpdateDepositAuthorizationByIDSetTitle(matching[0].ID, e.Title)
 					if err != nil {
 						logger.Log(fmt.Sprintf("Error updating record; '%s' for (%s/%s/%s/%s)", err, e.ComputingID, e.Degree, e.Plan, e.Title))
 						errorCount++
 					} else {
-						err = dao.DB.CreateInbound(matching[0].ID)
+						err = dao.Store.CreateInbound(matching[0].ID)
 						if err != nil {
 							logger.Log(fmt.Sprintf("Error creating inbound record; '%s' for (%s/%s/%s/%s)", err, e.ComputingID, e.Degree, e.Plan, e.Title))
 							errorCount++

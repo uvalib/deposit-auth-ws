@@ -15,7 +15,7 @@ var c = cache.New(cache.NoExpiration, cache.NoExpiration)
 //
 func LoadMappingCache() error {
 
-	mapper, err := dao.DB.GetFieldMapperList()
+	mapper, err := dao.Store.GetFieldMapperList()
 	if err != nil {
 		return err
 	}

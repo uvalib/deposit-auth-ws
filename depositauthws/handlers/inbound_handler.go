@@ -32,7 +32,7 @@ func InboundHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// get from the inbound queue
-	reqs, err := dao.DB.GetInbound(after)
+	reqs, err := dao.Store.GetInbound(after)
 
 	if err != nil {
 		logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))

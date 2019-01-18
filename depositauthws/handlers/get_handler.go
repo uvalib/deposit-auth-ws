@@ -34,7 +34,7 @@ func GetHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// get the authorization details
-	reqs, err := dao.DB.GetDepositAuthorizationByID(id)
+	reqs, err := dao.Store.GetDepositAuthorizationByID(id)
 	if err != nil {
 		logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
 		status := http.StatusInternalServerError
