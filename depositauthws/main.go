@@ -1,13 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/config"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/dao"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/handlers"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/mapper"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/sis"
-	"fmt"
 	"log"
 	"net/http"
 	"time"

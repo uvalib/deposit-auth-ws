@@ -1,10 +1,10 @@
 package client
 
 import (
-	"github.com/uvalib/deposit-auth-ws/depositauthws/api"
 	"encoding/json"
 	"fmt"
 	"github.com/parnurzeal/gorequest"
+	"github.com/uvalib/deposit-auth-ws/depositauthws/api"
 	"io"
 	"io/ioutil"
 	"net/http"

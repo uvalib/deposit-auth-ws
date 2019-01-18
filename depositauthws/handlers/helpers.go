@@ -1,11 +1,11 @@
 package handlers
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/api"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/mapper"
-	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"strings"

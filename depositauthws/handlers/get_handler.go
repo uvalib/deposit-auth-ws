@@ -1,12 +1,12 @@
 package handlers
 
 import (
+	"fmt"
+	"github.com/gorilla/mux"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/authtoken"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/config"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/dao"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
-	"fmt"
-	"github.com/gorilla/mux"
 	"net/http"
 )
 

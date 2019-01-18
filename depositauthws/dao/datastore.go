@@ -2,9 +2,9 @@ package dao
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/api"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
-	"fmt"
 	// needed by the linter
 	_ "github.com/go-sql-driver/mysql"
 	"strconv"
@@ -28,7 +28,7 @@ var DB *dbStruct
 //
 // NewDB -- create the database singletomn
 //
-func NewDB( dbHost string, dbSecure string, dbName string, dbUser string, dbPassword string, dbTimeout string) error {
+func NewDB(dbHost string, dbSecure string, dbName string, dbUser string, dbPassword string, dbTimeout string) error {
 
 	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s?allowOldPasswords=1&tls=%s&sql_notes=false&timeout=%s&readTimeout=%s&writeTimeout=%s",
 		dbUser,

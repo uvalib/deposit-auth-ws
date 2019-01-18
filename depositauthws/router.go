@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/uvalib/deposit-auth-ws/depositauthws/handlers"
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/uvalib/deposit-auth-ws/depositauthws/handlers"
 	"net/http"
 )
 

@@ -1,9 +1,9 @@
 package authtoken
 
 import (
-	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
 	"fmt"
 	"github.com/parnurzeal/gorequest"
+	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
 	"io"
 	"io/ioutil"
 	"net/http"

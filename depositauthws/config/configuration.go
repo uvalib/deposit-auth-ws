@@ -1,9 +1,9 @@
 package config
 
 import (
-	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
 	"flag"
 	"fmt"
+	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
 	"strings"
 )
 
@@ -11,13 +11,13 @@ import (
 // Config -- our configuration structure
 //
 type Config struct {
-	ServicePort       string     // our listen port
-	DbSecure          string     // do we use TLS
-	DbHost            string     // hostname of database server
-	DbName            string     // database name
-	DbUser            string     // database user name
-	DbPassphrase      string     // database user password
-	DbTimeout         string     // connection/read/write timeout
+	ServicePort       string // our listen port
+	DbSecure          string // do we use TLS
+	DbHost            string // hostname of database server
+	DbName            string // database name
+	DbUser            string // database user name
+	DbPassphrase      string // database user password
+	DbTimeout         string // connection/read/write timeout
 	AuthTokenEndpoint string
 	ImportFs          string
 	ExportFs          string
@@ -33,7 +33,7 @@ var Configuration = loadConfig()
 func loadConfig() Config {
 
 	// default value for the database timeout
-	c := Config{ DbTimeout: "15s" }
+	c := Config{DbTimeout: "15s"}
 
 	// process command line flags and setup configuration
 	flag.StringVar(&c.ServicePort, "port", "8080", "The service listen port")

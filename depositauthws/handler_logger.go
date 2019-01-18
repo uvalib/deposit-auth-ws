@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
 	"fmt"
+	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
 	"net/http"
 	"time"
 )

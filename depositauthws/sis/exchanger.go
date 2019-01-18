@@ -1,9 +1,9 @@
 package sis
 
 import (
+	"fmt"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/api"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"

@@ -1,10 +1,10 @@
 package mapper
 
 import (
-	"github.com/uvalib/deposit-auth-ws/depositauthws/dao"
-	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
 	"fmt"
 	"github.com/patrickmn/go-cache"
+	"github.com/uvalib/deposit-auth-ws/depositauthws/dao"
+	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
 )
 
 // create the cache of mapped values
