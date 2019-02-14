@@ -6,6 +6,8 @@ import (
 	"github.com/uvalib/deposit-auth-ws/depositauthws/api"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/config"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
+	"time"
+
 	// needed by the linter
 	_ "github.com/go-sql-driver/mysql"
 	"strconv"
@@ -38,6 +40,12 @@ func newDBStore() (Storage, error) {
 	if err = db.Ping(); err != nil {
 		return nil, err
 	}
+
+	//taken from https://github.com/go-sql-driver/mysql/issues/461
+	db.SetConnMaxLifetime(time.Minute * 5)
+	db.SetMaxIdleConns(2)
+	db.SetMaxOpenConns(2)
+
 	return &storage{db}, nil
 }
 
