@@ -1,4 +1,18 @@
-FROM alpine:3.10
+#
+# build the target application
+#
+FROM golang:1.14 as builder
+RUN apt-get -y update
+
+WORKDIR /build
+COPY go.mod go.sum Makefile ./
+COPY depositauthws ./depositauthws
+RUN make build-linux
+
+#
+# build the target container
+#
+FROM alpine:3.11
 
 # update the packages
 RUN apk update && apk upgrade && apk add bash tzdata ca-certificates && rm -fr /var/cache/apk/*
@@ -18,12 +32,6 @@ WORKDIR $APP_HOME
 RUN mkdir -p $APP_HOME/scripts $APP_HOME/bin $APP_HOME/assets $APP_DIR/data
 RUN chown -R docker $APP_HOME && chgrp -R sse $APP_HOME
 
-# Add the RDS certificates
-COPY data/rds-combined-ca-bundle.pem /etc/ssl/certs
-
-# Specify the user
-USER docker
-
 # port and run command
 EXPOSE 8080
 CMD scripts/entry.sh
@@ -32,9 +40,17 @@ CMD scripts/entry.sh
 COPY data/container_bash_profile /home/docker/.profile
 COPY scripts/entry.sh $APP_HOME/scripts/
 COPY scripts/*.ksh $APP_HOME/scripts/
-COPY data/sample_from_sis.txt $APP_HOME/data/
-COPY bin/deposit-auth-ws.linux $APP_HOME/bin/deposit-auth-ws
 COPY assets/* $APP_HOME/assets/
+COPY --from=builder /build/bin/deposit-auth-ws.linux $APP_HOME/bin/deposit-auth-ws
+
+# Ensure permissions are correct
+RUN chown docker:sse /home/docker/.profile $APP_HOME/scripts/entry.sh $APP_HOME/bin/deposit-auth-ws && chmod 755 /home/docker/.profile $APP_HOME/scripts/entry.sh $APP_HOME/bin/deposit-auth-ws
 
 # Add the build tag
-COPY buildtag.* $APP_HOME/
+ARG BUILD_TAG
+RUN test -n "$BUILD_TAG" && touch $APP_HOME/buildtag.build-$BUILD_TAG || touch $APP_HOME/buildtag.build-0
+
+# Specify the user
+USER docker
+
+#
