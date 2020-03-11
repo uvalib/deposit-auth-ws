@@ -17,7 +17,7 @@ func TestFulfillHappyDay(t *testing.T) {
 	}
 
 	expected := http.StatusOK
-	status = client.FulfillDepositAuthorization(cfg.Endpoint, existing.ID, goodDepositID, goodToken)
+	status = client.FulfillDepositAuthorization(cfg.Endpoint, existing.ID, goodDepositID, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -25,7 +25,7 @@ func TestFulfillHappyDay(t *testing.T) {
 
 func TestFulfillEmptyId(t *testing.T) {
 	expected := http.StatusBadRequest
-	status := client.FulfillDepositAuthorization(cfg.Endpoint, empty, goodDepositID, goodToken)
+	status := client.FulfillDepositAuthorization(cfg.Endpoint, empty, goodDepositID, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -33,7 +33,7 @@ func TestFulfillEmptyId(t *testing.T) {
 
 func TestFulfillNotFoundId(t *testing.T) {
 	expected := http.StatusNotFound
-	status := client.FulfillDepositAuthorization(cfg.Endpoint, notFoundID, goodDepositID, goodToken)
+	status := client.FulfillDepositAuthorization(cfg.Endpoint, notFoundID, goodDepositID, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -41,7 +41,7 @@ func TestFulfillNotFoundId(t *testing.T) {
 
 func TestFulfillBadToken(t *testing.T) {
 	expected := http.StatusForbidden
-	status := client.FulfillDepositAuthorization(cfg.Endpoint, goodID, goodDepositID, badToken)
+	status := client.FulfillDepositAuthorization(cfg.Endpoint, goodID, goodDepositID, badToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -49,7 +49,7 @@ func TestFulfillBadToken(t *testing.T) {
 
 func TestFulfillBadDepositId(t *testing.T) {
 	expected := http.StatusBadRequest
-	status := client.FulfillDepositAuthorization(cfg.Endpoint, goodID, badDepositID, goodToken)
+	status := client.FulfillDepositAuthorization(cfg.Endpoint, goodID, badDepositID, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}

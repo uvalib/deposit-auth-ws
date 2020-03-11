@@ -12,7 +12,7 @@ import (
 
 func TestImportHappyDay(t *testing.T) {
 	expected := http.StatusOK
-	status, _, _, _, errCount := client.ImportDepositAuthorization(cfg.Endpoint, goodToken)
+	status, _, _, _, errCount := client.ImportDepositAuthorization(cfg.Endpoint, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -23,7 +23,7 @@ func TestImportHappyDay(t *testing.T) {
 
 func TestImportBadToken(t *testing.T) {
 	expected := http.StatusForbidden
-	status, _, _, _, _ := client.ImportDepositAuthorization(cfg.Endpoint, badToken)
+	status, _, _, _, _ := client.ImportDepositAuthorization(cfg.Endpoint, badToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}

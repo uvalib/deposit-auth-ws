@@ -15,7 +15,7 @@ import (
 func TestGetInboundAll(t *testing.T) {
 
 	expected := http.StatusOK
-	status, details := client.GetInboundDepositAuthorization(cfg.Endpoint, firstID, goodToken)
+	status, details := client.GetInboundDepositAuthorization(cfg.Endpoint, firstID, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -31,7 +31,7 @@ func TestGetInboundAll(t *testing.T) {
 func TestGetInboundSome(t *testing.T) {
 
 	expected := http.StatusOK
-	status, details := client.GetInboundDepositAuthorization(cfg.Endpoint, firstID, goodToken)
+	status, details := client.GetInboundDepositAuthorization(cfg.Endpoint, firstID, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -43,7 +43,7 @@ func TestGetInboundSome(t *testing.T) {
 	lastID, _ := strconv.Atoi(details[len(details)-1].InboundID)
 	testID := strconv.Itoa(lastID - 1)
 
-	status, details = client.GetInboundDepositAuthorization(cfg.Endpoint, testID, goodToken)
+	status, details = client.GetInboundDepositAuthorization(cfg.Endpoint, testID, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -59,7 +59,7 @@ func TestGetInboundSome(t *testing.T) {
 func TestGetInboundNone(t *testing.T) {
 
 	expected := http.StatusNotFound
-	status, _ := client.GetInboundDepositAuthorization(cfg.Endpoint, lastID, goodToken)
+	status, _ := client.GetInboundDepositAuthorization(cfg.Endpoint, lastID, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -67,7 +67,7 @@ func TestGetInboundNone(t *testing.T) {
 
 func TestGetInboundEmptyId(t *testing.T) {
 	expected := http.StatusBadRequest
-	status, _ := client.GetInboundDepositAuthorization(cfg.Endpoint, empty, goodToken)
+	status, _ := client.GetInboundDepositAuthorization(cfg.Endpoint, empty, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -75,7 +75,7 @@ func TestGetInboundEmptyId(t *testing.T) {
 
 func TestGetInboundBadToken(t *testing.T) {
 	expected := http.StatusForbidden
-	status, _ := client.GetInboundDepositAuthorization(cfg.Endpoint, goodID, badToken)
+	status, _ := client.GetInboundDepositAuthorization(cfg.Endpoint, goodID, badToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}

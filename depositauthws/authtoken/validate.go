@@ -2,40 +2,35 @@ package authtoken
 
 import (
 	"fmt"
-	"github.com/parnurzeal/gorequest"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
-	"io"
-	"io/ioutil"
-	"net/http"
 	"time"
 )
 
 //
-// Validate -- called to validate the supplied token using the auth token service
+// Validate -- called to validate the supplied token
 //
-func Validate(endpoint string, token string, timeout int) bool {
+func Validate(sharedSecret string, token string) bool {
 
-	url := fmt.Sprintf("%s/authorize/%s/%s/%s", endpoint, "depositauthservice", "userlookup", token)
-	//log.Printf( "%s\n", url )
+	// Initialize a new instance of the standard claims
+	claims := &jwt.StandardClaims{}
 
-	start := time.Now()
-	resp, _, errs := gorequest.New().
-		SetDebug(false).
-		Get(url).
-		Timeout(time.Duration(timeout) * time.Second).
-		End()
-	duration := time.Since(start)
+	tkn, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(sharedSecret), nil
+	})
 
-	if errs != nil {
-		logger.Log(fmt.Sprintf("ERROR: token auth (%s) returns %s in %s\n", url, errs, duration))
+	if err != nil {
+		logger.Log(fmt.Sprintf("ERROR: JWT parse returns: %s", err.Error()))
 		return false
 	}
 
-	defer io.Copy(ioutil.Discard, resp.Body)
-	defer resp.Body.Close()
-
-	logger.Log(fmt.Sprintf("Token auth (%s) returns http %d in %s\n", url, resp.StatusCode, duration))
-	return resp.StatusCode == http.StatusOK
+	if !tkn.Valid {
+		logger.Log(fmt.Sprintf("ERROR: JWT is INVALID"))
+		return false
+	} else {
+		logger.Log(fmt.Sprintf("INFO: token is valid, Expires %s", time.Unix(claims.ExpiresAt, 0)))
+	}
+	return true
 }
 
 //

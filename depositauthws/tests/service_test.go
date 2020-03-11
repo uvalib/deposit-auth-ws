@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"github.com/dgrijalva/jwt-go"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/api"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/client"
 	"gopkg.in/yaml.v2"
@@ -9,11 +10,12 @@ import (
 	"net/http"
 	"strings"
 	"testing"
+	"time"
 )
 
 type testConfig struct {
 	Endpoint string
-	Token    string
+	Secret   string
 }
 
 var cfg = loadConfig()
@@ -22,8 +24,6 @@ var firstID = "0"
 var lastID = "9999999"
 var goodID = "1"
 var notFoundID = "x"
-var goodToken = cfg.Token
-var badToken = "badness"
 var goodDepositID = "libra:12345"
 var badDepositID = " "
 var empty = " "
@@ -31,7 +31,7 @@ var goodDate = "2016-01-01"
 
 func getExistingAuthorization() (int, *api.Authorization) {
 
-	status, details := client.SearchDepositAuthorizationByCreated(cfg.Endpoint, goodDate, goodToken)
+	status, details := client.SearchDepositAuthorizationByCreated(cfg.Endpoint, goodDate, goodToken(cfg.Secret))
 	if status == http.StatusOK {
 		if len(details) != 0 {
 			return status, details[0]
@@ -87,10 +87,54 @@ func loadConfig() testConfig {
 		log.Fatal(err)
 	}
 
-	log.Printf("Test config; endpoint   [%s]\n", c.Endpoint)
-	log.Printf("Test config; auth token [%s]\n", c.Token)
+	log.Printf("endpoint   [%s]\n", c.Endpoint)
+	log.Printf("secret     [%s]\n", c.Secret)
 
 	return c
+}
+
+func badToken(secret string) string {
+
+	// Declare the expiration time of the token
+	expirationTime := time.Now().Add(-5 * time.Minute)
+
+	// Create the JWT claims, which includes the username and expiry time
+	claims := &jwt.StandardClaims{
+		// In JWT, the expiry time is expressed as unix milliseconds
+		ExpiresAt: expirationTime.Unix(),
+	}
+
+	// Declare the token with the algorithm used for signing, and the claims
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	// Create the JWT string
+	tokenString, err := token.SignedString([]byte(secret))
+	if err != nil {
+		log.Fatal(err)
+	}
+	return tokenString
+}
+
+func goodToken(secret string) string {
+
+	// Declare the expiration time of the token
+	expirationTime := time.Now().Add(5 * time.Minute)
+
+	// Create the JWT claims, which includes the username and expiry time
+	claims := &jwt.StandardClaims{
+		// In JWT, the expiry time is expressed as unix milliseconds
+		ExpiresAt: expirationTime.Unix(),
+	}
+
+	// Declare the token with the algorithm used for signing, and the claims
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	// Create the JWT string
+	tokenString, err := token.SignedString([]byte(secret))
+	if err != nil {
+		log.Fatal(err)
+	}
+	return tokenString
 }
 
 //

@@ -18,7 +18,7 @@ func TestSearchByCidHappyDay(t *testing.T) {
 	}
 
 	expected := http.StatusOK
-	status, details := client.SearchDepositAuthorizationByCid(cfg.Endpoint, existing.ComputingID, goodToken)
+	status, details := client.SearchDepositAuthorizationByCid(cfg.Endpoint, existing.ComputingID, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -27,7 +27,7 @@ func TestSearchByCidHappyDay(t *testing.T) {
 
 func TestSearchByCidEmptyCid(t *testing.T) {
 	expected := http.StatusBadRequest
-	status, _ := client.SearchDepositAuthorizationByCid(cfg.Endpoint, empty, goodToken)
+	status, _ := client.SearchDepositAuthorizationByCid(cfg.Endpoint, empty, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -35,7 +35,7 @@ func TestSearchByCidEmptyCid(t *testing.T) {
 
 func TestSearchByCidBadToken(t *testing.T) {
 	expected := http.StatusForbidden
-	status, _ := client.SearchDepositAuthorizationByCid(cfg.Endpoint, goodID, badToken)
+	status, _ := client.SearchDepositAuthorizationByCid(cfg.Endpoint, goodID, badToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -47,7 +47,7 @@ func TestSearchByCidBadToken(t *testing.T) {
 
 func TestSearchByCreatedHappyDay(t *testing.T) {
 	expected := http.StatusOK
-	status, details := client.SearchDepositAuthorizationByCreated(cfg.Endpoint, goodDate, goodToken)
+	status, details := client.SearchDepositAuthorizationByCreated(cfg.Endpoint, goodDate, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -56,7 +56,7 @@ func TestSearchByCreatedHappyDay(t *testing.T) {
 
 func TestSearchByCreatedEmptyCreated(t *testing.T) {
 	expected := http.StatusBadRequest
-	status, _ := client.SearchDepositAuthorizationByCreated(cfg.Endpoint, empty, goodToken)
+	status, _ := client.SearchDepositAuthorizationByCreated(cfg.Endpoint, empty, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -64,7 +64,7 @@ func TestSearchByCreatedEmptyCreated(t *testing.T) {
 
 func TestSearchByCreatedBadToken(t *testing.T) {
 	expected := http.StatusForbidden
-	status, _ := client.SearchDepositAuthorizationByCreated(cfg.Endpoint, goodDate, badToken)
+	status, _ := client.SearchDepositAuthorizationByCreated(cfg.Endpoint, goodDate, badToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -76,7 +76,7 @@ func TestSearchByCreatedBadToken(t *testing.T) {
 
 func TestSearchByExportedHappyDay(t *testing.T) {
 	expected := http.StatusOK
-	status, details := client.SearchDepositAuthorizationByExported(cfg.Endpoint, goodDate, goodToken)
+	status, details := client.SearchDepositAuthorizationByExported(cfg.Endpoint, goodDate, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -85,7 +85,7 @@ func TestSearchByExportedHappyDay(t *testing.T) {
 
 func TestSearchByExportedEmptyExported(t *testing.T) {
 	expected := http.StatusBadRequest
-	status, _ := client.SearchDepositAuthorizationByExported(cfg.Endpoint, empty, goodToken)
+	status, _ := client.SearchDepositAuthorizationByExported(cfg.Endpoint, empty, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -93,7 +93,7 @@ func TestSearchByExportedEmptyExported(t *testing.T) {
 
 func TestSearchByExportedBadToken(t *testing.T) {
 	expected := http.StatusForbidden
-	status, _ := client.SearchDepositAuthorizationByExported(cfg.Endpoint, goodDate, badToken)
+	status, _ := client.SearchDepositAuthorizationByExported(cfg.Endpoint, goodDate, badToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}

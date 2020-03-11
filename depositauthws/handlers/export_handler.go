@@ -25,7 +25,7 @@ func ExportHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// validate the token
-	if authtoken.Validate(config.Configuration.AuthTokenEndpoint, token, config.Configuration.ServiceTimeout) == false {
+	if authtoken.Validate(config.Configuration.SharedSecret, token) == false {
 		status := http.StatusForbidden
 		encodeExportResponse(w, status, http.StatusText(status), 0, 0)
 		return

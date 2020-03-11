@@ -18,7 +18,7 @@ func TestGetAuthHappyDay(t *testing.T) {
 	}
 
 	expected := http.StatusOK
-	status, details := client.GetDepositAuthorization(cfg.Endpoint, existing.ID, goodToken)
+	status, details := client.GetDepositAuthorization(cfg.Endpoint, existing.ID, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -32,7 +32,7 @@ func TestGetAuthHappyDay(t *testing.T) {
 
 func TestGetAuthEmptyId(t *testing.T) {
 	expected := http.StatusBadRequest
-	status, _ := client.GetDepositAuthorization(cfg.Endpoint, empty, goodToken)
+	status, _ := client.GetDepositAuthorization(cfg.Endpoint, empty, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -40,7 +40,7 @@ func TestGetAuthEmptyId(t *testing.T) {
 
 func TestGetAuthNotFoundId(t *testing.T) {
 	expected := http.StatusNotFound
-	status, _ := client.GetDepositAuthorization(cfg.Endpoint, notFoundID, goodToken)
+	status, _ := client.GetDepositAuthorization(cfg.Endpoint, notFoundID, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -48,7 +48,7 @@ func TestGetAuthNotFoundId(t *testing.T) {
 
 func TestGetAuthBadToken(t *testing.T) {
 	expected := http.StatusForbidden
-	status, _ := client.GetDepositAuthorization(cfg.Endpoint, goodID, badToken)
+	status, _ := client.GetDepositAuthorization(cfg.Endpoint, goodID, badToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}

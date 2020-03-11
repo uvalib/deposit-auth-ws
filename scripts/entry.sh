@@ -6,8 +6,7 @@ DBUSER_OPT=""
 DBPASSWD_OPT=""
 IMPORT_OPT=""
 EXPORT_OPT=""
-TOKENURL_OPT=""
-TIMEOUT_OPT=""
+SECRET_OPT=""
 DEBUG_OPT=""
 
 # secure database access
@@ -45,14 +44,9 @@ if [ -n "$EXPORT_FS" ]; then
    EXPORT_OPT="--exportfs $EXPORT_FS"
 fi
 
-# token authentication service URL
-if [ -n "$TOKENAUTH_URL" ]; then
-   TOKENURL_OPT="--tokenauth $TOKENAUTH_URL"
-fi
-
-# service timeout
-if [ -n "$SERVICE_TIMEOUT" ]; then
-   TIMEOUT_OPT="--timeout $SERVICE_TIMEOUT"
+# shared secret
+if [ -n "$AUTH_SHARED_SECRET" ]; then
+   SECRET_OPT="--secret $AUTH_SHARED_SECRET"
 fi
 
 # service debugging
@@ -60,7 +54,7 @@ if [ -n "$DEPOSITAUTH_DEBUG" ]; then
    DEBUG_OPT="--debug=$DEPOSITAUTH_DEBUG"
 fi
 
-bin/deposit-auth-ws $DBSECURE_OPT $DBHOST_OPT $DBNAME_OPT $DBUSER_OPT $DBPASSWD_OPT $IMPORT_OPT $EXPORT_OPT $TOKENURL_OPT $TIMEOUT_OPT $DEBUG_OPT
+bin/deposit-auth-ws $DBSECURE_OPT $DBHOST_OPT $DBNAME_OPT $DBUSER_OPT $DBPASSWD_OPT $IMPORT_OPT $EXPORT_OPT $SECRET_OPT $DEBUG_OPT
 
 #
 # end of file
