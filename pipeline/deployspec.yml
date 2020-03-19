@@ -35,8 +35,8 @@ phases:
       - terraform apply -auto-approve -var container_tag=$latest_build
       - cd $CODEBUILD_SRC_DIR/terraform-infrastructure/libra_services/deposit-auth-ws/staging/ansible
       - export PATH="$PATH:$(python3 -c 'import site; print(site.USER_BASE)')/bin"
-      - ansible-playbook deploy_backend.yml -vvvv
-      #- sh $CODEBUILD_SRC_DIR/pipeline/wait_for_version.sh $TC_ENDPOINT $latest_build 300
+      - ansible-playbook deploy_backend.yml
+      - sh $CODEBUILD_SRC_DIR/pipeline/wait_for_version.sh $TC_ENDPOINT $latest_build 300
 
 #  post_build:
 #    commands:
