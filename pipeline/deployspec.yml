@@ -12,13 +12,13 @@ phases:
   install:
     runtime-versions:
       golang: 1.x
-      python: 3.x
+      python: 2.7
     commands:
       - apt-get install -y ccrypt ansible
       - wget https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip
       - unzip terraform_0.12.21_linux_amd64.zip
       - mv terraform /usr/local/bin
-      #- pip3 install --user ansible
+      #- pip install --user ansible
 
   pre_build:
     commands:
@@ -34,7 +34,6 @@ phases:
       - terraform init
       - terraform apply -auto-approve -var container_tag=$latest_build
       - cd $CODEBUILD_SRC_DIR/terraform-infrastructure/libra_services/deposit-auth-ws/staging/ansible
-      - cat inventory.generated
       #- export PATH="$PATH:$(python3 -c 'import site; print(site.USER_BASE)')/bin"
       - ansible-playbook deploy_backend.yml -vvvv
       #- sh $CODEBUILD_SRC_DIR/pipeline/wait_for_version.sh $TC_ENDPOINT $latest_build 300
