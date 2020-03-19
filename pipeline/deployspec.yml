@@ -23,6 +23,9 @@ phases:
     commands:
       - latest_build=$(aws --region=$AWS_REGION ssm get-parameter --name /containers/$CONTAINER_IMAGE/latest | grep "Value" | awk -F\" '{print $4}')
       - git clone https://$GITLAB_USER:$GITLAB_TOKEN@gitlab.com/uvalib/terraform-infrastructure.git
+      - export ENCRYPTED=docker.lib.virginia.edu/staging/keys/docker_staging.pem.cpt
+      - export SECRET=${ENCRYPTED%.cpt}
+      - $CODEBUILD_SRC_DIR/terraform-infrastructure/scripts/decrypt-key.ksh $CODEBUILD_SRC_DIR/terraform-infrastructure/$ENCRYPTED $SECRET
 
   build:
     commands:
@@ -30,8 +33,8 @@ phases:
       - terraform init
       - terraform apply -auto-approve -var container_tag=$latest_build
       - cd $CODEBUILD_SRC_DIR/terraform-infrastructure/libra_services/deposit-auth-ws/staging/ansible
+      - cat inventory.generated
       - export PATH="$PATH:$(python3 -c 'import site; print(site.USER_BASE)')/bin"
-      - echo $PATH
       - ansible-playbook deploy_backend.yml
       #- sh $CODEBUILD_SRC_DIR/pipeline/wait_for_version.sh $TC_ENDPOINT $latest_build 300
 
