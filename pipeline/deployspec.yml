@@ -1,0 +1,41 @@
+#
+# deployspec.yml
+#
+
+version: 0.2
+
+#env:
+#  variables:
+#    name: value
+
+phases:
+  install:
+    runtime-versions:
+      golang: 1.14
+      python: 3.7
+    commands:
+      - wget https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip
+      - unzip terraform_0.12.21_linux_amd64.zip
+      - mv terraform /usr/local/bin
+      - pip install --user ansible
+
+  pre_build:
+    commands:
+      - latest_build=$(aws --region=$AWS_REGION ssm get-parameter --name /containers/$CONTAINER_IMAGE/latest | grep "Value" | awk -F\" '{print $4}')
+      - git clone https://$GITLAB_USER:$GITLAB_TOKEN@gitlab.com/uvalib/terraform-infrastructure.git
+
+  build:
+    commands:
+      - cd $CODEBUILD_SRC_DIR/terraform-infrastructure/libra_services/deposit-auth-ws/staging
+      - terraform init
+      - terraform apply -auto-approve -var container_tag=$latest_build
+      - cd $CODEBUILD_SRC_DIR/terraform-infrastructure/libra_services/deposit-auth-ws/staging/ansible
+      - ansible-playbook deploy_backend.yml
+      - sh $CODEBUILD_SRC_DIR/pipeline/wait_for_version.sh $TC_ENDPOINT $latest_build 300
+
+#  post_build:
+#    commands:
+
+#
+# end of file
+#
