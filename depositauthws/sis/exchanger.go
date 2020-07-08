@@ -5,7 +5,6 @@ import (
 	"github.com/uvalib/deposit-auth-ws/depositauthws/api"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/logger"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -257,7 +256,7 @@ func createExportRecord(rec *api.Authorization) string {
 //
 func createImportRecord(s string) *api.Authorization {
 
-	log.Printf("==> [%s]", s)
+	//log.Printf("==> [%s]", s)
 
 	delimiter := "|"
 	tokens := strings.Split(s, delimiter)
