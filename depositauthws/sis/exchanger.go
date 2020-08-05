@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-type sisImpliementation struct {
+type sisImplementation struct {
 	ImportFs string
 	ExportFs string
 }
@@ -21,7 +21,7 @@ type sisImpliementation struct {
 //
 // Exchanger -- the file exchanger used to communicate with SIS
 //
-var Exchanger *sisImpliementation
+var Exchanger *sisImplementation
 
 //
 // NewExchanger -- create a new exchanger... use as a singleton
@@ -38,14 +38,14 @@ func NewExchanger(ImportFs string, ExportFs string) error {
 	//    return err
 	//}
 
-	Exchanger = &sisImpliementation{ImportFs: ImportFs, ExportFs: ExportFs}
+	Exchanger = &sisImplementation{ImportFs: ImportFs, ExportFs: ExportFs}
 	return nil
 }
 
 //
 // Import -- import any available records
 //
-func (sis *sisImpliementation) Import() ([]*api.Authorization, error) {
+func (sis *sisImplementation) Import() ([]*api.Authorization, error) {
 
 	// get a list of files to import
 	files, err := locateImportFiles(sis.ImportFs)
@@ -66,7 +66,7 @@ func (sis *sisImpliementation) Import() ([]*api.Authorization, error) {
 			// and remove the file
 			markFileComplete(f)
 		} else {
-			logger.Log(fmt.Sprintf("ERROR: while importing from %s", f))
+			logger.Log(fmt.Sprintf("ERROR: while importing from: %s", f))
 			// handle the error
 		}
 	}
@@ -77,7 +77,7 @@ func (sis *sisImpliementation) Import() ([]*api.Authorization, error) {
 //
 // Export -- export the list of supplied records
 //
-func (sis *sisImpliementation) Export(exports []*api.Authorization) error {
+func (sis *sisImplementation) Export(exports []*api.Authorization) error {
 	filename := createExportFilename(sis.ExportFs)
 	return exportToFile(filename, exports)
 }
@@ -85,14 +85,14 @@ func (sis *sisImpliementation) Export(exports []*api.Authorization) error {
 //
 // CheckExport -- check the export filesystem to ensure it is available and writable
 //
-func (sis *sisImpliementation) CheckExport() error {
+func (sis *sisImplementation) CheckExport() error {
 	return checkWritableFs(sis.ExportFs)
 }
 
 //
 // CheckImport -- check the import filesystem to ensure it is available and readable
 //
-func (sis *sisImpliementation) CheckImport() error {
+func (sis *sisImplementation) CheckImport() error {
 	return checkReadableFs(sis.ImportFs)
 }
 
@@ -129,12 +129,12 @@ func importFromFile(filename string) ([]*api.Authorization, error) {
 		if r != nil {
 			results = append(results, r)
 		} else {
-			logger.Log(fmt.Sprintf("ERROR: bad sisImpliementation record [%s]", s))
+			logger.Log(fmt.Sprintf("ERROR: bad record, ignoring [%s]", s))
 			// handle the error here
 		}
 	}
 
-	logger.Log(fmt.Sprintf("%d record(s) loaded", len(results)))
+	logger.Log(fmt.Sprintf("Import success from: %s, %d record(s) loaded", filename, len(results)))
 	return results, nil
 }
 
