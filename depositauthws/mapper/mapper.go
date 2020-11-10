@@ -27,7 +27,7 @@ func LoadMappingCache() error {
 		c.Set(key, value, cache.NoExpiration)
 	}
 
-	logger.Log(fmt.Sprintf("Added %d mappings to cache", len(mapper)))
+	logger.Log(fmt.Sprintf("INFO: added %d mappings to cache", len(mapper)))
 	return nil
 }
 

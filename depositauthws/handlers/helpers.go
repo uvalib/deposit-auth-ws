@@ -13,7 +13,7 @@ import (
 
 func encodeStandardResponse(w http.ResponseWriter, status int, message string, details []*api.Authorization) {
 
-	logger.Log(fmt.Sprintf("encodeStandardResponse status: %d (%s)\n", status, message))
+	logger.Log(fmt.Sprintf("encodeStandardResponse status: %d (%s)", status, message))
 	jsonAttributes(w)
 	coorsAttributes(w)
 	w.WriteHeader(status)
@@ -24,7 +24,7 @@ func encodeStandardResponse(w http.ResponseWriter, status int, message string, d
 
 func encodeImportResponse(w http.ResponseWriter, status int, message string, newCount int, updateCount int, duplicateCount int, errorCount int) {
 
-	logger.Log(fmt.Sprintf("encodeImportResponse status: %d (%s)\n", status, message))
+	logger.Log(fmt.Sprintf("encodeImportResponse status: %d (%s)", status, message))
 	jsonAttributes(w)
 	w.WriteHeader(status)
 	if err := json.NewEncoder(w).Encode(api.ImportResponse{Status: status,
@@ -36,7 +36,7 @@ func encodeImportResponse(w http.ResponseWriter, status int, message string, new
 
 func encodeExportResponse(w http.ResponseWriter, status int, message string, exportCount int, errorCount int) {
 
-	logger.Log(fmt.Sprintf("encodeExportResponse status: %d (%s)\n", status, message))
+	logger.Log(fmt.Sprintf("encodeExportResponse status: %d (%s)", status, message))
 	jsonAttributes(w)
 	w.WriteHeader(status)
 	if err := json.NewEncoder(w).Encode(api.ExportResponse{Status: status, Message: message, ExportCount: exportCount, ErrorCount: errorCount}); err != nil {

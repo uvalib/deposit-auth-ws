@@ -101,7 +101,7 @@ func (sis *sisImplementation) CheckImport() error {
 //
 func importFromFile(filename string) ([]*api.Authorization, error) {
 
-	logger.Log(fmt.Sprintf("Importing from: %s", filename))
+	logger.Log(fmt.Sprintf("INFO: importing from: %s", filename))
 
 	// open the file for reading
 	b, err := ioutil.ReadFile(filename)
@@ -134,7 +134,7 @@ func importFromFile(filename string) ([]*api.Authorization, error) {
 		}
 	}
 
-	logger.Log(fmt.Sprintf("Import success from: %s, %d record(s) loaded", filename, len(results)))
+	logger.Log(fmt.Sprintf("INFO: import success from: %s, %d record(s) loaded", filename, len(results)))
 	return results, nil
 }
 
@@ -183,7 +183,7 @@ func convertToUtf8(si string) string {
 func markFileComplete(filename string) error {
 
 	newname := fmt.Sprintf("%s.done-%d", filename, time.Now().UnixNano())
-	logger.Log(fmt.Sprintf("Renaming %s -> %s", filename, newname))
+	logger.Log(fmt.Sprintf("INFO: renaming %s -> %s", filename, newname))
 	return os.Rename(filename, newname)
 }
 
@@ -226,7 +226,7 @@ func createExportFilename(filesystem string) string {
 	}
 	filename := fmt.Sprintf("UV_LIBRA_IN_%s.txt", yymmddDate)
 	fullname := filepath.Join(filesystem, filename)
-	logger.Log(fmt.Sprintf("Exporting to: %s", fullname))
+	logger.Log(fmt.Sprintf("INFO: exporting to: %s", fullname))
 	return fullname
 }
 

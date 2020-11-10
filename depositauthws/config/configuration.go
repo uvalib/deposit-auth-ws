@@ -48,17 +48,17 @@ func loadConfig() Config {
 
 	flag.Parse()
 
-	logger.Log(fmt.Sprintf("ServicePort:       %s", c.ServicePort))
-	logger.Log(fmt.Sprintf("DbSecure:          %s", c.DbSecure))
-	logger.Log(fmt.Sprintf("DbHost:            %s", c.DbHost))
-	logger.Log(fmt.Sprintf("DbName:            %s", c.DbName))
-	logger.Log(fmt.Sprintf("DbUser:            %s", c.DbUser))
-	logger.Log(fmt.Sprintf("DbPassphrase:      %s", strings.Repeat("*", len(c.DbPassphrase))))
-	logger.Log(fmt.Sprintf("DbTimeout:         %s", c.DbTimeout))
-	logger.Log(fmt.Sprintf("ImportFs:          %s", c.ImportFs))
-	logger.Log(fmt.Sprintf("ExportFs:          %s", c.ExportFs))
-	logger.Log(fmt.Sprintf("SharedSecret:      %s", strings.Repeat("*", len(c.SharedSecret))))
-	logger.Log(fmt.Sprintf("Debug:             %t", c.Debug))
+	logger.Log(fmt.Sprintf("INFO: ServicePort:       %s", c.ServicePort))
+	logger.Log(fmt.Sprintf("INFO: DbSecure:          %s", c.DbSecure))
+	logger.Log(fmt.Sprintf("INFO: DbHost:            %s", c.DbHost))
+	logger.Log(fmt.Sprintf("INFO: DbName:            %s", c.DbName))
+	logger.Log(fmt.Sprintf("INFO: DbUser:            %s", c.DbUser))
+	logger.Log(fmt.Sprintf("INFO: DbPassphrase:      %s", strings.Repeat("*", len(c.DbPassphrase))))
+	logger.Log(fmt.Sprintf("INFO: DbTimeout:         %s", c.DbTimeout))
+	logger.Log(fmt.Sprintf("INFO: ImportFs:          %s", c.ImportFs))
+	logger.Log(fmt.Sprintf("INFO: ExportFs:          %s", c.ExportFs))
+	logger.Log(fmt.Sprintf("INFO: SharedSecret:      %s", strings.Repeat("*", len(c.SharedSecret))))
+	logger.Log(fmt.Sprintf("INFO: Debug:             %t", c.Debug))
 
 	return c
 }

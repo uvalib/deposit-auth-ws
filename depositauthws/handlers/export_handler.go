@@ -34,7 +34,7 @@ func ExportHandler(w http.ResponseWriter, r *http.Request) {
 	// get the details ready to be exported
 	exports, err := dao.Store.GetDepositAuthorizationForExport()
 	if err != nil {
-		logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
+		logger.Log(fmt.Sprintf("ERROR: %s", err.Error()))
 		status := http.StatusInternalServerError
 		encodeExportResponse(w, status,
 			fmt.Sprintf("%s (%s)", http.StatusText(status), err),
@@ -45,7 +45,7 @@ func ExportHandler(w http.ResponseWriter, r *http.Request) {
 	// do the export
 	err = sis.Exchanger.Export(exports)
 	if err != nil {
-		logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
+		logger.Log(fmt.Sprintf("ERROR: %s", err.Error()))
 		status := http.StatusInternalServerError
 		encodeExportResponse(w, status,
 			fmt.Sprintf("%s (%s)", http.StatusText(status), err),
@@ -56,7 +56,7 @@ func ExportHandler(w http.ResponseWriter, r *http.Request) {
 	// update the status so we do not export them again
 	err = dao.Store.UpdateExportedDepositAuthorization(exports)
 	if err != nil {
-		logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
+		logger.Log(fmt.Sprintf("ERROR: %s", err.Error()))
 		status := http.StatusInternalServerError
 		encodeExportResponse(w, status,
 			fmt.Sprintf("%s (%s)", http.StatusText(status), err),
@@ -65,7 +65,7 @@ func ExportHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// log summary
-	logger.Log(fmt.Sprintf("Export summary: %d record(s) exported", len(exports)))
+	logger.Log(fmt.Sprintf("INFO: export summary: %d record(s) exported", len(exports)))
 
 	// its all over
 	status := http.StatusOK

@@ -376,7 +376,7 @@ func depositAuthorizationResults(rows *sql.Rows) ([]*api.Authorization, error) {
 		return nil, err
 	}
 
-	logger.Log(fmt.Sprintf("Deposit authorization request returns %d row(s)", len(results)))
+	logger.Log(fmt.Sprintf("INFO: deposit authorization request returns %d row(s)", len(results)))
 	return results, nil
 }
 

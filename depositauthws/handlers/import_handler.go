@@ -59,7 +59,7 @@ func ImportHandler(w http.ResponseWriter, r *http.Request) {
 		// check to see if this record already exists
 		matching, err := dao.Store.GetMatchingDepositAuthorization(*e)
 		if err != nil {
-			logger.Log(fmt.Sprintf("Error querying record; '%s' for (%s/%s/%s/%s)", err, e.ComputingID, e.Degree, e.Plan, e.Title))
+			logger.Log(fmt.Sprintf("ERROR: querying record; '%s' for (%s/%s/%s/%s)", err, e.ComputingID, e.Degree, e.Plan, e.Title))
 			errorCount++
 		} else {
 			matchCount := len(matching)
@@ -67,49 +67,49 @@ func ImportHandler(w http.ResponseWriter, r *http.Request) {
 				// no match, must be a new record
 				rec, err := dao.Store.CreateDepositAuthorization(*e)
 				if err != nil {
-					logger.Log(fmt.Sprintf("Error inserting record; '%s' for (%s/%s/%s/%s)", err, e.ComputingID, e.Degree, e.Plan, e.Title))
+					logger.Log(fmt.Sprintf("ERROR: inserting record; '%s' for (%s/%s/%s/%s)", err, e.ComputingID, e.Degree, e.Plan, e.Title))
 					errorCount++
 				} else {
 					err = dao.Store.CreateInbound(rec.ID)
 					if err != nil {
-						logger.Log(fmt.Sprintf("Error creating inbound record; '%s' for (%s/%s/%s/%s)", err, e.ComputingID, e.Degree, e.Plan, e.Title))
+						logger.Log(fmt.Sprintf("ERROR: creating inbound record; '%s' for (%s/%s/%s/%s)", err, e.ComputingID, e.Degree, e.Plan, e.Title))
 						errorCount++
 					} else {
-						logger.Log(fmt.Sprintf("NEW record (%s/%s/%s/%s)", e.ComputingID, e.Degree, e.Plan, e.Title))
+						logger.Log(fmt.Sprintf("INFO: new record (%s/%s/%s/%s)", e.ComputingID, e.Degree, e.Plan, e.Title))
 						newCount++
 					}
 				}
 			} else if matchCount == 1 {
 				// does the title already match
 				if matching[0].Title == e.Title {
-					logger.Log(fmt.Sprintf("DUPLICATE record (%s/%s/%s/%s)", e.ComputingID, e.Degree, e.Plan, e.Title))
+					logger.Log(fmt.Sprintf("INFO: duplicate record (%s/%s/%s/%s)", e.ComputingID, e.Degree, e.Plan, e.Title))
 					duplicateCount++
 				} else {
 					// titles differ, update the title and mark as an updated item
 					err = dao.Store.UpdateDepositAuthorizationByIDSetTitle(matching[0].ID, e.Title)
 					if err != nil {
-						logger.Log(fmt.Sprintf("Error updating record; '%s' for (%s/%s/%s/%s)", err, e.ComputingID, e.Degree, e.Plan, e.Title))
+						logger.Log(fmt.Sprintf("ERROR: updating record; '%s' for (%s/%s/%s/%s)", err, e.ComputingID, e.Degree, e.Plan, e.Title))
 						errorCount++
 					} else {
 						err = dao.Store.CreateInbound(matching[0].ID)
 						if err != nil {
-							logger.Log(fmt.Sprintf("Error creating inbound record; '%s' for (%s/%s/%s/%s)", err, e.ComputingID, e.Degree, e.Plan, e.Title))
+							logger.Log(fmt.Sprintf("ERROR: creating inbound record; '%s' for (%s/%s/%s/%s)", err, e.ComputingID, e.Degree, e.Plan, e.Title))
 							errorCount++
 						} else {
-							logger.Log(fmt.Sprintf("UPDATE record (%s/%s/%s/%s)", e.ComputingID, e.Degree, e.Plan, e.Title))
+							logger.Log(fmt.Sprintf("INFO: update record (%s/%s/%s/%s)", e.ComputingID, e.Degree, e.Plan, e.Title))
 							updateCount++
 						}
 					}
 				}
 			} else {
-				logger.Log(fmt.Sprintf("multiple records exist, ignoring (%s/%s/%s/%s)", e.ComputingID, e.Degree, e.Plan, e.Title))
+				logger.Log(fmt.Sprintf("INFO: multiple records exist, ignoring (%s/%s/%s/%s)", e.ComputingID, e.Degree, e.Plan, e.Title))
 				errorCount++
 			}
 		}
 	}
 
 	// log summary
-	logger.Log(fmt.Sprintf("Import summary: %d new, %d update(s), %d duplicate(s), %d error(s)",
+	logger.Log(fmt.Sprintf("INFO: import summary: %d new, %d update(s), %d duplicate(s), %d error(s)",
 		newCount, updateCount, duplicateCount, errorCount))
 
 	// did we encounter any errors
