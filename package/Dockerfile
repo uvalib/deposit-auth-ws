@@ -1,7 +1,7 @@
 #
 # build the target application
 #
-FROM golang:1.16.0-alpine3.13 as builder
+FROM golang:1.16.5-alpine3.13 as builder
 RUN apk update && apk upgrade && apk add make
 
 WORKDIR /build
@@ -53,4 +53,6 @@ RUN test -n "$BUILD_TAG" && touch $APP_HOME/buildtag.build-$BUILD_TAG || touch $
 # Specify the user
 USER docker
 
+#
+# end of file
 #
