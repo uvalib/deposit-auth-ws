@@ -81,24 +81,24 @@
 |  88 | CLAS-PHD                         | Department of Classics                                     |
 |  89 | PHARM-PHD                        | Department of Pharmacology                                 |
 |  91 | FORAFF-MA                        | Department of Foreign Affairs                              |
-|  92 | HIGHED-EDD                       | Curry School of Education                                  |
-|  93 | COUNS-EDD                        | Curry School of Education                                  |
-|  94 | COUNS-MED                        | Curry School of Education                                  |
-|  95 | CURRIN-EDD                       | Curry School of Education                                  |
-|  96 | CURRIN-MED                       | Curry School of Education                                  |
-|  97 | EDUC-PHD                         | Curry School of Education                                  |
-|  98 | ADMIN-EDD                        | Curry School of Education                                  |
-|  99 | ADMIN-MED                        | Curry School of Education                                  |
-| 101 | HIGHED-MED                       | Curry School of Education                                  |
-| 102 | KINES-MED                        | Curry School of Education                                  |
-| 103 | SPCED-MED                        | Curry School of Education                                  |
-| 104 | SPATH-MED                        | Curry School of Education                                  |
-| 105 | CLNPSY-PHD                       | Curry School of Education                                  |
-| 106 | EDPSYC-MED                       | Curry School of Education                                  |
+|  92 | HIGHED-EDD                       | School of Education and Human Development                  |
+|  93 | COUNS-EDD                        | School of Education and Human Development                  |
+|  94 | COUNS-MED                        | School of Education and Human Development                  |
+|  95 | CURRIN-EDD                       | School of Education and Human Development                  |
+|  96 | CURRIN-MED                       | School of Education and Human Development                  |
+|  97 | EDUC-PHD                         | School of Education and Human Development                  |
+|  98 | ADMIN-EDD                        | School of Education and Human Development                  |
+|  99 | ADMIN-MED                        | School of Education and Human Development                  |
+| 101 | HIGHED-MED                       | School of Education and Human Development                  |
+| 102 | KINES-MED                        | School of Education and Human Development                  |
+| 103 | SPCED-MED                        | School of Education and Human Development                  |
+| 104 | SPATH-MED                        | School of Education and Human Development                  |
+| 105 | CLNPSY-PHD                       | School of Education and Human Development                  |
+| 106 | EDPSYC-MED                       | School of Education and Human Development                  |
 | 107 | PSYCH-MA                         | Department of Psychology                                   |
 | 108 | NURS-PHD                         | School of Nursing                                          |
 | 109 | NURS-DNP                         | School of Nursing                                          |
-| 110 | EDPSYC-EDD                       | Curry School of Education                                  |
+| 110 | EDPSYC-EDD                       | School of Education and Human Development                  |
 | 111 | DRAMA-MFA                        | Department of Drama                                        |
 | 112 | FRENCH-PHD                       | Department of French                                       |
 | 113 | ARH-MARH                         | Department of Architectural History                        |
