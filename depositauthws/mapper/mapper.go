@@ -15,6 +15,10 @@ var c = cache.New(cache.NoExpiration, cache.NoExpiration)
 //
 func LoadMappingCache() error {
 
+	// clear the cache
+	c.Flush()
+
+	// get our field mappings...
 	mapper, err := dao.Store.GetFieldMapperList()
 	if err != nil {
 		return err
@@ -35,6 +39,13 @@ func LoadMappingCache() error {
 // MapField -- do the field mapping
 //
 func MapField(fieldClass string, sourceValue string) (string, bool) {
+
+	// reload the cache each time, volume is so low as to make caching not worth it
+	err := LoadMappingCache()
+	if err != nil {
+		logger.Log(fmt.Sprintf("ERROR: loading mappings: %s", err.Error()))
+		return sourceValue, false
+	}
 
 	// lookup the token in the cache
 	token := fieldClass + ":" + sourceValue
