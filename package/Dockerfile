@@ -1,8 +1,8 @@
 #
 # build the target application
 #
-FROM golang:1.16.5-alpine3.13 as builder
-RUN apk update && apk upgrade && apk add make
+FROM public.ecr.aws/docker/library/golang:1.17-alpine3.15 as builder
+RUN apk update && apk upgrade && apk add --no-cache make
 
 WORKDIR /build
 COPY go.mod go.sum Makefile ./
@@ -12,7 +12,7 @@ RUN make build-linux
 #
 # build the target container
 #
-FROM alpine:3.13
+FROM public.ecr.aws/docker/library/alpine:3.15
 
 # update the packages
 RUN apk update && apk upgrade && apk add bash tzdata ca-certificates curl && rm -fr /var/cache/apk/*
