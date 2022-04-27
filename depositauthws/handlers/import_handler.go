@@ -44,6 +44,7 @@ func ImportHandler(w http.ResponseWriter, r *http.Request) {
 
 	// if we have nothing to import, bail out
 	if len(imports) == 0 {
+		logger.Log("INFO: no import files located")
 		status := http.StatusOK
 		encodeImportResponse(w, status, http.StatusText(status), 0, 0, 0, 0)
 		return
