@@ -2,8 +2,6 @@ package main
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/uvalib/deposit-auth-ws/depositauthws/handlers"
 	"net/http"
 )
@@ -98,13 +96,13 @@ func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 
 	// add the route for the prometheus metrics
-	router.Handle("/metrics", HandlerLogger(promhttp.Handler(), "promhttp.Handler"))
+	//router.Handle("/metrics", HandlerLogger(promhttp.Handler(), "promhttp.Handler"))
 
 	for _, route := range routes {
 
 		var handler http.Handler = route.HandlerFunc
 		handler = HandlerLogger(handler, route.Name)
-		handler = prometheus.InstrumentHandler(route.Name, handler)
+		//handler = prometheus.InstrumentHandler(route.Name, handler)
 
 		router.
 			Methods(route.Method).
