@@ -14,9 +14,7 @@ import (
 var debugHTTP = false
 var serviceTimeout = 5
 
-//
 // HealthCheck -- calls the service health check method
-//
 func HealthCheck(endpoint string) int {
 
 	url := fmt.Sprintf("%s/healthcheck", endpoint)
@@ -38,9 +36,7 @@ func HealthCheck(endpoint string) int {
 	return resp.StatusCode
 }
 
-//
 // VersionCheck -- calls the service version check method
-//
 func VersionCheck(endpoint string) (int, string) {
 
 	url := fmt.Sprintf("%s/version", endpoint)
@@ -68,9 +64,7 @@ func VersionCheck(endpoint string) (int, string) {
 	return resp.StatusCode, r.Version
 }
 
-//
 // MetricsCheck -- calls the service metrics method
-//
 func MetricsCheck(endpoint string) (int, string) {
 
 	url := fmt.Sprintf("%s/metrics", endpoint)
@@ -92,9 +86,7 @@ func MetricsCheck(endpoint string) (int, string) {
 	return resp.StatusCode, body
 }
 
-//
 // GetDepositAuthorization -- calls the service get authorization method
-//
 func GetDepositAuthorization(endpoint string, id string, token string) (int, []*api.Authorization) {
 
 	url := fmt.Sprintf("%s/%s?auth=%s", endpoint, id, token)
@@ -122,9 +114,7 @@ func GetDepositAuthorization(endpoint string, id string, token string) (int, []*
 	return resp.StatusCode, r.Details
 }
 
-//
 // GetInboundDepositAuthorization -- gets new authorizations
-//
 func GetInboundDepositAuthorization(endpoint string, after string, token string) (int, []*api.Authorization) {
 
 	url := fmt.Sprintf("%s/inbound?auth=%s&after=%s", endpoint, token, after)
@@ -132,9 +122,7 @@ func GetInboundDepositAuthorization(endpoint string, after string, token string)
 	return (getDepositAuthorization(url))
 }
 
-//
 // SearchDepositAuthorizationByCid -- calls the service search by cid method
-//
 func SearchDepositAuthorizationByCid(endpoint string, cid string, token string) (int, []*api.Authorization) {
 
 	url := fmt.Sprintf("%s?auth=%s&cid=%s", endpoint, token, cid)
@@ -142,9 +130,7 @@ func SearchDepositAuthorizationByCid(endpoint string, cid string, token string) 
 	return (getDepositAuthorization(url))
 }
 
-//
 // SearchDepositAuthorizationByCreated -- calls the service search by create date method
-//
 func SearchDepositAuthorizationByCreated(endpoint string, created string, token string) (int, []*api.Authorization) {
 
 	url := fmt.Sprintf("%s?auth=%s&created=%s", endpoint, token, created)
@@ -152,9 +138,7 @@ func SearchDepositAuthorizationByCreated(endpoint string, created string, token 
 	return (getDepositAuthorization(url))
 }
 
-//
 // SearchDepositAuthorizationByExported -- calls the service search by exported date method
-//
 func SearchDepositAuthorizationByExported(endpoint string, exported string, token string) (int, []*api.Authorization) {
 
 	url := fmt.Sprintf("%s?auth=%s&exported=%s", endpoint, token, exported)
@@ -162,9 +146,7 @@ func SearchDepositAuthorizationByExported(endpoint string, exported string, toke
 	return (getDepositAuthorization(url))
 }
 
-//
 // ImportDepositAuthorization -- calls the service import method
-//
 func ImportDepositAuthorization(endpoint string, token string) (int, int, int, int, int) {
 
 	url := fmt.Sprintf("%s/import?auth=%s", endpoint, token)
@@ -192,9 +174,7 @@ func ImportDepositAuthorization(endpoint string, token string) (int, int, int, i
 	return resp.StatusCode, r.NewCount, r.UpdatedCount, r.DuplicateCount, r.ErrorCount
 }
 
-//
 // ExportDepositAuthorization -- calls the service export method
-//
 func ExportDepositAuthorization(endpoint string, token string) (int, int, int) {
 
 	url := fmt.Sprintf("%s/export?auth=%s", endpoint, token)
@@ -222,9 +202,7 @@ func ExportDepositAuthorization(endpoint string, token string) (int, int, int) {
 	return resp.StatusCode, r.ExportCount, r.ErrorCount
 }
 
-//
 // FulfillDepositAuthorization -- calls the service fulfil method
-//
 func FulfillDepositAuthorization(endpoint string, id string, depositID string, token string) int {
 
 	url := fmt.Sprintf("%s/%s?deposit=%s&auth=%s", endpoint, id, depositID, token)

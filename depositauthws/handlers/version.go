@@ -5,9 +5,7 @@ import (
 	"strings"
 )
 
-//
 // Version -- get the version information
-//
 func Version() string {
 	files, _ := filepath.Glob("buildtag.*")
 	if len(files) == 1 {

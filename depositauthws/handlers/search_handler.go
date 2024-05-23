@@ -10,9 +10,7 @@ import (
 	"net/http"
 )
 
-//
 // SearchHandler -- search authorization request handler
-//
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 
 	token := r.URL.Query().Get("auth")

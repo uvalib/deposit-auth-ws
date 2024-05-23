@@ -10,9 +10,7 @@ import (
 // create the cache of mapped values
 var c = cache.New(cache.NoExpiration, cache.NoExpiration)
 
-//
 // LoadMappingCache -- load the mapping cache
-//
 func LoadMappingCache() error {
 
 	// clear the cache
@@ -35,9 +33,7 @@ func LoadMappingCache() error {
 	return nil
 }
 
-//
 // MapField -- do the field mapping
-//
 func MapField(fieldClass string, sourceValue string) (string, bool) {
 
 	// reload the cache each time, volume is so low as to make caching not worth it

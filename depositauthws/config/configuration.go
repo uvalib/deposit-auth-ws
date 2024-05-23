@@ -7,9 +7,7 @@ import (
 	"strings"
 )
 
-//
 // Config -- our configuration structure
-//
 type Config struct {
 	ServicePort  string // our listen port
 	DbSecure     string // do we use TLS
@@ -24,9 +22,7 @@ type Config struct {
 	Debug        bool
 }
 
-//
 // Configuration -- our configuration instance
-//
 var Configuration = loadConfig()
 
 func loadConfig() Config {

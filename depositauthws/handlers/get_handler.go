@@ -10,9 +10,7 @@ import (
 	"net/http"
 )
 
-//
 // GetHandler -- get authorization request handler
-//
 func GetHandler(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)

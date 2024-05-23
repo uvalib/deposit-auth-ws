@@ -10,9 +10,7 @@ import (
 	"net/http"
 )
 
-//
 // FulfillHandler -- fulfill authorization request handler
-//
 func FulfillHandler(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)

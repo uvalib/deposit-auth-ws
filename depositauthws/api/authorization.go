@@ -1,8 +1,6 @@
 package api
 
-//
 // Authorization -- the authorization attributes from SIS
-//
 type Authorization struct {
 	InboundID   string `json:"inbound_id,omitempty"`
 	ID          string `json:"id,omitempty"`

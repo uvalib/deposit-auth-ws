@@ -10,9 +10,7 @@ import (
 	"net/http"
 )
 
-//
 // ImportHandler -- authorization import request handler
-//
 func ImportHandler(w http.ResponseWriter, r *http.Request) {
 
 	token := r.URL.Query().Get("auth")

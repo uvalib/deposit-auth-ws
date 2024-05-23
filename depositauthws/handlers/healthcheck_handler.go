@@ -8,9 +8,7 @@ import (
 	"net/http"
 )
 
-//
 // HealthCheckHandler -- do the healthcheck
-//
 func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 
 	status := http.StatusOK

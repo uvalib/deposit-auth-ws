@@ -7,9 +7,7 @@ import (
 	"time"
 )
 
-//
 // Validate -- called to validate the supplied token
-//
 func Validate(sharedSecret string, token string) bool {
 
 	// Initialize a new instance of the standard claims

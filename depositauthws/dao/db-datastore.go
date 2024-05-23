@@ -18,9 +18,7 @@ type storage struct {
 	*sql.DB
 }
 
-//
 // newDBStore -- create a DB version of the storage singleton
-//
 func newDBStore() (Storage, error) {
 
 	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s?allowOldPasswords=1&tls=%s&sql_notes=false&timeout=%s&readTimeout=%s&writeTimeout=%s",
@@ -49,16 +47,12 @@ func newDBStore() (Storage, error) {
 	return &storage{db}, nil
 }
 
-//
 // Check -- check our database health
-//
 func (s *storage) Check() error {
 	return s.Ping()
 }
 
-//
 // GetInbound -- get all inbound after the specified ID
-//
 func (s *storage) GetInbound(after string) ([]*api.Authorization, error) {
 
 	rows, err := s.Query("SELECT i.id, d.* FROM depositauth d, inbound i WHERE d.id = i.deposit_id AND i.id > ? ORDER BY i.id ASC", after)
@@ -70,9 +64,7 @@ func (s *storage) GetInbound(after string) ([]*api.Authorization, error) {
 	return depositAuthorizationResults(rows)
 }
 
-//
 // DepositAuthorizationExists -- determine if the supplied deposit authorization already exists
-//
 func (s *storage) GetMatchingDepositAuthorization(e api.Authorization) ([]*api.Authorization, error) {
 
 	rows, err := s.Query("SELECT 0, d.* FROM depositauth d WHERE d.computing_id = ? AND d.degree = ? AND d.plan = ? ORDER BY d.id ASC", e.ComputingID, e.Degree, e.Plan)
@@ -84,9 +76,7 @@ func (s *storage) GetMatchingDepositAuthorization(e api.Authorization) ([]*api.A
 	return depositAuthorizationResults(rows)
 }
 
-//
 // GetDepositAuthorizationByID -- get all by ID (should only be 1)
-//
 func (s *storage) GetDepositAuthorizationByID(id string) ([]*api.Authorization, error) {
 
 	rows, err := s.Query("SELECT 0, d.* FROM depositauth d WHERE d.id = ? LIMIT 1", id)
@@ -98,9 +88,7 @@ func (s *storage) GetDepositAuthorizationByID(id string) ([]*api.Authorization, 
 	return depositAuthorizationResults(rows)
 }
 
-//
 // SearchDepositAuthorizationByCid -- get all similar to the a specified computing ID
-//
 func (s *storage) SearchDepositAuthorizationByCid(cid string) ([]*api.Authorization, error) {
 
 	rows, err := s.Query("SELECT 0, d.* FROM depositauth d WHERE d.computing_id LIKE ? ORDER BY d.id ASC", fmt.Sprintf("%s%%", cid))
@@ -112,9 +100,7 @@ func (s *storage) SearchDepositAuthorizationByCid(cid string) ([]*api.Authorizat
 	return depositAuthorizationResults(rows)
 }
 
-//
 // SearchDepositAuthorizationByCreateDate -- get all greater than a specified created date
-//
 func (s *storage) SearchDepositAuthorizationByCreateDate(createdAt string) ([]*api.Authorization, error) {
 
 	rows, err := s.Query("SELECT 0, d.* FROM depositauth d WHERE d.created_at >= ? ORDER BY d.id ASC", createdAt)
@@ -126,9 +112,7 @@ func (s *storage) SearchDepositAuthorizationByCreateDate(createdAt string) ([]*a
 	return depositAuthorizationResults(rows)
 }
 
-//
 // SearchDepositAuthorizationByExportDate -- get all greater than a specified exported date
-//
 func (s *storage) SearchDepositAuthorizationByExportDate(exportedAt string) ([]*api.Authorization, error) {
 
 	rows, err := s.Query("SELECT 0, d.* FROM depositauth d WHERE d.exported_at >= ? ORDER BY d.id ASC", exportedAt)
@@ -140,9 +124,7 @@ func (s *storage) SearchDepositAuthorizationByExportDate(exportedAt string) ([]*
 	return depositAuthorizationResults(rows)
 }
 
-//
 // CreateInbound -- create a new inbound record
-//
 func (s *storage) CreateInbound(authID string) error {
 
 	stmt, err := s.Prepare("INSERT INTO inbound( deposit_id ) VALUES(?)")
@@ -154,9 +136,7 @@ func (s *storage) CreateInbound(authID string) error {
 	return err
 }
 
-//
 // CreateDepositAuthorization -- create a new deposit authorization
-//
 func (s *storage) CreateDepositAuthorization(reg api.Authorization) (*api.Authorization, error) {
 
 	stmt, err := s.Prepare("INSERT INTO depositauth( employee_id, computing_id, first_name, middle_name, last_name, career, program, plan, degree, title, doctype, approved_at ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)")
@@ -189,9 +169,7 @@ func (s *storage) CreateDepositAuthorization(reg api.Authorization) (*api.Author
 	return &reg, nil
 }
 
-//
 // DeleteDepositAuthorizationByID -- delete by ID
-//
 func (s *storage) DeleteDepositAuthorizationByID(id string) (int64, error) {
 
 	stmt, err := s.Prepare("DELETE FROM depositauth WHERE id = ? LIMIT 1")
@@ -212,9 +190,7 @@ func (s *storage) DeleteDepositAuthorizationByID(id string) (int64, error) {
 	return rowCount, nil
 }
 
-//
 // GetDepositAuthorizationForExport -- get all available for export
-//
 func (s *storage) GetDepositAuthorizationForExport() ([]*api.Authorization, error) {
 
 	rows, err := s.Query("SELECT 0, d.* FROM depositauth d WHERE d.accepted_at IS NOT NULL AND d.exported_at IS NULL ORDER BY d.id ASC")
@@ -226,9 +202,7 @@ func (s *storage) GetDepositAuthorizationForExport() ([]*api.Authorization, erro
 	return depositAuthorizationResults(rows)
 }
 
-//
 // UpdateExportedDepositAuthorization -- update all export items with the time of export
-//
 func (s *storage) UpdateExportedDepositAuthorization(exports []*api.Authorization) error {
 
 	stmt, err := s.Prepare("UPDATE depositauth SET exported_at = NOW( ) WHERE id = ? LIMIT 1")
@@ -246,9 +220,7 @@ func (s *storage) UpdateExportedDepositAuthorization(exports []*api.Authorizatio
 	return nil
 }
 
-//
 // UpdateDepositAuthorizationByIDSetFulfilled -- update an item that has been 'fulfilled'
-//
 func (s *storage) UpdateDepositAuthorizationByIDSetFulfilled(id string, did string) error {
 
 	stmt, err := s.Prepare("UPDATE depositauth SET exported_at = NULL, accepted_at = NOW( ), status = ?, libra_id = ? WHERE id = ? LIMIT 1")
@@ -264,9 +236,7 @@ func (s *storage) UpdateDepositAuthorizationByIDSetFulfilled(id string, did stri
 	return nil
 }
 
-//
 // UpdateDepositAuthorizationByIDSetTitle -- update an items title
-//
 func (s *storage) UpdateDepositAuthorizationByIDSetTitle(id string, title string) error {
 
 	stmt, err := s.Prepare("UPDATE depositauth SET title = ?, updated_at = NOW( ) WHERE id = ? LIMIT 1")
@@ -282,9 +252,7 @@ func (s *storage) UpdateDepositAuthorizationByIDSetTitle(id string, title string
 	return nil
 }
 
-//
 // GetFieldMapperList -- get the list of field maps
-//
 func (s *storage) GetFieldMapperList() ([]*mapper, error) {
 
 	rows, err := s.Query("SELECT field_class, field_name, field_value FROM fieldmapper")

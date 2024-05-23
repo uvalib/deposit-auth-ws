@@ -18,14 +18,10 @@ type sisImplementation struct {
 	ExportFs string
 }
 
-//
 // Exchanger -- the file exchanger used to communicate with SIS
-//
 var Exchanger *sisImplementation
 
-//
 // NewExchanger -- create a new exchanger... use as a singleton
-//
 func NewExchanger(ImportFs string, ExportFs string) error {
 
 	// check the import and export file systems
@@ -42,9 +38,7 @@ func NewExchanger(ImportFs string, ExportFs string) error {
 	return nil
 }
 
-//
 // Import -- import any available records
-//
 func (sis *sisImplementation) Import() ([]*api.Authorization, error) {
 
 	// get a list of files to import
@@ -74,31 +68,23 @@ func (sis *sisImplementation) Import() ([]*api.Authorization, error) {
 	return results, nil
 }
 
-//
 // Export -- export the list of supplied records
-//
 func (sis *sisImplementation) Export(exports []*api.Authorization) error {
 	filename := createExportFilename(sis.ExportFs)
 	return exportToFile(filename, exports)
 }
 
-//
 // CheckExport -- check the export filesystem to ensure it is available and writable
-//
 func (sis *sisImplementation) CheckExport() error {
 	return checkWritableFs(sis.ExportFs)
 }
 
-//
 // CheckImport -- check the import filesystem to ensure it is available and readable
-//
 func (sis *sisImplementation) CheckImport() error {
 	return checkReadableFs(sis.ImportFs)
 }
 
-//
 // import records from the supplied file
-//
 func importFromFile(filename string) ([]*api.Authorization, error) {
 
 	logger.Log(fmt.Sprintf("INFO: importing from: %s", filename))
@@ -138,9 +124,7 @@ func importFromFile(filename string) ([]*api.Authorization, error) {
 	return results, nil
 }
 
-//
 // export the supplied records to the supplied file
-//
 func exportToFile(filename string, exports []*api.Authorization) error {
 
 	// open the file, creating it if necessary and apending if it already exists
@@ -161,9 +145,7 @@ func exportToFile(filename string, exports []*api.Authorization) error {
 	return nil
 }
 
-//
 // attempt to convert the character string to utf8
-//
 func convertToUtf8(si string) string {
 
 	//logger.Log( fmt.Sprintf( "==> IN: [%s]", si ) )
@@ -177,9 +159,7 @@ func convertToUtf8(si string) string {
 	return (so)
 }
 
-//
 // mark the file as done so we don't process it again
-//
 func markFileComplete(filename string) error {
 
 	newname := fmt.Sprintf("%s.done-%d", filename, time.Now().UnixNano())
@@ -187,9 +167,7 @@ func markFileComplete(filename string) error {
 	return os.Rename(filename, newname)
 }
 
-//
 // look for any available files that can be imported
-//
 func locateImportFiles(filesystem string) ([]string, error) {
 	files, err := ioutil.ReadDir(filesystem)
 	if err != nil {
@@ -212,9 +190,7 @@ func locateImportFiles(filesystem string) ([]string, error) {
 	return results, nil
 }
 
-//
 // create a filename that can be used for export
-//
 func createExportFilename(filesystem string) string {
 	yymmddFormat := "060102"
 	t := time.Now()
@@ -230,9 +206,7 @@ func createExportFilename(filesystem string) string {
 	return fullname
 }
 
-//
 // create an export record from an authorization record
-//
 func createExportRecord(rec *api.Authorization) string {
 	delimiter := "|"
 	r := fmt.Sprintf("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n",
@@ -251,9 +225,7 @@ func createExportRecord(rec *api.Authorization) string {
 	return r
 }
 
-//
 // create an export record from an authorization record
-//
 func createImportRecord(s string) *api.Authorization {
 
 	//log.Printf("==> [%s]", s)
@@ -282,9 +254,7 @@ func createImportRecord(s string) *api.Authorization {
 	return nil
 }
 
-//
 // convert the document identifier (DOI) to a fully qualified URL
-//
 func fullIdentifierURL(identifier string) string {
 	base := "http://dx.doi.org"
 	if len(identifier) == 0 {
@@ -294,9 +264,7 @@ func fullIdentifierURL(identifier string) string {
 	return fmt.Sprintf("%s/%s", base, strings.Replace(identifier, "doi:", "", 1))
 }
 
-//
 // convert a date from the native format to the export format
-//
 func dateToExportFormat(date string) string {
 
 	layout := "2006-01-02 15:04:05"
@@ -308,9 +276,7 @@ func dateToExportFormat(date string) string {
 	return t.Format("01/02/2006")
 }
 
-//
 // convert a date from the export format to the native format
-//
 func dateToNativeFormat(date string) string {
 
 	layout := "01/02/2006"
@@ -321,9 +287,7 @@ func dateToNativeFormat(date string) string {
 	return t.Format("2006-01-02")
 }
 
-//
 // check the supplied filesystem to ensure it is available and readable
-//
 func checkReadableFs(filesystem string) error {
 
 	f, err := os.Stat(filesystem)
@@ -343,9 +307,7 @@ func checkReadableFs(filesystem string) error {
 	return nil
 }
 
-//
 // check the supplied filesystem to ensure it is available and writable
-//
 func checkWritableFs(filesystem string) error {
 
 	f, err := os.Stat(filesystem)

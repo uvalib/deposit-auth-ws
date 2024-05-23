@@ -10,9 +10,7 @@ import (
 	"net/http"
 )
 
-//
 // DeleteHandler -- delete the authorization request handler
-//
 func DeleteHandler(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
