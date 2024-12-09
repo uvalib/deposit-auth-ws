@@ -1,7 +1,7 @@
 #
 # build the target application
 #
-FROM public.ecr.aws/docker/library/golang:1.22.3-alpine3.20 as builder
+FROM public.ecr.aws/docker/library/golang:1.23.4-alpine3.21 AS builder
 
 # update the packages
 RUN apk update && apk upgrade && apk add --no-cache make
@@ -14,7 +14,7 @@ RUN make build-linux
 #
 # build the target container
 #
-FROM public.ecr.aws/docker/library/alpine:3.20
+FROM public.ecr.aws/docker/library/alpine:3.21
 
 # update the packages
 RUN apk update && apk upgrade && apk add bash tzdata ca-certificates curl && rm -fr /var/cache/apk/*
@@ -27,7 +27,7 @@ ENV TZ=UTC
 RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Specify home 
-ENV APP_HOME /depositauth-ws
+ENV APP_HOME=/depositauth-ws
 WORKDIR $APP_HOME
 
 # Create necessary directories
@@ -36,7 +36,7 @@ RUN chown -R docker $APP_HOME && chgrp -R sse $APP_HOME
 
 # port and run command
 EXPOSE 8080
-CMD scripts/entry.sh
+ENTRYPOINT ["scripts/entry.sh"]
 
 # Move in necessary helper scripts and binary
 COPY data/container_bash_profile /home/docker/.profile
