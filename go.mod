@@ -2,7 +2,7 @@ module github.com/uvalib/deposit-auth-ws
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
-	github.com/go-sql-driver/mysql v1.9.2
+	github.com/go-sql-driver/mysql v1.9.3
 	github.com/gorilla/mux v1.8.1
 	github.com/parnurzeal/gorequest v0.2.15
 	github.com/patrickmn/go-cache v2.1.0+incompatible
